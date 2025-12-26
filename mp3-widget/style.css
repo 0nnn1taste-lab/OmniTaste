@@ -1,99 +1,93 @@
-body {
-  margin: 0;
-  background: transparent;
+body{
+  margin:0;
+  background:transparent;
+  font-family:'NanumSquare',sans-serif;
 }
 
-/* 전체 위젯 */
-.player {
-  width: 430px;
-  height: 150px;
-  padding: 14px;
-  box-sizing: border-box;
-
-  border-radius: 22px;
-  border: 2px solid #7b6cff; /* 진한 보라-블루 */
-
-  background: linear-gradient(
+/* ===== Widget ===== */
+.mp3Widget{
+  width:360px;
+  padding:10px 12px;
+  background:linear-gradient(
     135deg,
-    #fff3c4,  /* 파스텔 노랑 */
-    #e7d9ff,  /* 파스텔 보라 */
-    #e3f1ff,  /* 파스텔 파랑 */
-    #e8f7ef   /* 파스텔 초록 */
+    #f4e9ff,
+    #ffe6f2,
+    #e6f0ff,
+    #fff4d9
   );
-
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  border:2px solid rgba(120,90,160,.45);
+  border-radius:16px;
+  box-shadow:0 6px 12px rgba(160,120,200,.25);
 }
 
-/* 상단 헤더 */
-.header {
-  font-family: "Press Start 2P", monospace;
-  font-size: 15px;
-  color: #000;
-  margin-bottom: 10px;
+/* ===== Top ===== */
+.topBar{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:6px;
 }
 
-/* 문구 영역 */
-.display {
-  height: 58px;
-  background: #ffffff;
-  border-radius: 16px;
-  margin-bottom: 12px;
-
-  border: 1px solid #e6e6f2; /* 은은한 실선 */
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+.led{
+  width:8px;
+  height:8px;
+  background:#ff7ac8;
+  border-radius:50%;
+  box-shadow:0 0 6px #ff7ac8;
 }
 
-/* 문구 텍스트 */
-#text {
-  font-family: "NanumSquare", sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: #444;
-  text-align: center;
-  line-height: 1.5;
+.title{
+  font-family:'Press Start 2P',sans-serif;
+  font-size:10px;
+  color:#000;
+}
 
-  opacity: 0;
-  transform: translateY(-18px);
+/* ===== Screen ===== */
+.screen{
+  position:relative;
+  height:26px;
+  background:#fff;
+  border-radius:10px;
+  border:1px solid rgba(100,80,140,.28);
+  padding:4px 8px;
+  overflow:hidden;
+}
+
+#todoText{
+  position:absolute;
+  left:8px;
+  top:50%;
+  transform:translateY(-60%);
+  font-size:13px;
+  font-weight:700;
+  color:#5a4a78;
+  white-space:nowrap;
+
+  opacity:0;
   transition:
-    opacity 2s ease,
-    transform 2s ease;
+    opacity .5s ease,
+    transform .5s ease;
 }
 
-/* 버튼 영역 */
-.controls {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
+/* ===== Controls ===== */
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-top:8px;
 }
 
-/* 기본 버튼 */
-.controls button {
-  width: 46px;
-  height: 26px;
-
-  border-radius: 8px;
-  border: 1.5px solid #cfcfe6;
-
-  background: #ffffff; /* 속 빈 하얀 느낌 */
-  color: #6b6b6b;
-
-  font-family: "Press Start 2P", monospace;
-  font-size: 10px;
-
-  cursor: pointer;
+.btn{
+  font-family:'Press Start 2P',sans-serif;
+  font-size:10px;
+  padding:4px 6px;
+  background:#ffffff;
+  border-radius:8px;
+  border:1px solid rgba(160,120,200,.4);
+  color:#7a5aa6;
 }
 
-/* 가운데 버튼 */
-.controls button.main {
-  border-color: #9b8cff;
-  color: #6f63ff;
-  background: #f3f0ff;
-}
-
-.controls button:hover {
-  background: #f7f7fb;
+.btn.play{
+  background:#e6edff;
+  border-color:#9b8cff;
 }
