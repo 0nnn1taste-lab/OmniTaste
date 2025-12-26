@@ -15,7 +15,7 @@ body{
     #e6f0ff,
     #fff4d9
   );
-  border:2px solid #7b6cff;
+  border:2px solid rgba(255, 170, 205, 0.6);
   border-radius:16px;
   box-shadow:0 6px 12px rgba(160,120,200,.25);
 }
@@ -48,7 +48,7 @@ body{
   height:28px;
   background:#fff;
   border-radius:10px;
-  border:1px solid rgba(100,80,140,.3);
+  border:1px solid rgba(255, 200, 220, 0.7);
   padding:4px 8px;
   overflow:hidden;
 }
