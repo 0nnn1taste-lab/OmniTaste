@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=360, initial-scale=1.0" />
-<title>Pixel Cassette Clock</title>
+<title>Pastel Cassette Clock</title>
 
-<!-- 픽셀 폰트 -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
@@ -20,27 +19,18 @@ body{
 .widget{
   width:360px;
   position:relative;
-}
-
-/* 날짜/시간 */
-.datetime{
-  position:absolute;
-  top:110px;          /* 카세트 중앙 */
-  left:50%;
-  transform:translateX(-50%);
-  text-align:center;
   font-family:'Press Start 2P', monospace;
-  color:#6b3a7c;
 }
 
-.date{
-  font-size:12px;
-  margin-bottom:6px;
+/* 릴 회전 애니메이션 */
+@keyframes spin{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(360deg); }
 }
 
-.time{
-  font-size:18px;
-  letter-spacing:1px;
+.reel{
+  transform-origin:center;
+  animation:spin 4s linear infinite;
 }
 </style>
 </head>
@@ -49,74 +39,91 @@ body{
 <div class="widget">
 
 <svg viewBox="0 0 360 220" width="360" height="220">
+
   <defs>
-    <!-- 파스텔 그라데이션 -->
+    <!-- 연한 파스텔 그라데이션 -->
     <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#ffd6e8"/>
-      <stop offset="50%" stop-color="#f0ddff"/>
-      <stop offset="100%" stop-color="#d9f2ff"/>
+      <stop offset="0%" stop-color="#ffe6f1"/>
+      <stop offset="50%" stop-color="#f3ebff"/>
+      <stop offset="100%" stop-color="#e9f5ff"/>
     </linearGradient>
   </defs>
 
-  <!-- 외곽 (픽셀 느낌: 둥근값 최소화) -->
-  <rect x="8" y="8" width="344" height="204"
-        rx="10" ry="10"
+  <!-- 카세트 바디 -->
+  <rect x="10" y="10" width="340" height="200"
+        rx="18" ry="18"
         fill="url(#bodyGrad)"
-        stroke="#f38bb5"
-        stroke-width="2"/>
+        stroke="#ff9fc9"
+        stroke-width="1.5"/>
 
   <!-- 상단 라벨 -->
-  <rect x="40" y="24" width="280" height="36"
-        rx="6" ry="6"
-        fill="#fff2b8"
-        stroke="#f38bb5"
-        stroke-width="1.5"/>
-
-  <!-- 중앙 윈도우 -->
-  <rect x="70" y="82" width="220" height="60"
+  <rect x="40" y="24" width="280" height="38"
         rx="8" ry="8"
-        fill="#ffe0ef"
-        stroke="#f38bb5"
-        stroke-width="1.5"/>
+        fill="#fff4bf"
+        stroke="#ff9fc9"
+        stroke-width="1"/>
 
-  <!-- 릴 (픽셀 원 느낌) -->
-  <rect x="108" y="100" width="24" height="24" fill="#fff"/>
-  <rect x="228" y="100" width="24" height="24" fill="#fff"/>
+  <!-- 날짜 -->
+  <text x="180" y="48"
+        text-anchor="middle"
+        font-size="10"
+        fill="#8a5a8f"
+        id="dateText">----</text>
+
+  <!-- 시간 -->
+  <text x="180" y="60"
+        text-anchor="middle"
+        font-size="12"
+        fill="#6a3a6e"
+        id="timeText">--:--:--</text>
+
+  <!-- 중앙 창 -->
+  <rect x="70" y="78" width="220" height="70"
+        rx="14" ry="14"
+        fill="#ffeaf4"
+        stroke="#ff9fc9"
+        stroke-width="1"/>
+
+  <!-- 릴 왼쪽 -->
+  <g class="reel">
+    <circle cx="120" cy="113" r="18" fill="#ffffff"/>
+    <rect x="118" y="95" width="4" height="36" fill="#ff9fc9"/>
+    <rect x="102" y="111" width="36" height="4" fill="#ff9fc9"/>
+  </g>
+
+  <!-- 릴 오른쪽 -->
+  <g class="reel">
+    <circle cx="240" cy="113" r="18" fill="#ffffff"/>
+    <rect x="238" y="95" width="4" height="36" fill="#ff9fc9"/>
+    <rect x="222" y="111" width="36" height="4" fill="#ff9fc9"/>
+  </g>
 
   <!-- 하단 슬롯 -->
-  <rect x="60" y="160" width="240" height="20"
+  <rect x="60" y="165" width="240" height="18"
         rx="6" ry="6"
-        fill="#ffd6e8"
-        stroke="#f38bb5"
-        stroke-width="1.5"/>
+        fill="#ffe6f1"
+        stroke="#ff9fc9"
+        stroke-width="1"/>
 </svg>
-
-<!-- 날짜 / 시각 -->
-<div class="datetime">
-  <div class="date" id="date"></div>
-  <div class="time" id="time"></div>
-</div>
 
 </div>
 
 <script>
-function updateTime(){
+function update(){
   const now = new Date();
-
   const y = now.getFullYear();
   const m = String(now.getMonth()+1).padStart(2,"0");
   const d = String(now.getDate()).padStart(2,"0");
-
   const hh = String(now.getHours()).padStart(2,"0");
   const mm = String(now.getMinutes()).padStart(2,"0");
   const ss = String(now.getSeconds()).padStart(2,"0");
 
-  document.getElementById("date").textContent = `${y}.${m}.${d}`;
-  document.getElementById("time").textContent = `${hh}:${mm}:${ss}`;
+  document.getElementById("dateText").textContent = `${y}.${m}.${d}`;
+  document.getElementById("timeText").textContent = `${hh}:${mm}:${ss}`;
 }
 
-updateTime();
-setInterval(updateTime,1000);
+update();
+setInterval(update,1000);
 </script>
 
 </body>
