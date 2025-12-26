@@ -12,7 +12,7 @@ const text = document.getElementById("text");
 
 function showMessage(i) {
   text.style.opacity = 0;
-  text.style.transform = "translateY(-12px)";
+  text.style.transform = "translateY(-18px)";
 
   setTimeout(() => {
     text.textContent = messages[i];
