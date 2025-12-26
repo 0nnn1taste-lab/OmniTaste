@@ -25,27 +25,20 @@ body{
   padding:10px;
 }
 
-/* ===== Wobbly Border ===== */
+/* ===== Border (정적) ===== */
 .wobbly-border{
   width:100%;
   height:100%;
   background:#fff;
   border:3px solid var(--black);
   border-radius:22px 30px 26px 34px;
-  animation:wobble 6s ease-in-out infinite;
   padding:10px;
-}
-
-@keyframes wobble{
-  0%{border-radius:22px 30px 26px 34px;}
-  50%{border-radius:30px 22px 34px 26px;}
-  100%{border-radius:22px 30px 26px 34px;}
 }
 
 /* ===== Header ===== */
 .header{
-  display:flex;
-  justify-content:space-between;
+  display:grid;
+  grid-template-columns:26px 1fr 26px 52px;
   align-items:center;
   font-weight:800;
   font-size:18px;
@@ -55,6 +48,14 @@ body{
 .header span{
   cursor:pointer;
   user-select:none;
+}
+.header button{
+  background:none;
+  border:2px solid #000;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
 }
 
 /* ===== Weekdays ===== */
@@ -73,10 +74,10 @@ body{
   grid-template-columns:repeat(7,1fr);
   grid-template-rows:repeat(6,1fr);
   gap:4px;
-  height:260px; /* ✅ 여기만 수정 */
+  height:260px;
 }
 
-/* ===== Date Cell ===== */
+/* ===== Date Cell (정적) ===== */
 .cell{
   position:relative;
   background:#fff;
@@ -86,13 +87,6 @@ body{
   font-weight:700;
   text-align:center;
   padding-top:4px;
-  animation:wobbleCell 7s ease-in-out infinite;
-}
-
-@keyframes wobbleCell{
-  0%{border-radius:14px 18px 16px 20px;}
-  50%{border-radius:18px 14px 20px 16px;}
-  100%{border-radius:14px 18px 16px 20px;}
 }
 
 /* Other month */
@@ -117,6 +111,7 @@ body{
 
 /* ===== Paw SVG ===== */
 .paw svg{width:100%;height:100%;fill:#000;}
+.cell.today .paw svg{fill:#fff;}
 </style>
 </head>
 
@@ -127,6 +122,7 @@ body{
       <span id="prev">◀</span>
       <div id="title">2025.12</div>
       <span id="next">▶</span>
+      <button id="todayBtn">TODAY</button>
     </div>
 
     <div class="weekdays">
@@ -161,6 +157,7 @@ const pawSVG = `
   <path d="M20 34c0-8 24-8 24 0s-6 16-12 16-12-8-12-16z"/>
 </svg>`;
 
+/* ===== Render ===== */
 function render(){
   const y = date.getFullYear();
   const m = date.getMonth();
@@ -200,8 +197,19 @@ function render(){
   }
 }
 
-document.getElementById("prev").onclick=()=>{date.setMonth(date.getMonth()-1);render();}
-document.getElementById("next").onclick=()=>{date.setMonth(date.getMonth()+1);render();}
+/* ===== Controls ===== */
+document.getElementById("prev").onclick=()=>{
+  date.setMonth(date.getMonth()-1);
+  render();
+};
+document.getElementById("next").onclick=()=>{
+  date.setMonth(date.getMonth()+1);
+  render();
+};
+document.getElementById("todayBtn").onclick=()=>{
+  date = new Date();
+  render();
+};
 
 render();
 </script>
