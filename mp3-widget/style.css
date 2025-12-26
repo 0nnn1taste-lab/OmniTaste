@@ -11,17 +11,24 @@ body {
   box-sizing: border-box;
 
   border-radius: 22px;
-  border: 2px solid #f2cce6;   /* 파스텔 실선 */
+  border: 2px solid #7b6cff; /* 진한 보라-블루 */
 
-  background: linear-gradient(135deg, #fde9f3, #e9f3ff);
+  background: linear-gradient(
+    135deg,
+    #fff3c4,  /* 파스텔 노랑 */
+    #e7d9ff,  /* 파스텔 보라 */
+    #e3f1ff,  /* 파스텔 파랑 */
+    #e8f7ef   /* 파스텔 초록 */
+  );
+
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
 }
 
-/* 상단 픽셀 헤더 */
+/* 상단 헤더 */
 .header {
   font-family: "Press Start 2P", monospace;
   font-size: 15px;
-  color: #ff7fb3;
+  color: #000;
   margin-bottom: 10px;
 }
 
@@ -31,6 +38,8 @@ body {
   background: #ffffff;
   border-radius: 16px;
   margin-bottom: 12px;
+
+  border: 1px solid #e6e6f2; /* 은은한 실선 */
 
   display: flex;
   align-items: center;
@@ -48,36 +57,43 @@ body {
   line-height: 1.5;
 
   opacity: 0;
-  transform: translateY(-12px);
+  transform: translateY(-18px);
   transition:
     opacity 2s ease,
     transform 2s ease;
 }
 
-/* 버튼 */
+/* 버튼 영역 */
 .controls {
   display: flex;
   justify-content: center;
   gap: 12px;
 }
 
+/* 기본 버튼 */
 .controls button {
   width: 46px;
   height: 26px;
 
   border-radius: 8px;
-  border: 1px solid #e8c9f2;
+  border: 1.5px solid #cfcfe6;
 
-  background: #faedff;        /* 더 연한 파스텔 */
-  color: #7b4fa3;
+  background: #ffffff; /* 속 빈 하얀 느낌 */
+  color: #6b6b6b;
 
   font-family: "Press Start 2P", monospace;
   font-size: 10px;
 
   cursor: pointer;
-  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1);
+}
+
+/* 가운데 버튼 */
+.controls button.main {
+  border-color: #9b8cff;
+  color: #6f63ff;
+  background: #f3f0ff;
 }
 
 .controls button:hover {
-  background: #f3dcff;
+  background: #f7f7fb;
 }
