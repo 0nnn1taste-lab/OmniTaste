@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pixel Calendar</title>
+
+  <!-- NanumSquare -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css">
+
+  <!-- Pixel font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="widget">
+    <header class="header">
+      <!-- 픽셀 구름 헤더 -->
+      <div class="headerBg">
+        <img src="cloud.png" alt="">
+      </div>
+
+      <div class="headerRow">
+        <div class="month" id="monthTitle"></div>
+
+        <div class="nav">
+          <button class="pixelBtn" id="prevBtn">◀</button>
+          <button class="pixelBtn todayBtn" id="todayBtn">Today</button>
+          <button class="pixelBtn" id="nextBtn">▶</button>
+        </div>
+      </div>
+
+      <div class="week">
+        <span class="sun">일</span>
+        <span>월</span>
+        <span>화</span>
+        <span>수</span>
+        <span>목</span>
+        <span>금</span>
+        <span class="sat">토</span>
+      </div>
+    </header>
+
+    <main>
+      <div id="grid" class="grid"></div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
