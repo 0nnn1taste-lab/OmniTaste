@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=360, initial-scale=1.0" />
-<title>Cassette Date Widget</title>
+<title>Pixel Cassette Clock</title>
+
+<!-- 픽셀 폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
 body{
@@ -16,25 +19,27 @@ body{
 
 .widget{
   width:360px;
+  position:relative;
 }
 
-/* 날짜/시각 텍스트 */
+/* 날짜/시간 */
 .datetime{
   position:absolute;
-  top:50%;
+  top:110px;          /* 카세트 중앙 */
   left:50%;
-  transform:translate(-50%,-50%);
+  transform:translateX(-50%);
   text-align:center;
-  font-family:system-ui, -apple-system, "Malgun Gothic", sans-serif;
-  font-weight:800;
-  color:#6a3a6e;
+  font-family:'Press Start 2P', monospace;
+  color:#6b3a7c;
 }
 
 .date{
-  font-size:20px;
+  font-size:12px;
+  margin-bottom:6px;
 }
+
 .time{
-  font-size:28px;
+  font-size:18px;
   letter-spacing:1px;
 }
 </style>
@@ -42,54 +47,56 @@ body{
 
 <body>
 <div class="widget">
-  <svg viewBox="0 0 360 220" width="360" height="220">
-    <!-- ===== Cassette Body ===== -->
-    <defs>
-      <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#ffd6e8"/>
-        <stop offset="50%" stop-color="#f2d9ff"/>
-        <stop offset="100%" stop-color="#d9f1ff"/>
-      </linearGradient>
-    </defs>
 
-    <!-- Outer -->
-    <rect x="6" y="6" rx="22" ry="22"
-          width="348" height="208"
-          fill="url(#bodyGrad)"
-          stroke="#f08ab5"
-          stroke-width="3"/>
+<svg viewBox="0 0 360 220" width="360" height="220">
+  <defs>
+    <!-- 파스텔 그라데이션 -->
+    <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd6e8"/>
+      <stop offset="50%" stop-color="#f0ddff"/>
+      <stop offset="100%" stop-color="#d9f2ff"/>
+    </linearGradient>
+  </defs>
 
-    <!-- Top label area -->
-    <rect x="30" y="22" rx="10" ry="10"
-          width="300" height="46"
-          fill="#fff1b8"
-          stroke="#f08ab5"
-          stroke-width="2"/>
+  <!-- 외곽 (픽셀 느낌: 둥근값 최소화) -->
+  <rect x="8" y="8" width="344" height="204"
+        rx="10" ry="10"
+        fill="url(#bodyGrad)"
+        stroke="#f38bb5"
+        stroke-width="2"/>
 
-    <!-- Tape window -->
-    <rect x="70" y="80" rx="18" ry="18"
-          width="220" height="70"
-          fill="#ffd9ec"
-          stroke="#f08ab5"
-          stroke-width="2"/>
+  <!-- 상단 라벨 -->
+  <rect x="40" y="24" width="280" height="36"
+        rx="6" ry="6"
+        fill="#fff2b8"
+        stroke="#f38bb5"
+        stroke-width="1.5"/>
 
-    <!-- Reels -->
-    <circle cx="120" cy="115" r="20" fill="#fff"/>
-    <circle cx="240" cy="115" r="20" fill="#fff"/>
+  <!-- 중앙 윈도우 -->
+  <rect x="70" y="82" width="220" height="60"
+        rx="8" ry="8"
+        fill="#ffe0ef"
+        stroke="#f38bb5"
+        stroke-width="1.5"/>
 
-    <!-- Bottom controls -->
-    <rect x="40" y="170" rx="14" ry="14"
-          width="280" height="26"
-          fill="#ffd6e8"
-          stroke="#f08ab5"
-          stroke-width="2"/>
-  </svg>
+  <!-- 릴 (픽셀 원 느낌) -->
+  <rect x="108" y="100" width="24" height="24" fill="#fff"/>
+  <rect x="228" y="100" width="24" height="24" fill="#fff"/>
 
-  <!-- Date / Time -->
-  <div class="datetime">
-    <div class="date" id="date"></div>
-    <div class="time" id="time"></div>
-  </div>
+  <!-- 하단 슬롯 -->
+  <rect x="60" y="160" width="240" height="20"
+        rx="6" ry="6"
+        fill="#ffd6e8"
+        stroke="#f38bb5"
+        stroke-width="1.5"/>
+</svg>
+
+<!-- 날짜 / 시각 -->
+<div class="datetime">
+  <div class="date" id="date"></div>
+  <div class="time" id="time"></div>
+</div>
+
 </div>
 
 <script>
@@ -111,5 +118,6 @@ function updateTime(){
 updateTime();
 setInterval(updateTime,1000);
 </script>
+
 </body>
 </html>
