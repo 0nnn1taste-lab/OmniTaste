@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=340, initial-scale=1.0" />
-<title>Hand Scribble Calendar</title>
+<title>Simple Rounded Calendar</title>
 
 <style>
 *{
@@ -19,20 +19,17 @@ body{
 .calendar-wrap{
   width:340px;
   height:370px;
-  padding:6px;
+  padding:8px;
 }
 
+/* ===== Outer Border ===== */
 .frame{
-  position:relative;
   width:100%;
   height:100%;
-}
-
-/* ===== Content ===== */
-.content{
-  position:relative;
-  z-index:1;
-  padding:14px 12px 10px;
+  border:3px solid #000;
+  border-radius:26px;
+  background:#fff;
+  padding:12px 12px 10px;
 }
 
 /* ===== Header ===== */
@@ -56,7 +53,8 @@ body{
 .header button{
   font-size:12px;
   border:2px solid #000;
-  border-radius:10px;
+  border-radius:12px;
+  padding:2px 6px;
 }
 
 /* ===== Weekdays ===== */
@@ -83,14 +81,17 @@ body{
   position:relative;
   background:#fff;
   border:2px solid #000;
-  border-radius:18px 15px 20px 14px;
+  border-radius:18px;
   text-align:center;
   font-weight:800;
   font-size:13px;
   padding-top:4px;
 }
 
-.cell.other{opacity:0.35;}
+.cell.other{
+  opacity:0.35;
+}
+
 .cell.today{
   background:#000;
   color:#fff;
@@ -113,71 +114,27 @@ body{
 <div class="calendar-wrap">
   <div class="frame">
 
-    <!-- ===== Scribble Border ===== -->
-    <svg viewBox="0 0 340 370" preserveAspectRatio="none"
-         style="position:absolute;inset:0;z-index:0;">
-      <defs>
-        <!-- 손그림 느낌 핵심 -->
-        <filter id="scribble">
-          <feTurbulence type="fractalNoise"
-            baseFrequency="0.015"
-            numOctaves="2"
-            seed="8"
-            result="noise"/>
-          <feDisplacementMap in="SourceGraphic"
-            in2="noise"
-            scale="8"
-            xChannelSelector="R"
-            yChannelSelector="G"/>
-        </filter>
-      </defs>
-
-      <!-- 여러 번 그린 느낌 -->
-      <path d="
-        M16,24
-        Q170,6 324,24
-        Q336,185 324,346
-        Q170,360 16,346
-        Q4,185 16,24 Z"
-        fill="none"
-        stroke="#000"
-        stroke-width="3"
-        filter="url(#scribble)"/>
-
-      <path d="
-        M18,26
-        Q170,8 322,26
-        Q334,185 322,344
-        Q170,358 18,344
-        Q6,185 18,26 Z"
-        fill="none"
-        stroke="#000"
-        stroke-width="1.5"
-        opacity="0.6"
-        filter="url(#scribble)"/>
-    </svg>
-
-    <div class="content">
-      <div class="header">
-        <span id="prev">◀</span>
-        <div id="title" style="text-align:center;">2025.12</div>
-        <span id="next">▶</span>
-        <button id="todayBtn">TODAY</button>
-      </div>
-
-      <div class="weekdays">
-        <div>SUN</div><div>MON</div><div>TUE</div>
-        <div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
-      </div>
-
-      <div class="grid" id="calendar"></div>
+    <div class="header">
+      <span id="prev">◀</span>
+      <div id="title" style="text-align:center;">2025.12</div>
+      <span id="next">▶</span>
+      <button id="todayBtn">TODAY</button>
     </div>
+
+    <div class="weekdays">
+      <div>SUN</div><div>MON</div><div>TUE</div>
+      <div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
+    </div>
+
+    <div class="grid" id="calendar"></div>
+
   </div>
 </div>
 
 <script>
 let current = new Date();
 
+/* Fixed Korean solar holidays */
 const holidays={
   "1-1":1,"3-1":1,"5-5":1,"6-6":1,
   "8-15":1,"10-3":1,"10-9":1,"12-25":1
@@ -194,7 +151,7 @@ const pawSVG=`
 function render(){
   const y=current.getFullYear();
   const m=current.getMonth();
-  document.getElementById("title").textContent=
+  document.getElementById("title").textContent =
     `${y}.${String(m+1).padStart(2,"0")}`;
 
   const cal=document.getElementById("calendar");
