@@ -1,0 +1,139 @@
+:root{
+  --bg:#fff6fa;
+  --pink:#ffe3ee;
+  --pink2:#ffd1e4;
+  --border:rgba(243,167,200,.8);
+  --ink:#2b2b2b;
+  --sun:#ff5fa3;
+  --sat:#6aa6ff;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  padding:0;
+  background:transparent;
+  font-family:'NanumSquare',sans-serif;
+}
+
+.widget{
+  max-width:340px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+}
+
+/* ===== Header ===== */
+.header{
+  position:relative;
+  padding:10px;
+  background:linear-gradient(180deg,#ffe3ee,#fff6fa);
+}
+
+.headerBg{
+  position:absolute;
+  inset:8px;
+  height:56px;
+  border-radius:14px;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.headerBg img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  image-rendering:pixelated;
+}
+
+.headerRow{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.month{
+  flex:1;
+  font-family:'Press Start 2P',sans-serif;
+  font-size:14px;
+}
+
+.nav{
+  display:flex;
+  gap:6px;
+}
+
+.pixelBtn{
+  background:var(--pink);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:6px 8px;
+  font-size:12px;
+  cursor:pointer;
+}
+
+.todayBtn{
+  background:var(--pink2);
+}
+
+.week{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  margin-top:6px;
+  font-size:12px;
+  text-align:center;
+}
+
+.week .sun{ color:var(--sun); font-weight:700; }
+.week .sat{ color:var(--sat); font-weight:700; }
+
+/* ===== Calendar ===== */
+main{
+  padding:8px 10px 12px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
+}
+
+.day{
+  height:40px;
+  border-radius:10px;
+  border:1px solid rgba(60,60,60,.1);
+  background:#ffe3ee;
+  padding:6px;
+}
+
+.day.muted{ opacity:.35; }
+
+.day .num{
+  font-size:12px;
+  font-weight:800;
+}
+
+.day.sun .num{ color:var(--sun); }
+.day.sat .num{ color:var(--sat); }
+
+/* 공휴일 */
+.day.holiday .num{
+  color:var(--sun);   /* 일요일과 동일한 분홍 */
+}
+
+.holidayDot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--sun);
+  margin-top:4px;
+}
+
+/* 오늘 */
+.day.today{
+  outline:2px solid var(--border);
+}
