@@ -73,7 +73,7 @@ body{
   grid-template-columns:repeat(7,1fr);
   grid-template-rows:repeat(6,1fr);
   gap:4px;
-  height:290px;
+  height:260px; /* ✅ 여기만 수정 */
 }
 
 /* ===== Date Cell ===== */
@@ -142,14 +142,14 @@ let date = new Date();
 
 /* ===== Fixed Korean Holidays (양력 기준) ===== */
 const holidays = {
-  "1-1": true,   // 신정
-  "3-1": true,   // 삼일절
-  "5-5": true,   // 어린이날
-  "6-6": true,   // 현충일
-  "8-15": true,  // 광복절
-  "10-3": true,  // 개천절
-  "10-9": true,  // 한글날
-  "12-25": true  // 성탄절
+  "1-1": true,
+  "3-1": true,
+  "5-5": true,
+  "6-6": true,
+  "8-15": true,
+  "10-3": true,
+  "10-9": true,
+  "12-25": true
 };
 
 /* ===== Paw SVG ===== */
@@ -161,11 +161,11 @@ const pawSVG = `
   <path d="M20 34c0-8 24-8 24 0s-6 16-12 16-12-8-12-16z"/>
 </svg>`;
 
-/* ===== Render ===== */
 function render(){
   const y = date.getFullYear();
   const m = date.getMonth();
-  document.getElementById("title").textContent = `${y}.${String(m+1).padStart(2,"0")}`;
+  document.getElementById("title").textContent =
+    `${y}.${String(m+1).padStart(2,"0")}`;
 
   const cal = document.getElementById("calendar");
   cal.innerHTML = "";
@@ -182,8 +182,7 @@ function render(){
     cell.className = "cell";
     if(d.getMonth()!==m) cell.classList.add("other");
 
-    const today = new Date();
-    if(d.toDateString()===today.toDateString()){
+    if(d.toDateString()===new Date().toDateString()){
       cell.classList.add("today");
     }
 
