@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700;800;900&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #000;
+  font-family: 'Noto Sans KR', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.calendar-app {
+  width: 360px;
+  background: #000;
+  text-align: center;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.calendar-header h1 {
+  font-weight: 900;
+  font-size: 22px;
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  color: #ffb6c1;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.cat {
+  width: 120px;
+  margin: 8px auto 12px;
+  display: block;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.day {
+  background: #ffeef2;
+  border-radius: 10px;
+  height: 42px;
+  font-weight: 800;
+  font-size: 14px;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.day.empty {
+  background: transparent;
+}
