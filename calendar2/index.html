@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=340, initial-scale=1.0" />
+<title>Wobbly Black Calendar</title>
+
+<style>
+:root{
+  --black:#111;
+  --gray:#999;
+}
+
+/* ===== Reset ===== */
+*{box-sizing:border-box;font-family:system-ui, -apple-system, "Malgun Gothic", sans-serif;}
+body{
+  margin:0;
+  background:transparent;
+}
+
+/* ===== Outer Widget ===== */
+.calendar-wrap{
+  width:340px;
+  height:370px;
+  padding:10px;
+}
+
+/* ===== Wobbly Border ===== */
+.wobbly-border{
+  width:100%;
+  height:100%;
+  background:#fff;
+  border:3px solid var(--black);
+  border-radius:22px 30px 26px 34px;
+  animation:wobble 6s ease-in-out infinite;
+  padding:10px;
+}
+
+@keyframes wobble{
+  0%{border-radius:22px 30px 26px 34px;}
+  50%{border-radius:30px 22px 34px 26px;}
+  100%{border-radius:22px 30px 26px 34px;}
+}
+
+/* ===== Header ===== */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:800;
+  font-size:18px;
+  color:#000;
+  margin-bottom:6px;
+}
+.header span{
+  cursor:pointer;
+  user-select:none;
+}
+
+/* ===== Weekdays ===== */
+.weekdays{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  font-size:12px;
+  font-weight:700;
+  text-align:center;
+  margin-bottom:4px;
+}
+
+/* ===== Calendar Grid ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  grid-template-rows:repeat(6,1fr);
+  gap:4px;
+  height:290px;
+}
+
+/* ===== Date Cell ===== */
+.cell{
+  position:relative;
+  background:#fff;
+  border:2px solid var(--black);
+  border-radius:14px 18px 16px 20px;
+  font-size:13px;
+  font-weight:700;
+  text-align:center;
+  padding-top:4px;
+  animation:wobbleCell 7s ease-in-out infinite;
+}
+
+@keyframes wobbleCell{
+  0%{border-radius:14px 18px 16px 20px;}
+  50%{border-radius:18px 14px 20px 16px;}
+  100%{border-radius:14px 18px 16px 20px;}
+}
+
+/* Other month */
+.cell.other{
+  opacity:0.3;
+}
+
+/* Today */
+.cell.today{
+  background:#000;
+  color:#fff;
+}
+
+/* Paw */
+.paw{
+  position:absolute;
+  bottom:3px;
+  right:3px;
+  width:18px;
+  height:18px;
+}
+
+/* ===== Paw SVG ===== */
+.paw svg{width:100%;height:100%;fill:#000;}
+</style>
+</head>
+
+<body>
+<div class="calendar-wrap">
+  <div class="wobbly-border">
+    <div class="header">
+      <span id="prev">◀</span>
+      <div id="title">2025.12</div>
+      <span id="next">▶</span>
+    </div>
+
+    <div class="weekdays">
+      <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+    </div>
+
+    <div class="grid" id="calendar"></div>
+  </div>
+</div>
+
+<script>
+let date = new Date();
+
+/* ===== Fixed Korean Holidays (양력 기준) ===== */
+const holidays = {
+  "1-1": true,   // 신정
+  "3-1": true,   // 삼일절
+  "5-5": true,   // 어린이날
+  "6-6": true,   // 현충일
+  "8-15": true,  // 광복절
+  "10-3": true,  // 개천절
+  "10-9": true,  // 한글날
+  "12-25": true  // 성탄절
+};
+
+/* ===== Paw SVG ===== */
+const pawSVG = `
+<svg viewBox="0 0 64 64">
+  <circle cx="16" cy="18" r="6"/>
+  <circle cx="32" cy="14" r="6"/>
+  <circle cx="48" cy="18" r="6"/>
+  <path d="M20 34c0-8 24-8 24 0s-6 16-12 16-12-8-12-16z"/>
+</svg>`;
+
+/* ===== Render ===== */
+function render(){
+  const y = date.getFullYear();
+  const m = date.getMonth();
+  document.getElementById("title").textContent = `${y}.${String(m+1).padStart(2,"0")}`;
+
+  const cal = document.getElementById("calendar");
+  cal.innerHTML = "";
+
+  const first = new Date(y,m,1);
+  const start = new Date(first);
+  start.setDate(1-first.getDay());
+
+  for(let i=0;i<42;i++){
+    const d = new Date(start);
+    d.setDate(start.getDate()+i);
+
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    if(d.getMonth()!==m) cell.classList.add("other");
+
+    const today = new Date();
+    if(d.toDateString()===today.toDateString()){
+      cell.classList.add("today");
+    }
+
+    cell.textContent = d.getDate();
+
+    const key = `${d.getMonth()+1}-${d.getDate()}`;
+    if(holidays[key]){
+      const paw = document.createElement("div");
+      paw.className = "paw";
+      paw.innerHTML = pawSVG;
+      cell.appendChild(paw);
+    }
+
+    cal.appendChild(cell);
+  }
+}
+
+document.getElementById("prev").onclick=()=>{date.setMonth(date.getMonth()-1);render();}
+document.getElementById("next").onclick=()=>{date.setMonth(date.getMonth()+1);render();}
+
+render();
+</script>
+</body>
+</html>
