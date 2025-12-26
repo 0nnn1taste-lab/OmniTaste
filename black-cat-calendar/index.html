@@ -2,37 +2,24 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta name="viewport" content="width=340, height=360" />
   <title>Black Cat Calendar</title>
-
-  <!-- 스타일 -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <div class="calendar-app">
 
-    <!-- 헤더 : 연도 이동 -->
     <header class="calendar-header">
-      <button id="prevYear">◀</button>
-      <h1 id="yearTitle">2025년</h1>
-      <button id="nextYear">▶</button>
+      <button id="prevMonth">◀</button>
+      <h1 id="monthTitle">2025.12</h1>
+      <button id="nextMonth">▶</button>
     </header>
 
-    <!-- 검정 고양이 -->
-    <img
-      src="black-cat.png"
-      alt="black cat character"
-      class="cat"
-    />
-
-    <!-- 달력 -->
     <div class="calendar-grid" id="calendar"></div>
 
   </div>
 
-  <!-- 스크립트 -->
   <script src="app.js"></script>
 </body>
 </html>
