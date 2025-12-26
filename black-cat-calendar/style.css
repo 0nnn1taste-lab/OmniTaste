@@ -9,18 +9,16 @@ body {
   width: 340px;
   height: 360px;
   background: #000;
+  overflow: hidden;
   font-family: 'Noto Sans KR', sans-serif;
 }
 
-/* 전체 위젯 */
+/* 위젯 */
 .calendar-app {
-  position: relative;
   width: 340px;
   height: 360px;
   padding: 12px;
-  background:
-    linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
-    url("black-cat.png") center bottom / 220px no-repeat;
+  background: #000;
 }
 
 /* 헤더 */
@@ -55,14 +53,15 @@ body {
 
 /* 날짜 */
 .day {
-  position: relative;
   background: #fff0f4;
-  border-radius: 8px;
-  height: 36px;
-  font-weight: 800;
-  font-size: 13px;
+  border-radius: 10px;
+  height: 44px;
+  font-size: 16px;
+  font-weight: 900;
   color: #000;
+
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -73,10 +72,8 @@ body {
 }
 
 /* 공휴일 발바닥 */
-.day.holiday::after {
-  content: "🐾";
-  position: absolute;
-  right: 3px;
-  bottom: 2px;
-  font-size: 11px;
+.day.holiday img {
+  width: 20px;     /* ⬅️ 크기 큼 */
+  height: 20px;
+  margin-top: 2px;
 }
