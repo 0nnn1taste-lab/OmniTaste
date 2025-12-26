@@ -7,39 +7,39 @@ const messages = [
 ];
 
 let index = 0;
-let interval = null;
-const textEl = document.getElementById("text");
+let timer = null;
+const text = document.getElementById("text");
 
-function showText(i) {
-  textEl.style.opacity = 0;
+function showMessage(i) {
+  text.style.opacity = 0;
+  text.style.transform = "translateY(-12px)";
 
   setTimeout(() => {
-    textEl.textContent = messages[i];
-    textEl.style.opacity = 1;
-  }, 500);
+    text.textContent = messages[i];
+    text.style.opacity = 1;
+    text.style.transform = "translateY(0)";
+  }, 600);
 }
 
-function startAuto() {
-  clearInterval(interval);
-  interval = setInterval(() => {
+function autoPlay() {
+  clearInterval(timer);
+  timer = setInterval(() => {
     index = (index + 1) % messages.length;
-    showText(index);
+    showMessage(index);
   }, 4000);
 }
 
-document.getElementById("play").onclick = () => {
-  startAuto();
-};
+document.getElementById("play").onclick = autoPlay;
 
 document.getElementById("next").onclick = () => {
   index = (index + 1) % messages.length;
-  showText(index);
+  showMessage(index);
 };
 
 document.getElementById("prev").onclick = () => {
   index = (index - 1 + messages.length) % messages.length;
-  showText(index);
+  showMessage(index);
 };
 
-showText(index);
-startAuto();
+showMessage(index);
+autoPlay();
