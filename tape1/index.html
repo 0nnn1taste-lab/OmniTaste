@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=360, initial-scale=1.0" />
+<title>Glossy Cassette</title>
+
+<style>
+body{
+  margin:0;
+  background:transparent;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* 릴 회전 (반시계) */
+@keyframes spinCCW{
+  from{ transform:rotate(0deg); }
+  to{ transform:rotate(-360deg); }
+}
+.reel{
+  transform-origin:center;
+  animation:spinCCW 5s linear infinite;
+}
+</style>
+</head>
+
+<body>
+
+<svg viewBox="0 0 360 220" width="360" height="220">
+
+  <defs>
+    <!-- 바디 유광 파스텔 -->
+    <linearGradient id="pinkGloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffeaf3"/>
+      <stop offset="40%" stop-color="#ffd3e5"/>
+      <stop offset="100%" stop-color="#f7b6cf"/>
+    </linearGradient>
+
+    <!-- 민트 패널 -->
+    <linearGradient id="mintPanel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8ffff"/>
+      <stop offset="100%" stop-color="#c8f0f0"/>
+    </linearGradient>
+
+    <!-- 하이라이트 -->
+    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.6)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 카세트 바디 -->
+  <rect x="12" y="12" width="336" height="196"
+        rx="22" ry="22"
+        fill="url(#pinkGloss)"
+        stroke="#333"
+        stroke-width="2"/>
+
+  <!-- 상단 패널 -->
+  <rect x="38" y="28" width="284" height="54"
+        rx="12" ry="12"
+        fill="url(#mintPanel)"
+        stroke="#333"
+        stroke-width="1.5"/>
+
+  <!-- 텍스트 -->
+  <text x="180" y="54"
+        text-anchor="middle"
+        font-size="14"
+        font-family="Arial Black, sans-serif"
+        fill="#333">
+    SAD MUSIC FOR BAD DAYS
+  </text>
+
+  <!-- 중앙 윈도우 -->
+  <rect x="78" y="92" width="204" height="56"
+        rx="14" ry="14"
+        fill="#f2c0d8"
+        stroke="#333"
+        stroke-width="1.5"/>
+
+  <!-- 왼쪽 릴 -->
+  <g class="reel">
+    <circle cx="128" cy="120" r="18" fill="#111"/>
+    <text x="128" y="127"
+          text-anchor="middle"
+          font-size="24"
+          font-weight="900"
+          fill="#f7b6cf">*</text>
+  </g>
+
+  <!-- 오른쪽 릴 -->
+  <g class="reel">
+    <circle cx="232" cy="120" r="18" fill="#111"/>
+    <text x="232" y="127"
+          text-anchor="middle"
+          font-size="24"
+          font-weight="900"
+          fill="#f7b6cf">*</text>
+  </g>
+
+  <!-- 하단 버튼 영역 -->
+  <rect x="96" y="158" width="168" height="24"
+        rx="12" ry="12"
+        fill="#f2c0d8"
+        stroke="#333"
+        stroke-width="1.5"/>
+
+  <!-- 하이라이트 -->
+  <rect x="20" y="18" width="320" height="40"
+        rx="20" ry="20"
+        fill="url(#shine)"/>
+
+</svg>
+
+</body>
+</html>
