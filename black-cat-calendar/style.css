@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@800;900&display=swap');
 
 * {
   box-sizing: border-box;
@@ -6,66 +6,77 @@
 
 body {
   margin: 0;
+  width: 340px;
+  height: 360px;
   background: #000;
   font-family: 'Noto Sans KR', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
 }
 
+/* 전체 위젯 */
 .calendar-app {
-  width: 360px;
-  background: #000;
-  text-align: center;
+  position: relative;
+  width: 340px;
+  height: 360px;
+  padding: 12px;
+  background:
+    linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+    url("black-cat.png") center bottom / 220px no-repeat;
 }
 
+/* 헤더 */
 .calendar-header {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   color: #fff;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .calendar-header h1 {
+  font-size: 18px;
   font-weight: 900;
-  font-size: 22px;
 }
 
 .calendar-header button {
   background: none;
   border: none;
   color: #ffb6c1;
-  font-size: 20px;
+  font-size: 16px;
   cursor: pointer;
 }
 
-.cat {
-  width: 120px;
-  margin: 8px auto 12px;
-  display: block;
-}
-
+/* 달력 */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 6px;
 }
 
+/* 날짜 */
 .day {
-  background: #ffeef2;
-  border-radius: 10px;
-  height: 42px;
+  position: relative;
+  background: #fff0f4;
+  border-radius: 8px;
+  height: 36px;
   font-weight: 800;
-  font-size: 14px;
+  font-size: 13px;
   color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* 빈칸 */
 .day.empty {
   background: transparent;
+}
+
+/* 공휴일 발바닥 */
+.day.holiday::after {
+  content: "🐾";
+  position: absolute;
+  right: 3px;
+  bottom: 2px;
+  font-size: 11px;
 }
