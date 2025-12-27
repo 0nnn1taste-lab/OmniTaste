@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* 전체 박스 */
+.timer-box {
+  width: 280px;
+  padding: 18px;
+  border: 2px solid #ff9fcf;
+  background: linear-gradient(
+    180deg,
+    #ffd6eb 0%,
+    #f2c6ff 50%,
+    #e6c8ff 100%
+  );
+  border-radius: 6px;
+  font-family: "Courier New", monospace;
+}
+
+/* 시간 스크린 */
+.time-screen {
+  background: #fff0f7;
+  border: 2px solid #ff9fcf;
+  color: #6b3a5e;
+  font-size: 26px;
+  text-align: center;
+  padding: 14px 0;
+  margin-bottom: 14px;
+  letter-spacing: 2px;
+}
+
+/* 버튼 영역 */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 픽셀 버튼 */
+button {
+  width: 80px;
+  padding: 8px 0;
+  font-size: 12px;
+  background: #ffe6f2;
+  border: 2px solid #ff9fcf;
+  color: #6b3a5e;
+  cursor: pointer;
+  box-shadow: 
+    2px 2px 0 #ff9fcf;
+  font-family: inherit;
+}
+
+button:active {
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
