@@ -12,54 +12,83 @@ body {
   height: 100vh;
 }
 
-/* 전체 박스 */
+/* 🌸 전체 타이머 박스 */
 .timer-box {
   width: 280px;
   padding: 18px;
-  border: 2px solid #ff9fcf;
-  background: linear-gradient(
-    180deg,
-    #ffd6eb 0%,
-    #f2c6ff 50%,
-    #e6c8ff 100%
-  );
+  border: 2px solid #f3a6cf;
   border-radius: 6px;
-  font-family: "Courier New", monospace;
+
+  background: linear-gradient(
+    120deg,
+    #fde9f3,
+    #f3e9fb,
+    #f9f0ff
+  );
+  background-size: 300% 300%;
+  animation: skyMove 20s ease-in-out infinite;
+
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.1);
+
+  font-family: "Noto Sans KR", sans-serif;
 }
 
-/* 시간 스크린 */
+/* ☁ 배경 하늘 흐름 */
+@keyframes skyMove {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ⏱ 타이머 스크린 */
 .time-screen {
-  background: #fff0f7;
-  border: 2px solid #ff9fcf;
-  color: #6b3a5e;
-  font-size: 26px;
+  background: #fff6fb;
+  border: 2px solid #f3a6cf;
+  color: #6a4b5f;
+
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
   text-align: center;
-  padding: 14px 0;
-  margin-bottom: 14px;
+  padding: 16px 0;
+  margin-bottom: 16px;
   letter-spacing: 2px;
+
+  /* 입체감 */
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,0.8),
+    inset 0 -4px 6px rgba(200,150,180,0.25),
+    0 4px 6px rgba(0,0,0,0.12);
 }
 
-/* 버튼 영역 */
+/* 🎮 버튼 영역 */
 .buttons {
   display: flex;
   justify-content: space-between;
 }
 
-/* 픽셀 버튼 */
+/* 🧁 픽셀 느낌 버튼 */
 button {
   width: 80px;
   padding: 8px 0;
+
+  font-family: "Noto Sans KR", sans-serif;
   font-size: 12px;
-  background: #ffe6f2;
-  border: 2px solid #ff9fcf;
-  color: #6b3a5e;
+  font-weight: 500;
+
+  background: #fff0f8;
+  border: 2px solid #f3a6cf;
+  color: #6a4b5f;
+
   cursor: pointer;
-  box-shadow: 
-    2px 2px 0 #ff9fcf;
-  font-family: inherit;
+
+  box-shadow:
+    2px 2px 0 #f3a6cf,
+    inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
 button:active {
-  box-shadow: none;
   transform: translate(2px, 2px);
+  box-shadow:
+    inset 1px 1px 2px rgba(0,0,0,0.15);
 }
