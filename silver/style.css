@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.widget {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  border: 2px solid #000;
+  background-image: url("silver-heart.png");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+/* 은박지 느낌용 필터 레이어 */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.15),
+    rgba(0,0,0,0.15)
+  );
+  backdrop-filter: blur(1px);
+}
+
+/* 텍스트 */
+.title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  z-index: 1;
+}
