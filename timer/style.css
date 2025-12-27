@@ -16,30 +16,30 @@ body {
 .timer-box {
   width: 280px;
   padding: 18px;
-  border: 2px solid #f3a6cf;
+  border: 2px solid #f1a4c8;
   border-radius: 6px;
 
-  /* 하늘 이미지 + 파스텔 오버레이 */
+  /* ☁ 하늘 + 구름이 인지되는 최종 보정 */
   background:
     linear-gradient(
-      rgba(255, 245, 252, 0.75),
-      rgba(245, 235, 255, 0.75)
+      rgba(255, 230, 245, 0.5),
+      rgba(225, 215, 255, 0.5)
     ),
     url("pastel-sky.png");
 
-  background-size: 300% 300%, cover;
+  background-size: 320% 320%, cover;
   background-position: 0% 50%, center;
   background-repeat: no-repeat;
 
-  animation: skyMove 25s ease-in-out infinite;
+  animation: skyMove 26s ease-in-out infinite;
 
   box-shadow:
-    0 6px 14px rgba(0,0,0,0.1);
+    0 8px 18px rgba(0,0,0,0.12);
 
   font-family: "Noto Sans KR", sans-serif;
 }
 
-/* ☁ 하늘이 천천히 흐르는 느낌 */
+/* ☁ 하늘 흐르는 애니메이션 */
 @keyframes skyMove {
   0%   { background-position: 0% 50%, center; }
   50%  { background-position: 100% 50%, center; }
@@ -48,8 +48,8 @@ body {
 
 /* ⏱ 타이머 스크린 */
 .time-screen {
-  background: #fff7fb;
-  border: 2px solid #f3a6cf;
+  background: #fff6fb;
+  border: 2px solid #f1a4c8;
   color: #6a4b5f;
 
   font-family: 'Press Start 2P', monospace;
@@ -59,10 +59,10 @@ body {
   margin-bottom: 16px;
   letter-spacing: 2px;
 
-  /* 입체 LCD 느낌 */
+  /* 💡 입체 LCD 느낌 */
   box-shadow:
-    inset 0 2px 3px rgba(255,255,255,0.9),
-    inset 0 -4px 6px rgba(200,150,180,0.25),
+    inset 0 2px 3px rgba(255,255,255,0.95),
+    inset 0 -4px 6px rgba(190,140,170,0.3),
     0 4px 6px rgba(0,0,0,0.12);
 }
 
@@ -72,7 +72,7 @@ body {
   justify-content: space-between;
 }
 
-/* 🧁 픽셀 감성 버튼 */
+/* 🧁 픽셀 + 고딕 버튼 */
 button {
   width: 80px;
   padding: 8px 0;
@@ -82,18 +82,11 @@ button {
   font-weight: 500;
 
   background: #fff1f8;
-  border: 2px solid #f3a6cf;
+  border: 2px solid #f1a4c8;
   color: #6a4b5f;
 
   cursor: pointer;
 
   box-shadow:
-    2px 2px 0 #f3a6cf,
-    inset 0 1px 0 rgba(255,255,255,0.6);
-}
-
-button:active {
-  transform: translate(2px, 2px);
-  box-shadow:
-    inset 1px 1px 2px rgba(0,0,0,0.15);
-}
+    2px 2px 0 #f1a4c8,
+    inset 0 1px 0 rgba(255,255
