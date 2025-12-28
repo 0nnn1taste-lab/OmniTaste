@@ -1,175 +1,97 @@
 :root{
-  --bg: transparent;
-  --paper: rgba(255,255,255,0.88);
-  --ink: #111;
-  --line: rgba(17,17,17,0.55);
-  --line-strong: rgba(17,17,17,0.75);
-
-  --sun: #d62929;   /* 일요일 빨강 */
-  --sat: #1f5bd8;   /* 토요일 파랑 */
-
-  --cellH: 78px;    /* 날짜칸 높이(노션에서 작으면 줄이세요) */
-  --radius: 14px;
+  --ink:#111;
+  --line:rgba(0,0,0,.35);
+  --sun:#d32f2f;
+  --sat:#1e5bd6;
 }
 
-*{ box-sizing: border-box; }
-html,body{ height:100%; }
 body{
   margin:0;
-  background: var(--bg);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", Arial;
-  color: var(--ink);
+  background:transparent;
+  font-family: system-ui, -apple-system, "Apple SD Gothic Neo";
 }
 
 .widget{
-  width: 100%;
-  max-width: 980px;
-  margin: 0 auto;
-  background: var(--paper);
-  border: 2px solid var(--line-strong);
-  border-radius: var(--radius);
-  overflow: hidden;
-  backdrop-filter: blur(10px);
+  max-width:720px;
+  margin:auto;
+  border:2px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,.9);
 }
 
 .top{
   display:flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 18px 18px 12px 18px;
-  border-bottom: 2px solid var(--line-strong);
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 14px;
+  border-bottom:2px solid var(--line);
 }
 
 .year{
-  font-weight: 900;
-  letter-spacing: 1px;
-  font-size: 32px;
-  line-height: 1;
+  font-size:22px;
+  font-weight:800;
 }
 
-.monthRow{
-  display:flex;
-  align-items: baseline;
-  gap: 10px;
-  margin-top: 8px;
+.ganji{
+  font-size:18px;
+  font-weight:900;
 }
-
-.month{
-  font-weight: 900;
-  font-size: 44px;
-  line-height: 1;
-}
-
-.monthLabel{
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 2px;
-  opacity: 0.8;
-}
-
-.badge{
-  font-weight: 800;
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-align:right;
-  opacity: 0.8;
-}
-.sub{
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: 0.75;
-  text-align:right;
-}
-
-.navBtn{
-  width: 30px;
-  height: 30px;
-  border: 2px solid var(--line-strong);
-  background: rgba(255,255,255,0.65);
-  border-radius: 9px;
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 26px;
-  padding: 0;
-}
-.navBtn:active{ transform: translateY(1px); }
 
 .dow{
   display:grid;
-  grid-template-columns: repeat(7, 1fr);
-  border-bottom: 2px solid var(--line-strong);
+  grid-template-columns:repeat(7,1fr);
+  border-bottom:1px solid var(--line);
 }
-.dow > div{
-  padding: 10px 0;
+
+.dow div{
   text-align:center;
-  font-weight: 800;
-  border-right: 1px solid var(--line);
+  font-weight:700;
+  padding:6px 0;
+  font-size:13px;
 }
-.dow > div:last-child{ border-right: 0; }
-.dow .sun{ color: var(--sun); }
-.dow .sat{ color: var(--sat); }
+
+.sun{color:var(--sun);}
+.sat{color:var(--sat);}
 
 .grid{
   display:grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns:repeat(7,1fr);
 }
 
 .cell{
-  min-height: var(--cellH);
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding: 10px 10px 8px 10px;
-  position: relative;
-  background: rgba(255,255,255,0.35);
-}
-.cell:nth-child(7n){ border-right: 0; }
-
-.cell.dim{
-  opacity: 0.35;
-  background: rgba(255,255,255,0.15);
+  min-height:62px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:6px;
+  font-size:12px;
 }
 
-.dayNum{
-  font-weight: 900;
-  font-size: 34px;          /* 큰 숫자 */
-  line-height: 1;
-  letter-spacing: 0.5px;
+.cell:nth-child(7n){border-right:0;}
+
+.dim{opacity:.35;}
+
+.day{
+  font-size:22px;
+  font-weight:800;
 }
 
-.sun .dayNum{ color: var(--sun); }
-.sat .dayNum{ color: var(--sat); }
+.sun .day{color:var(--sun);}
+.sat .day{color:var(--sat);}
 
-.note{
-  margin-top: 6px;
-  font-size: 11px;
-  line-height: 1.25;
-  opacity: 0.8;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.sub{
+  font-size:10px;
+  opacity:.75;
+  margin-top:2px;
 }
 
-.todayRing{
-  position:absolute;
-  top: 8px;
-  right: 8px;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  border: 2px solid var(--ink);
-  opacity: 0.65;
+.holiday{
+  color:var(--sun);
+  font-weight:700;
 }
 
 .foot{
-  padding: 10px 14px 14px 14px;
-}
-.footLine{
-  height: 2px;
-  background: var(--line-strong);
-  opacity: 0.85;
-  margin-bottom: 10px;
-}
-.footText{
-  font-size: 12px;
-  opacity: 0.8;
+  text-align:center;
+  padding:8px;
+  font-size:12px;
+  border-top:2px solid var(--line);
 }
