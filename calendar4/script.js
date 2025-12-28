@@ -10,7 +10,6 @@ let M = today.getMonth() + 1;
 
 const heavenly = ["갑","을","병","정","무","기","경","신","임","계"];
 const earthly  = ["자","축","인","묘","진","사","오","미","신","유","술","해"];
-const animals  = ["쥐","소","호랑이","토끼","용","뱀","말","양","원숭이","닭","개","돼지"];
 
 const solarHolidays = {
   "1-1":"신정","3-1":"삼일절","5-5":"어린이날",
@@ -21,8 +20,7 @@ const solarHolidays = {
 function getGanji(year){
   const h = heavenly[(year - 4) % 10];
   const e = earthly[(year - 4) % 12];
-  const a = animals[(year - 4) % 12];
-  return `${h}${e}년(${h}${e}年, ${a}띠)`;
+  return `${h}${e}년(${h}${e}年)`;
 }
 
 function daysInMonth(y,m){
@@ -34,14 +32,7 @@ function firstDow(y,m){
 }
 
 function render(){
-  const isCurrentMonth =
-    Y === today.getFullYear() &&
-    M === today.getMonth() + 1;
-
-  ymEl.innerHTML =
-    `${Y}<span class="unit">年</span> ${M}<span class="unit">月</span>` +
-    (isCurrentMonth ? `<span class="currentDot">●</span>` : "");
-
+  ymEl.textContent = `${Y}年 ${M}月`;
   ganjiEl.textContent = getGanji(Y);
   grid.innerHTML = "";
 
@@ -55,19 +46,22 @@ function render(){
   for(let i=0;i<42;i++){
     const cell = document.createElement("div");
     cell.className="cell";
+
     const col=i%7;
     if(col===0) cell.classList.add("sun");
     if(col===6) cell.classList.add("sat");
 
-    let d, isDim=false, cy=Y, cm=M;
+    let d, isOther=false, cy=Y, cm=M;
 
     if(i<first){
       d = prevLast-first+i+1;
-      isDim=true;
+      isOther=true;
+      cm=prevM; cy=prevY;
     }else if(i>=first+last){
       d = i-first-last+1;
-      cm = M+1; if(cm===13){cm=1; cy++;}
-      isDim=true;
+      isOther=true;
+      cm=M+1; cy=Y;
+      if(cm===13){cm=1; cy++;}
     }else{
       d=i-first+1;
     }
@@ -98,12 +92,23 @@ function render(){
     if(lunar.lunarDay===1) sub.textContent="음력 1일";
     if(lunar.lunarDay===15) sub.textContent="음력 15일";
 
-    if(isHoliday){
-      dayEl.classList.add("holiday");
-      cell.classList.add("holidayBorder");
+    if(isHoliday) dayEl.classList.add("holiday");
+    if(isOther){
+      cell.classList.add("otherMonth");
+      if(isHoliday) cell.classList.add("holiday");
     }
 
-    if(isDim) cell.classList.add("dim");
+    // 오늘 날짜 ●
+    if(
+      cy===today.getFullYear() &&
+      cm===today.getMonth()+1 &&
+      d===today.getDate()
+    ){
+      const dot=document.createElement("div");
+      dot.className="todayDot";
+      dot.textContent="●";
+      cell.append(dot);
+    }
 
     cell.append(dayEl);
     if(sub.textContent) cell.append(sub);
