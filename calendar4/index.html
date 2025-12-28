@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Notion Calendar Widget</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="widget" id="app">
+    <header class="top">
+      <div class="left">
+        <div class="year" id="yearText">2026</div>
+        <div class="monthRow">
+          <button class="navBtn" id="prevBtn" aria-label="이전 달">‹</button>
+          <div class="month" id="monthText">12</div>
+          <div class="monthLabel">MONTH</div>
+          <button class="navBtn" id="nextBtn" aria-label="다음 달">›</button>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="badge">CALENDAR</div>
+        <div class="sub" id="subText">노션 임베드용</div>
+      </div>
+    </header>
+
+    <div class="dow">
+      <div class="sun">일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div class="sat">토</div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <footer class="foot">
+      <div class="footLine"></div>
+      <div class="footText" id="footText">원하면 하단 문구/로고영역도 추가 가능</div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
