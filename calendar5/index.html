@@ -6,9 +6,9 @@
   <style>
     :root {
       --border-color: rgba(140, 200, 220, 0.9);
-      --hover-color: rgba(120, 190, 210, 0.35);
+      --hover-color: rgba(140, 200, 220, 0.35);
       --text-color: #1f3f4a;
-      --accent: #6fc3d8;
+      --accent: #7fbfe0;
     }
 
     body {
@@ -26,30 +26,30 @@
       box-sizing: border-box;
       border: 2px solid var(--border-color);
       border-radius: 18px;
-      overflow: hidden; /* 테두리 잘림 방지 */
+      overflow: hidden;
 
-      background-image: url('ocean-bg.jpg'); /* 윤슬 배경 */
+      background-image: url('ocean-bg.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     }
 
-    /* 반투명 오버레이 (테두리 안쪽에 정확히 맞춤) */
+    /* 액자 느낌 유지 + 중앙만 은은하게 블러 */
     .calendar::before {
       content: '';
       position: absolute;
-      inset: 0;               /* width/height 대신 inset 사용 */
-      background: rgba(255, 255, 255, 0.58);
-      backdrop-filter: blur(6px);
+      inset: 12px; /* 가장자리 원본 보존 */
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(8px);
       z-index: 0;
     }
 
-    /* ===== 내부 레이아웃 ===== */
     .calendar-inner {
       position: relative;
       z-index: 1;
       height: 100%;
-      padding: 14px;          /* 테두리 여유 확보 */
+      padding: 16px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -60,27 +60,30 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .month-label {
       font-weight: 600;
       font-size: 15px;
+      letter-spacing: 0.3px;
       color: var(--text-color);
     }
 
-    /* ===== 버튼 ===== */
-    .nav-btn, .today-btn {
+    /* ===== 화살표 버튼 (입체 파스텔) ===== */
+    .nav-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
       border: 1px solid var(--border-color);
-      background: rgba(255, 255, 255, 0.65);
-      border-radius: 10px;
-      padding: 4px 10px;
+      background: linear-gradient(145deg, #d9f0fa, #b9e3f5);
+      box-shadow: 0 2px 4px rgba(80,140,170,0.35);
       cursor: pointer;
-      transition: background 0.2s ease, transform 0.15s ease;
+      transition: all 0.2s ease;
     }
 
-    .nav-btn:hover, .today-btn:hover {
-      background: var(--hover-color);
+    .nav-btn:hover {
+      background: linear-gradient(145deg, #c6e9f8, #a6daf1);
       transform: translateY(-1px);
     }
 
@@ -89,7 +92,7 @@
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       text-align: center;
-      font-size: 12px;
+      font-size: 11px;
       opacity: 0.75;
       margin-bottom: 6px;
     }
@@ -119,31 +122,47 @@
       font-weight: 600;
     }
 
-    /* ===== Today 버튼 영역 ===== */
-    .footer {
+    /* ===== Today 버튼 (위로 이동) ===== */
+    .today-wrap {
       text-align: center;
-      margin-top: 6px;
+      margin-bottom: 6px;
+    }
+
+    .today-btn {
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+      padding: 4px 12px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .today-btn:hover {
+      background: var(--hover-color);
+      transform: translateY(-1px);
     }
   </style>
 </head>
 <body>
   <div class="calendar">
     <div class="calendar-inner">
+
       <div class="calendar-header">
         <button class="nav-btn" id="prev">◀</button>
         <div class="month-label" id="monthLabel"></div>
         <button class="nav-btn" id="next">▶</button>
       </div>
 
+      <div class="today-wrap">
+        <button class="today-btn" id="todayBtn">Today</button>
+      </div>
+
       <div class="weekdays">
-        <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+        <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
       </div>
 
       <div class="days" id="days"></div>
 
-      <div class="footer">
-        <button class="today-btn" id="todayBtn">Today</button>
-      </div>
     </div>
   </div>
 
@@ -154,13 +173,18 @@
     const nextBtn = document.getElementById('next');
     const todayBtn = document.getElementById('todayBtn');
 
+    const monthNames = [
+      'January','February','March','April','May','June',
+      'July','August','September','October','November','December'
+    ];
+
     let current = new Date();
 
     function renderCalendar(date) {
       const year = date.getFullYear();
       const month = date.getMonth();
 
-      monthLabel.textContent = `${year}년 ${month + 1}월`;
+      monthLabel.textContent = `${monthNames[month]} ${year}`;
       daysContainer.innerHTML = '';
 
       const firstDay = new Date(year, month, 1).getDay();
