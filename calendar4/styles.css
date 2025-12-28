@@ -23,16 +23,27 @@ body{
 
 .title{
   text-align:center;
+  line-height:1.2;
 }
 
-.year{
-  font-weight:800;
-  font-size:16px;
+.ym{
+  font-size:14px;
+  font-weight:900;
+}
+
+.ym .unit{
+  color:#999;
+  font-weight:700;
+}
+
+.currentDot{
+  font-size:14px;
+  margin-left:4px;
 }
 
 .ganji{
+  font-size:13px;
   font-weight:900;
-  font-size:14px;
 }
 
 .nav{
