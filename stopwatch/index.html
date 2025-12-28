@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stopwatch</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- 픽셀 느낌 폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+  <div class="watch">
+    <img src="stopwatch.png" class="bg" />
+    <div id="time">00:00:00</div>
+  </div>
+
+  <div class="buttons">
+    <button onclick="start()">START</button>
+    <button onclick="pause()">PAUSE</button>
+    <button onclick="reset()">RESET</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
