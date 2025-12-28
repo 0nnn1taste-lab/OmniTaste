@@ -92,9 +92,17 @@ body{
   margin-top:2px;
 }
 
-.otherMonth .day{ color:#bbb; }
-.holiday .day{ color:#d32f2f; }
-.otherMonth.holiday .day{ color:#f2a1a1; }
+.otherMonth .day{
+  color:#bbb;
+}
+
+.holiday .day{
+  color:#d32f2f;
+}
+
+.otherMonth.holiday .day{
+  color:#f2a1a1;
+}
 
 .todayDot{
   position:absolute;
