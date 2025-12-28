@@ -1,137 +1,82 @@
-// ====== 설정: 날짜칸 아래 작은 글씨(일정/메모) 넣고 싶으면 여기만 수정 ======
-// key 형식: "YYYY-MM-DD"  value: "메모"
-const NOTES = {
-  // 예시:
-  // "2026-12-25": "성탄절",
-  // "2026-12-31": "연말"
+const grid = document.getElementById("grid");
+const today = new Date();
+const Y = 2026;
+const M = 1; // 기본 1월 (URL로 확장 가능)
+
+const holidaysSolar = {
+  "1-1":"신정",
+  "3-1":"삼일절",
+  "5-5":"어린이날",
+  "6-6":"현충일",
+  "8-15":"광복절",
+  "10-3":"개천절",
+  "10-9":"한글날",
+  "12-25":"성탄절"
 };
 
-// URL 파라미터 지원: ?y=2026&m=12  (m=1~12)
-function getParamInt(name) {
-  const v = new URLSearchParams(location.search).get(name);
-  if (!v) return null;
-  const n = parseInt(v, 10);
-  return Number.isFinite(n) ? n : null;
+function daysInMonth(y,m){
+  return new Date(y,m,0).getDate();
 }
 
-const now = new Date();
-let viewY = getParamInt("y") ?? now.getFullYear();
-let viewM = (getParamInt("m") ?? (now.getMonth() + 1)); // 1~12
-
-const yearText = document.getElementById("yearText");
-const monthText = document.getElementById("monthText");
-const grid = document.getElementById("grid");
-const subText = document.getElementById("subText");
-
-document.getElementById("prevBtn").addEventListener("click", () => {
-  viewM -= 1;
-  if (viewM <= 0) { viewM = 12; viewY -= 1; }
-  render();
-  syncUrl();
-});
-
-document.getElementById("nextBtn").addEventListener("click", () => {
-  viewM += 1;
-  if (viewM >= 13) { viewM = 1; viewY += 1; }
-  render();
-  syncUrl();
-});
-
-function pad2(n){ return String(n).padStart(2, "0"); }
-function ymd(y,m,d){ return `${y}-${pad2(m)}-${pad2(d)}`; }
-
-function daysInMonth(y, m){ // m:1~12
-  return new Date(y, m, 0).getDate();
+function firstDow(y,m){
+  return new Date(y,m-1,1).getDay();
 }
 
-function firstDow(y, m){ // 0=Sun
-  return new Date(y, m-1, 1).getDay();
-}
+const klc = new KoreanLunarCalendar();
 
 function render(){
-  yearText.textContent = String(viewY);
-  monthText.textContent = pad2(viewM);
-  subText.textContent = `${viewY}.${pad2(viewM)} (Notion Embed)`;
+  grid.innerHTML="";
+  const first = firstDow(Y,M);
+  const last = daysInMonth(Y,M);
 
-  grid.innerHTML = "";
-
-  const first = firstDow(viewY, viewM);
-  const dimPrevDays = first; // 앞쪽 채울 칸 수
-
-  // 이전 달 계산
-  let prevY = viewY, prevM = viewM - 1;
-  if (prevM === 0){ prevM = 12; prevY -= 1; }
-  const prevLast = daysInMonth(prevY, prevM);
-
-  // 이번 달
-  const thisLast = daysInMonth(viewY, viewM);
-
-  // 총 6주(42칸) 고정: 전통 달력 느낌 유지
-  const totalCells = 42;
-
-  for (let i=0; i<totalCells; i++){
+  for(let i=0;i<42;i++){
     const cell = document.createElement("div");
-    cell.className = "cell";
+    cell.className="cell";
+    const col = i%7;
+    if(col===0) cell.classList.add("sun");
+    if(col===6) cell.classList.add("sat");
 
-    const col = i % 7; // 0=Sun,6=Sat
-    if (col === 0) cell.classList.add("sun");
-    if (col === 6) cell.classList.add("sat");
-
-    let cy=viewY, cm=viewM, cd=0;
-    let isDim = false;
-
-    if (i < dimPrevDays){
-      // 이전 달
-      cd = prevLast - (dimPrevDays - 1 - i);
-      cy = prevY; cm = prevM;
-      isDim = true;
-    } else if (i < dimPrevDays + thisLast){
-      // 이번 달
-      cd = (i - dimPrevDays) + 1;
-    } else {
-      // 다음 달
-      const nextIndex = i - (dimPrevDays + thisLast);
-      cd = nextIndex + 1;
-      cm = viewM + 1; cy = viewY;
-      if (cm === 13){ cm = 1; cy += 1; }
-      isDim = true;
+    let d = i-first+1;
+    if(d<1 || d>last){
+      cell.classList.add("dim");
+      grid.appendChild(cell);
+      continue;
     }
 
-    if (isDim) cell.classList.add("dim");
+    const day = document.createElement("div");
+    day.className="day";
+    day.textContent=d;
 
-    const num = document.createElement("div");
-    num.className = "dayNum";
-    num.textContent = String(cd);
+    const sub = document.createElement("div");
+    sub.className="sub";
 
-    const note = document.createElement("div");
-    note.className = "note";
-    const key = ymd(cy, cm, cd);
-    note.textContent = NOTES[key] ?? "";
+    // 음력 계산
+    klc.setSolarDate(Y,M,d);
+    const lunar = klc.getLunarCalendar();
+    if(lunar.lunarDay===1) sub.textContent="음력 1일";
+    if(lunar.lunarDay===15) sub.textContent="음력 15일";
 
-    // 오늘 표시(현재 달력의 실제 오늘일 때만)
-    const isToday =
-      cy === now.getFullYear() &&
-      cm === (now.getMonth() + 1) &&
-      cd === now.getDate();
-
-    if (isToday){
-      const ring = document.createElement("div");
-      ring.className = "todayRing";
-      cell.appendChild(ring);
+    // 설날 / 추석
+    if(lunar.lunarMonth===1 && lunar.lunarDay===1){
+      sub.textContent="설날";
+      sub.classList.add("holiday");
+    }
+    if(lunar.lunarMonth===8 && lunar.lunarDay===15){
+      sub.textContent="추석";
+      sub.classList.add("holiday");
     }
 
-    cell.appendChild(num);
-    if (note.textContent) cell.appendChild(note);
+    // 양력 공휴일
+    const key=`${M}-${d}`;
+    if(holidaysSolar[key]){
+      sub.textContent=holidaysSolar[key];
+      sub.classList.add("holiday");
+    }
 
-    grid.appendChild(cell);
+    cell.append(day);
+    if(sub.textContent) cell.append(sub);
+    grid.append(cell);
   }
-}
-
-function syncUrl(){
-  const u = new URL(location.href);
-  u.searchParams.set("y", String(viewY));
-  u.searchParams.set("m", String(viewM));
-  history.replaceState(null, "", u.toString());
 }
 
 render();
