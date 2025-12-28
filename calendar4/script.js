@@ -29,9 +29,8 @@ function daysInMonth(y,m){ return new Date(y,m,0).getDate(); }
 function firstDow(y,m){ return new Date(y,m-1,1).getDay(); }
 
 function isKoreanLunarHoliday(lm, ld){
-  // 설날 / 추석 ±1일
-  if(lm===1 && [1,2,30].includes(ld)) return true;
-  if(lm===8 && [14,15,16].includes(ld)) return true;
+  if(lm===1 && [1,2,30].includes(ld)) return true;   // 설날 ±1
+  if(lm===8 && [14,15,16].includes(ld)) return true; // 추석 ±1
   return false;
 }
 
@@ -71,43 +70,4 @@ function render(){
     day.className="day";
     day.textContent=d;
 
-    const sub=document.createElement("div");
-    sub.className="sub";
-
-    // 음력 1일 / 15일만 표시
-    if(lunar.lunarDay===1 || lunar.lunarDay===15){
-      sub.textContent=`음 ${lunar.lunarMonth}.${lunar.lunarDay}`;
-    }
-
-    let holiday=false;
-    if(solarHolidays[`${cm}-${d}`]) holiday=true;
-    if(isKoreanLunarHoliday(lunar.lunarMonth, lunar.lunarDay)) holiday=true;
-
-    if(holiday) cell.classList.add("holiday");
-    if(other) cell.classList.add("otherMonth");
-
-    // 오늘 ●
-    if(
-      cy===today.getFullYear() &&
-      cm===today.getMonth()+1 &&
-      d===today.getDate()
-    ){
-      const dot=document.createElement("div");
-      dot.className="todayDot";
-      dot.textContent="●";
-      cell.append(dot);
-    }
-
-    cell.append(day);
-    if(sub.textContent) cell.append(sub);
-    grid.append(cell);
-  }
-}
-
-document.getElementById("prev").onclick=()=>{ M--; if(M===0){M=12;Y--;} render(); };
-document.getElementById("next").onclick=()=>{ M++; if(M===13){M=1;Y++;} render(); };
-document.getElementById("todayBtn").onclick=()=>{ 
-  Y=today.getFullYear(); M=today.getMonth()+1; render();
-};
-
-render();
+    const s
