@@ -2,11 +2,13 @@ const grid = document.getElementById("grid");
 const ymEl = document.getElementById("ym");
 const ganjiEl = document.getElementById("ganji");
 
-const klc = new KoreanLunarCalendar();
 const today = new Date();
-
 let Y = today.getFullYear();
 let M = today.getMonth() + 1;
+
+// 음력 라이브러리 안전 가드
+const hasLunar = typeof KoreanLunarCalendar !== "undefined";
+const klc = hasLunar ? new KoreanLunarCalendar() : null;
 
 // 간지
 const heavenly = ["갑","을","병","정","무","기","경","신","임","계"];
@@ -29,8 +31,8 @@ function daysInMonth(y,m){ return new Date(y,m,0).getDate(); }
 function firstDow(y,m){ return new Date(y,m-1,1).getDay(); }
 
 function isKoreanLunarHoliday(lm, ld){
-  if(lm===1 && [1,2,30].includes(ld)) return true;   // 설날 ±1
-  if(lm===8 && [14,15,16].includes(ld)) return true; // 추석 ±1
+  if(lm===1 && [1,2,30].includes(ld)) return true;
+  if(lm===8 && [14,15,16].includes(ld)) return true;
   return false;
 }
 
@@ -63,11 +65,39 @@ function render(){
       cm=M+1; if(cm===13){cm=1; cy++;}
     }else d=i-first+1;
 
-    klc.setSolarDate(cy,cm,d);
-    const lunar=klc.getLunarCalendar();
-
     const day=document.createElement("div");
     day.className="day";
     day.textContent=d;
 
-    const s
+    const sub=document.createElement("div");
+    sub.className="sub";
+
+    const labels=[];
+    let holiday=false;
+
+    // 음력 계산 (라이브러리 있을 때만)
+    if(hasLunar){
+      klc.setSolarDate(cy,cm,d);
+      const lunar=klc.getLunarCalendar();
+
+      if(lunar.lunarDay===1 || lunar.lunarDay===15){
+        labels.push(`음 ${lunar.lunarMonth}.${lunar.lunarDay}`);
+      }
+      if(isKoreanLunarHoliday(lunar.lunarMonth, lunar.lunarDay)){
+        labels.push(lunar.lunarMonth===1 ? "설날" : "추석");
+        holiday=true;
+      }
+    }
+
+    const solarName = solarHolidays[`${cm}-${d}`];
+    if(solarName){
+      labels.push(solarName);
+      holiday=true;
+    }
+
+    if(holiday) cell.classList.add("holiday");
+    if(other) cell.classList.add("otherMonth");
+
+    if(
+      cy===today.getFullYear() &&
+      cm===today.getMonth()+1
