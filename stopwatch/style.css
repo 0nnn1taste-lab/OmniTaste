@@ -1,0 +1,53 @@
+body {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.container {
+  text-align: center;
+}
+
+.watch {
+  position: relative;
+  width: 400px;
+}
+
+.bg {
+  width: 100%;
+  display: block;
+}
+
+#time {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  color: #6cf3ff;
+  text-shadow:
+    0 0 6px rgba(108,243,255,0.8),
+    0 0 12px rgba(180,120,255,0.6);
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+button {
+  margin: 0 6px;
+  padding: 10px 14px;
+  font-size: 10px;
+  font-family: 'Press Start 2P', monospace;
+  background: linear-gradient(135deg, #ffb6ff, #9ecbff);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.85;
+}
