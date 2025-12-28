@@ -6,7 +6,6 @@ body{
 
 .widget{
   width:380px;
-  height:380px;
   border:2px solid #000;
   border-radius:12px;
   background:#fff;
@@ -23,22 +22,12 @@ body{
 
 .title{
   text-align:center;
-  line-height:1.2;
+  line-height:1.25;
 }
 
 .ym{
   font-size:14px;
   font-weight:900;
-}
-
-.ym .unit{
-  color:#999;
-  font-weight:700;
-}
-
-.currentDot{
-  font-size:14px;
-  margin-left:4px;
 }
 
 .ganji{
@@ -53,7 +42,7 @@ body{
 }
 
 .todayBtn{
-  margin:0 auto 4px;
+  margin:2px auto 4px;
   font-size:11px;
   border:1px solid #000;
   background:#fff;
@@ -63,7 +52,8 @@ body{
 .dow{
   display:grid;
   grid-template-columns:repeat(7,1fr);
-  font-size:11px;
+  font-size:12px;
+  font-weight:900; /* 요일 진하게 */
   border-top:1px solid #000;
   border-bottom:1px solid #000;
 }
@@ -73,20 +63,21 @@ body{
   padding:4px 0;
 }
 
-.sun{color:red;}
-.sat{color:blue;}
+.sun{color:#d32f2f;}
+.sat{color:#1e5bd6;}
 
 .grid{
-  flex:1;
   display:grid;
   grid-template-columns:repeat(7,1fr);
 }
 
 .cell{
+  height:58px;              /* ✅ 고정 높이 */
   border-right:1px solid #000;
   border-bottom:1px solid #000;
-  padding:3px;
+  padding:4px;
   font-size:11px;
+  position:relative;
 }
 
 .cell:nth-child(7n){border-right:none;}
@@ -96,20 +87,28 @@ body{
   font-weight:800;
 }
 
-.dim{
-  color:#fff;
+.sub{
+  font-size:9px;
+  margin-top:2px;
+}
+
+.otherMonth{
+  color:#bbb;               /* 전월/익월 기본 회색 */
 }
 
 .holiday{
-  color:red;
+  color:#d32f2f;            /* 공휴일 숫자만 빨강 */
 }
 
-.holidayBorder{
-  border:1px solid red !important;
+.otherMonth.holiday{
+  color:#f2a1a1;            /* 익월/전월 공휴일 연한 빨강 */
 }
 
-.sub{
-  font-size:9px;
+.todayDot{
+  position:absolute;
+  top:4px;
+  right:4px;
+  font-size:10px;
 }
 
 .foot{
