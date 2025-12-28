@@ -2,13 +2,13 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Pastel Ocean Calendar</title>
+  <title>Pastel Orange Calendar</title>
   <style>
     :root {
-      --border-color: rgba(140, 200, 220, 0.9);
-      --hover-color: rgba(140, 200, 220, 0.35);
-      --text-color: #1f3f4a;
-      --accent: #7fbfe0;
+      --border-color: rgba(255, 190, 130, 0.95);   /* 연한 파스텔 주황 */
+      --hover-color: rgba(255, 200, 150, 0.45);
+      --text-color: #5a3a1e;
+      --accent: rgba(255, 205, 160, 0.65);
     }
 
     body {
@@ -18,30 +18,26 @@
       background: transparent;
     }
 
-    /* ===== 캘린더 컨테이너 ===== */
+    /* ===== 캘린더 컨테이너 (사이즈 축소) ===== */
     .calendar {
       position: relative;
-      width: 340px;
-      height: 360px;
+      width: 300px;      /* 기존 340 → 축소 */
+      height: 320px;     /* 기존 360 → 축소 */
       box-sizing: border-box;
       border: 2px solid var(--border-color);
       border-radius: 18px;
       overflow: hidden;
-
-      background-image: url('carrot.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background: #fffaf4; /* 이미지 제거, 베이스 색 */
     }
 
-    /* 액자 느낌 유지 + 중앙만 은은하게 블러 */
+    /* 액자 느낌 + 중앙 흐림 (연한 주황 톤) */
     .calendar::before {
       content: '';
       position: absolute;
-      inset: 12px; /* 가장자리 원본 보존 */
+      inset: 12px;                 /* 액자 프레임 */
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.55);
-      backdrop-filter: blur(8px);
+      background: var(--accent);
+      filter: blur(8px);
       z-index: 0;
     }
 
@@ -49,7 +45,7 @@
       position: relative;
       z-index: 1;
       height: 100%;
-      padding: 16px;
+      padding: 14px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -60,30 +56,53 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .month-label {
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14px;
       letter-spacing: 0.3px;
       color: var(--text-color);
     }
 
-    /* ===== 화살표 버튼 (입체 파스텔) ===== */
+    /* ===== 화살표 버튼 (파스텔 주황 입체) ===== */
     .nav-btn {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 8px;
       border: 1px solid var(--border-color);
-      background: linear-gradient(145deg, #d9f0fa, #b9e3f5);
-      box-shadow: 0 2px 4px rgba(80,140,170,0.35);
+      background: linear-gradient(145deg, #ffe2c6, #ffc792);
+      box-shadow: 0 2px 4px rgba(180, 110, 40, 0.25);
       cursor: pointer;
       transition: all 0.2s ease;
+      color: #7a4a22;
     }
 
     .nav-btn:hover {
-      background: linear-gradient(145deg, #c6e9f8, #a6daf1);
+      background: linear-gradient(145deg, #ffd7ae, #ffb873);
+      transform: translateY(-1px);
+    }
+
+    /* ===== Today 버튼 ===== */
+    .today-wrap {
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .today-btn {
+      border: 1px solid var(--border-color);
+      background: rgba(255, 230, 200, 0.9);
+      border-radius: 10px;
+      padding: 3px 10px;
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text-color);
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .today-btn:hover {
+      background: var(--hover-color);
       transform: translateY(-1px);
     }
 
@@ -93,8 +112,8 @@
       grid-template-columns: repeat(7, 1fr);
       text-align: center;
       font-size: 11px;
-      opacity: 0.75;
-      margin-bottom: 6px;
+      opacity: 0.7;
+      margin-bottom: 4px;
     }
 
     /* ===== 날짜 ===== */
@@ -102,12 +121,12 @@
       flex: 1;
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
+      gap: 3px;
     }
 
     .day {
       border-radius: 8px;
-      padding: 6px 0;
+      padding: 5px 0;
       text-align: center;
       cursor: pointer;
       transition: background 0.2s ease;
@@ -118,28 +137,8 @@
     }
 
     .today {
-      background: rgba(120, 190, 210, 0.45);
+      background: rgba(255, 190, 130, 0.7);
       font-weight: 600;
-    }
-
-    /* ===== Today 버튼 (위로 이동) ===== */
-    .today-wrap {
-      text-align: center;
-      margin-bottom: 6px;
-    }
-
-    .today-btn {
-      border: 1px solid var(--border-color);
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 10px;
-      padding: 4px 12px;
-      cursor: pointer;
-      transition: background 0.2s ease, transform 0.15s ease;
-    }
-
-    .today-btn:hover {
-      background: var(--hover-color);
-      transform: translateY(-1px);
     }
   </style>
 </head>
