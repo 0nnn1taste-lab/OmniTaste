@@ -1,26 +1,26 @@
 let elapsed = 0;
-let timer = null;
+let interval = null;
 
 function format(ms) {
-  const totalSeconds = Math.floor(ms / 1000);
-  const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-  const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-  const s = String(totalSeconds % 60).padStart(2, '0');
+  const total = Math.floor(ms / 1000);
+  const h = String(Math.floor(total / 3600)).padStart(2, '0');
+  const m = String(Math.floor((total % 3600) / 60)).padStart(2, '0');
+  const s = String(total % 60).padStart(2, '0');
   return `${h}:${m}:${s}`;
 }
 
 function start() {
-  if (timer) return;
-  const startTime = Date.now() - elapsed;
-  timer = setInterval(() => {
-    elapsed = Date.now() - startTime;
+  if (interval) return;
+  const base = Date.now() - elapsed;
+  interval = setInterval(() => {
+    elapsed = Date.now() - base;
     document.getElementById("time").innerText = format(elapsed);
   }, 1000);
 }
 
 function pause() {
-  clearInterval(timer);
-  timer = null;
+  clearInterval(interval);
+  interval = null;
 }
 
 function reset() {
