@@ -1,4 +1,4 @@
-const DOW_LABELS = ["일 Sun", "월 Mon", "화 Tue", "수 Wed", "목 Thu", "금 Fri", "토 Sat"];
+const dowLabels = ["일 Sun", "월 Mon", "화 Tue", "수 Wed", "목 Thu", "금 Fri", "토 Sat"];
 
 const monthTitle = document.getElementById("monthTitle");
 const grid = document.getElementById("grid");
@@ -8,69 +8,62 @@ const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const todayBtn = document.getElementById("todayBtn");
 
-// init DOW row
-dowRow.innerHTML = DOW_LABELS.map(d => `<div>${d}</div>`).join("");
+dowRow.innerHTML = dowLabels.map(d => `<div>${d}</div>`).join("");
 
 const today = new Date();
-let viewYear = today.getFullYear();
-let viewMonth = today.getMonth(); // 0-11
+let year = today.getFullYear();
+let month = today.getMonth();
 
-function pad2(n){ return String(n).padStart(2, "0"); }
-
-function isSameDate(a, b){
-  return a.getFullYear() === b.getFullYear()
-    && a.getMonth() === b.getMonth()
-    && a.getDate() === b.getDate();
-}
-
-function render(year, month){
-  // header
-  monthTitle.textContent = `${year}.${pad2(month + 1)}`;
-
+function renderCalendar(y, m) {
   grid.innerHTML = "";
+  monthTitle.textContent = `${y}.${String(m + 1).padStart(2, "0")}`;
 
-  const first = new Date(year, month, 1);
-  const last = new Date(year, month + 1, 0);
+  const firstDay = new Date(y, m, 1);
+  const startDate = new Date(y, m, 1 - firstDay.getDay());
 
-  // start from Sunday of the first week
-  const start = new Date(year, month, 1 - first.getDay());
-  // end at Saturday of the last week
-  const end = new Date(year, month, last.getDate() + (6 - last.getDay()));
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(startDate);
+    d.setDate(startDate.getDate() + i);
 
-  const cursor = new Date(start);
-
-  while (cursor <= end){
     const cell = document.createElement("div");
     cell.className = "day";
 
-    const inThisMonth = cursor.getMonth() === month;
-    if (!inThisMonth) cell.classList.add("other-month");
+    if (d.getMonth() !== m) cell.classList.add("other");
+    if (
+      d.getFullYear() === today.getFullYear() &&
+      d.getMonth() === today.getMonth() &&
+      d.getDate() === today.getDate()
+    ) {
+      cell.classList.add("today");
+    }
 
-    const cursorCopy = new Date(cursor);
-    if (isSameDate(cursorCopy, today)) cell.classList.add("today");
-
-    cell.textContent = cursor.getDate();
-
+    cell.textContent = d.getDate();
     grid.appendChild(cell);
-
-    cursor.setDate(cursor.getDate() + 1);
   }
 }
 
-function moveMonth(delta){
-  const d = new Date(viewYear, viewMonth + delta, 1);
-  viewYear = d.getFullYear();
-  viewMonth = d.getMonth();
-  render(viewYear, viewMonth);
-}
+prevBtn.onclick = () => {
+  month--;
+  if (month < 0) {
+    month = 11;
+    year--;
+  }
+  renderCalendar(year, month);
+};
 
-prevBtn.addEventListener("click", () => moveMonth(-1));
-nextBtn.addEventListener("click", () => moveMonth(1));
-todayBtn.addEventListener("click", () => {
-  viewYear = today.getFullYear();
-  viewMonth = today.getMonth();
-  render(viewYear, viewMonth);
-});
+nextBtn.onclick = () => {
+  month++;
+  if (month > 11) {
+    month = 0;
+    year++;
+  }
+  renderCalendar(year, month);
+};
 
-// initial render
-render(viewYear, viewMonth);
+todayBtn.onclick = () => {
+  year = today.getFullYear();
+  month = today.getMonth();
+  renderCalendar(year, month);
+};
+
+renderCalendar(year, month);
