@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notion Embed Calendar</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <section class="calendar" aria-label="calendar">
+      <header class="cal-header">
+        <button class="nav-btn" id="prevBtn" aria-label="previous month" title="Previous">‹</button>
+        <div class="month-title" id="monthTitle">YYYY.MM</div>
+        <button class="nav-btn" id="nextBtn" aria-label="next month" title="Next">›</button>
+      </header>
+
+      <div class="dow" id="dowRow" aria-hidden="true"></div>
+      <div class="grid" id="grid" role="grid" aria-label="days grid"></div>
+
+      <footer class="cal-footer">
+        <button class="today-btn" id="todayBtn" type="button">오늘로</button>
+      </footer>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
