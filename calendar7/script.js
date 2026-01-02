@@ -17,12 +17,10 @@ function render() {
   const lastDate = new Date(year, month + 1, 0).getDate();
   const prevLast = new Date(year, month, 0).getDate();
 
-  // 이전 달
   for (let i = firstDay - 1; i >= 0; i--) {
     daysEl.innerHTML += `<div class="day other">${prevLast - i}</div>`;
   }
 
-  // 이번 달
   for (let d = 1; d <= lastDate; d++) {
     let cls = "day";
     const today = new Date();
@@ -36,7 +34,6 @@ function render() {
     daysEl.innerHTML += `<div class="${cls}">${d}</div>`;
   }
 
-  // 다음 달
   const total = daysEl.children.length;
   for (let i = 1; total + i <= 42; i++) {
     daysEl.innerHTML += `<div class="day other">${i}</div>`;
