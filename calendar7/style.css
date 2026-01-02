@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Song+Myung&family=Nanum+Myeongjo&display=swap');
 
 * {
   box-sizing: border-box;
@@ -6,7 +6,7 @@
 
 body {
   margin: 0;
-  background: #0b1d2a;
+  background: #000;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -17,14 +17,15 @@ body {
 .widget {
   width: 360px;
   height: 360px;
-  background: #0f2a3a;
   border-radius: 18px;
   overflow: hidden;
-  color: #f4f1ea;
-  font-family: 'Nanum Pen Script', cursive;
+  background-image: url('header.jpg');
+  background-size: cover;
+  background-position: right center;
+  color: #f5f3ee;
 }
 
-/* 사진 헤더 */
+/* ===== 헤더 (블러 없음) ===== */
 .photo-header {
   position: relative;
   height: 120px;
@@ -33,38 +34,31 @@ body {
   background-position: right center;
 }
 
-/* 사진 어둡게 */
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.15),
-    rgba(0,0,0,0.65)
-  );
-}
-
-/* 연월 텍스트 */
 .header-text {
   position: absolute;
-  bottom: 10px;
+  bottom: 12px;
   left: 16px;
-  line-height: 1;
+  line-height: 1.1;
 }
 
 #year {
-  font-size: 20px;
+  font-family: 'Song Myung', serif;
+  font-size: 26px;
   opacity: 0.9;
 }
 
 #month {
-  font-size: 34px;
+  font-family: 'Song Myung', serif;
+  font-size: 42px;
   letter-spacing: 2px;
 }
 
-/* 캘린더 영역 */
-.calendar {
-  padding: 10px 12px;
+/* ===== 캘린더 (블러 영역) ===== */
+.calendar-blur {
+  height: calc(360px - 120px);
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 14px 16px;
 }
 
 /* 요일 */
@@ -72,33 +66,36 @@ body {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  margin-bottom: 6px;
-  font-size: 15px;
+  margin-bottom: 10px;
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 16px;
 }
 
-.sun { color: #e07a5f; }
-.sat { color: #f2b5a7; }
+.sun,
+.sat {
+  opacity: 0.8;
+}
 
 /* 날짜 */
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(6, 1fr);
-  gap: 4px;
+  row-gap: 10px;
 }
 
 .day {
   text-align: center;
-  padding-top: 6px;
-  border-radius: 50%;
-  font-size: 15px;
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 17px;
 }
 
 .other {
-  opacity: 0.3;
+  opacity: 0.35;
 }
 
+/* 오늘 날짜 – 색 없이 강조 */
 .today {
-  background: #c44536;
-  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
 }
