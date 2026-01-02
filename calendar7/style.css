@@ -1,46 +1,102 @@
-const yearEl = document.getElementById("year");
-const monthEl = document.getElementById("month");
-const daysEl = document.getElementById("days");
+@import url('https://fonts.googleapis.com/css2?family=Song+Myung&family=Nanum+Myeongjo&display=swap');
 
-let current = new Date();
-
-function render() {
-  daysEl.innerHTML = "";
-
-  const year = current.getFullYear();
-  const month = current.getMonth();
-
-  yearEl.textContent = year + "년";
-  monthEl.textContent = String(month + 1).padStart(2, "0") + "월";
-
-  const firstDay = new Date(year, month, 1).getDay();
-  const lastDate = new Date(year, month + 1, 0).getDate();
-  const prevLast = new Date(year, month, 0).getDate();
-
-  // 이전 달
-  for (let i = firstDay - 1; i >= 0; i--) {
-    daysEl.innerHTML += `<div class="day other">${prevLast - i}</div>`;
-  }
-
-  // 이번 달
-  for (let d = 1; d <= lastDate; d++) {
-    let cls = "day";
-    const today = new Date();
-
-    if (
-      d === today.getDate() &&
-      month === today.getMonth() &&
-      year === today.getFullYear()
-    ) cls += " today";
-
-    daysEl.innerHTML += `<div class="${cls}">${d}</div>`;
-  }
-
-  // 다음 달
-  const total = daysEl.children.length;
-  for (let i = 1; total + i <= 42; i++) {
-    daysEl.innerHTML += `<div class="day other">${i}</div>`;
-  }
+* {
+  box-sizing: border-box;
 }
 
-render();
+body {
+  margin: 0;
+}
+
+/* ===== 위젯 ===== */
+.widget {
+  width: 360px;
+  height: 360px;
+  border-radius: 18px;
+  overflow: hidden;
+  background-image: url('header.jpg');
+  background-size: cover;
+  background-position: right center;
+  color: #f5f3ee;
+}
+
+/* ===== 헤더 (사진 그대로) ===== */
+.photo-header {
+  position: relative;
+  height: 120px;
+  background-image: url('header.jpg');
+  background-size: cover;
+  background-position: right center;
+}
+
+.header-text {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  line-height: 1.1;
+}
+
+#year {
+  font-family: 'Song Myung', serif;
+  font-size: 26px;
+  opacity: 0.9;
+}
+
+#month {
+  font-family: 'Song Myung', serif;
+  font-size: 44px;
+  letter-spacing: 2px;
+}
+
+/* ===== 캘린더 (블러 영역) ===== */
+.calendar-blur {
+  height: calc(360px - 120px);
+  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 14px 16px;
+}
+
+/* 요일 – 훈민정음 느낌 */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 14px;
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 17px;
+  letter-spacing: 0.32em;
+  opacity: 0.9;
+}
+
+/* 날짜 */
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  row-gap: 12px;
+}
+
+.day {
+  text-align: center;
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 18px;
+  position: relative;
+}
+
+.other {
+  opacity: 0.35;
+}
+
+/* 오늘 날짜 – 붉은 낙관 */
+.today {
+  font-weight: 700;
+}
+
+.today::after {
+  content: "●";
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  font-size: 10px;
+  color: #b83a2d;
+}
