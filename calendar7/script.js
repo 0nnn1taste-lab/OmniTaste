@@ -4,18 +4,6 @@ const daysEl = document.getElementById("days");
 
 let current = new Date();
 
-/* 고정 공휴일 */
-const holidays = [
-  "1-1",   // 신정
-  "3-1",   // 삼일절
-  "5-5",   // 어린이날
-  "6-6",   // 현충일
-  "8-15",  // 광복절
-  "10-3",  // 개천절
-  "10-9",  // 한글날
-  "12-25"  // 성탄절
-];
-
 function render() {
   daysEl.innerHTML = "";
 
@@ -44,9 +32,6 @@ function render() {
       month === today.getMonth() &&
       year === today.getFullYear()
     ) cls += " today";
-
-    const key = `${month + 1}-${d}`;
-    if (holidays.includes(key)) cls += " holiday";
 
     daysEl.innerHTML += `<div class="${cls}">${d}</div>`;
   }
