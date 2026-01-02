@@ -7,53 +7,64 @@
 body {
   margin: 0;
   background: #0b1d2a;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
-.calendar-wrap {
-  width: 350px;
-  height: 350px;
+/* 전체 위젯 */
+.widget {
+  width: 360px;
+  height: 360px;
   background: #0f2a3a;
-  color: #f4f1ea;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
+  color: #f4f1ea;
   font-family: 'Nanum Pen Script', cursive;
 }
 
-/* 단청 처마 */
-.eaves {
-  width: 100%;
-  height: 60px;
-  fill: #2f7f6f;
+/* 사진 헤더 */
+.photo-header {
+  position: relative;
+  height: 120px;
+  background-image: url('header.jpg');
+  background-size: cover;
+  background-position: right center;
 }
 
-/* 헤더 */
-.calendar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 12px;
+/* 사진 어둡게 */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.15),
+    rgba(0,0,0,0.65)
+  );
 }
 
-.calendar-header button {
-  background: none;
-  border: none;
-  color: #f4f1ea;
-  font-size: 18px;
-  cursor: pointer;
+/* 연월 텍스트 */
+.header-text {
+  position: absolute;
+  bottom: 10px;
+  left: 16px;
+  line-height: 1;
 }
 
-.title {
-  font-size: 22px;
-  letter-spacing: 1px;
+#year {
+  font-size: 20px;
+  opacity: 0.9;
 }
 
-#today {
-  font-size: 16px;
-  color: #e07a5f;
+#month {
+  font-size: 34px;
+  letter-spacing: 2px;
+}
+
+/* 캘린더 영역 */
+.calendar {
+  padding: 10px 12px;
 }
 
 /* 요일 */
@@ -61,8 +72,8 @@ body {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  font-size: 16px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  font-size: 15px;
 }
 
 .sun { color: #e07a5f; }
@@ -73,7 +84,6 @@ body {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(6, 1fr);
-  padding: 6px;
   gap: 4px;
 }
 
@@ -81,18 +91,14 @@ body {
   text-align: center;
   padding-top: 6px;
   border-radius: 50%;
-  font-size: 16px;
+  font-size: 15px;
 }
 
-.other-month {
+.other {
   opacity: 0.3;
 }
 
 .today {
   background: #c44536;
   color: #fff;
-}
-
-.holiday {
-  color: #f2b5a7;
 }
