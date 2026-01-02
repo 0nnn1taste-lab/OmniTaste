@@ -6,32 +6,34 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="widget">
 
-    <!-- 사진 헤더 (블러 없음) -->
-    <div class="photo-header">
-      <div class="header-text">
-        <div id="year"></div>
-        <div id="month"></div>
-      </div>
+<div class="widget">
+
+  <!-- 사진 헤더 (블러 없음) -->
+  <div class="photo-header">
+    <div class="header-text">
+      <div id="year"></div>
+      <div id="month"></div>
     </div>
-
-    <!-- 블러 캘린더 -->
-    <div class="calendar-blur">
-      <div class="weekdays">
-        <span class="sun">일</span>
-        <span>월</span>
-        <span>화</span>
-        <span>수</span>
-        <span>목</span>
-        <span>금</span>
-        <span class="sat">토</span>
-      </div>
-      <div class="days" id="days"></div>
-    </div>
-
   </div>
 
-  <script src="script.js"></script>
+  <!-- 캘린더 (블러 영역) -->
+  <div class="calendar-blur">
+    <div class="weekdays">
+      <span>일</span>
+      <span>월</span>
+      <span>화</span>
+      <span>수</span>
+      <span>목</span>
+      <span>금</span>
+      <span>토</span>
+    </div>
+
+    <div class="days" id="days"></div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
