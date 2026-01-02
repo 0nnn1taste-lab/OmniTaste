@@ -4,6 +4,18 @@ const daysEl = document.getElementById("days");
 
 let current = new Date();
 
+/* 고정 공휴일 */
+const holidays = [
+  "1-1",   // 신정
+  "3-1",   // 삼일절
+  "5-5",   // 어린이날
+  "6-6",   // 현충일
+  "8-15",  // 광복절
+  "10-3",  // 개천절
+  "10-9",  // 한글날
+  "12-25"  // 성탄절
+];
+
 function render() {
   daysEl.innerHTML = "";
 
@@ -17,10 +29,12 @@ function render() {
   const lastDate = new Date(year, month + 1, 0).getDate();
   const prevLast = new Date(year, month, 0).getDate();
 
+  // 이전 달
   for (let i = firstDay - 1; i >= 0; i--) {
     daysEl.innerHTML += `<div class="day other">${prevLast - i}</div>`;
   }
 
+  // 이번 달
   for (let d = 1; d <= lastDate; d++) {
     let cls = "day";
     const today = new Date();
@@ -31,9 +45,13 @@ function render() {
       year === today.getFullYear()
     ) cls += " today";
 
+    const key = `${month + 1}-${d}`;
+    if (holidays.includes(key)) cls += " holiday";
+
     daysEl.innerHTML += `<div class="${cls}">${d}</div>`;
   }
 
+  // 다음 달
   const total = daysEl.children.length;
   for (let i = 1; total + i <= 42; i++) {
     daysEl.innerHTML += `<div class="day other">${i}</div>`;
