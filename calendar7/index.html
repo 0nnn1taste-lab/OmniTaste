@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>단청 아래의 하루</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="calendar-wrap">
+    <!-- 단청 처마 -->
+    <svg viewBox="0 0 350 60" class="eaves">
+      <path d="M0,40 Q175,5 350,40 L350,0 L0,0 Z" />
+    </svg>
+
+    <div class="calendar-header">
+      <button id="prev">‹</button>
+      <div class="title">
+        <span id="year"></span>년 <span id="month"></span>월
+      </div>
+      <button id="today">오늘</button>
+      <button id="next">›</button>
+    </div>
+
+    <div class="weekdays">
+      <span class="sun">일</span>
+      <span>월</span>
+      <span>화</span>
+      <span>수</span>
+      <span>목</span>
+      <span>금</span>
+      <span class="sat">토</span>
+    </div>
+
+    <div class="days" id="days"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
