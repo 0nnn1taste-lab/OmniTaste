@@ -8,10 +8,10 @@ body {
   margin: 0;
 }
 
-/* ===== 전체 위젯 ===== */
+/* ===== 위젯 ===== */
 .widget {
   width: 360px;
-  height: 360px;
+  height: 368px;            /* 🔧 살짝만 증가 */
   border-radius: 18px;
   overflow: hidden;
   display: flex;
@@ -22,14 +22,13 @@ body {
   color: #f5f3ee;
 }
 
-/* ===== 사진 헤더 (블러 없음) ===== */
+/* ===== 사진 헤더 ===== */
 .photo-header {
   position: relative;
   height: 120px;
   background-image: url('header.jpg');
   background-size: cover;
   background-position: right center;
-  border-bottom: 2px solid rgba(184, 58, 45, 0.65); /* 단청 테두리 */
 }
 
 .header-text {
@@ -51,15 +50,15 @@ body {
   letter-spacing: 2px;
 }
 
-/* ===== 캘린더 (블러 영역) ===== */
+/* ===== 캘린더 ===== */
 .calendar-blur {
-  flex: 1; /* ⭐ 잘림 방지 핵심 */
+  flex: 1;
   backdrop-filter: blur(12px);
   background: rgba(0, 0, 0, 0.35);
-  padding: 14px 16px 18px; /* 하단 여백 확보 */
+  padding: 14px 16px 20px;   /* 🔧 하단 여백만 살짝 증가 */
 }
 
-/* 요일 – 훈민정음 자간 */
+/* 요일 */
 .weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -102,15 +101,4 @@ body {
   right: -6px;
   font-size: 10px;
   color: #b83a2d;
-}
-
-/* 공휴일 – 작은 ㅇ */
-.holiday::after {
-  content: "ㅇ";
-  position: absolute;
-  top: -7px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  opacity: 0.85;
 }
