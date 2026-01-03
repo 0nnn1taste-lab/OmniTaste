@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Winter MP3 LED Widget</title>
+
+<style>
+  @font-face {
+    font-family: "Neo둥근모";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2107@1.1/NeoDunggeunmo.woff2")
+      format("woff2");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  body {
+    margin: 0;
+    background: transparent;
+  }
+
+  /* 위젯 전체 = 이미지 사이즈 그대로 */
+  .widget {
+    position: relative;
+    width: 1170px;   /* 이미지 실제 사이즈 */
+    height: 2048px;
+    background: url("mp3.png") no-repeat center;
+    background-size: contain;
+  }
+
+  /* LED 화면 영역 */
+  .led {
+    position: absolute;
+    top: 270px;     /* 🔧 화면 위치 미세조정 가능 */
+    left: 150px;
+    width: 870px;
+    height: 520px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: "Neo둥근모", monospace;
+    font-size: 42px;
+    color: rgba(90, 130, 170, 0.85);
+    text-shadow: 0 0 6px rgba(180, 220, 255, 0.6);
+
+    overflow: hidden;
+    pointer-events: none;
+  }
+</style>
+</head>
+
+<body>
+  <div class="widget">
+    <div class="led" id="ledText"></div>
+  </div>
+
+<script>
+  const messages = [
+    "겨울이 천천히 로딩 중…",
+    "차가운 공기, 따뜻한 음악",
+    "눈 오는 날엔 플레이 버튼",
+    "겨울의 소리를 듣는 중",
+    "이 계절을 저장합니다"
+  ];
+
+  const led = document.getElementById("ledText");
+  let msgIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
+
+  function typeLoop() {
+    const text = messages[msgIndex];
+
+    if (!deleting) {
+      led.textContent = text.slice(0, charIndex++);
+      if (charIndex > text.length) {
+        setTimeout(() => (deleting = true), 1500);
+      }
+    } else {
+      led.textContent = text.slice(0, charIndex--);
+      if (charIndex < 0) {
+        deleting = false;
+        msgIndex = (msgIndex + 1) % messages.length;
+      }
+    }
+  }
+
+  setInterval(typeLoop, 120);
+</script>
+</body>
+</html>
