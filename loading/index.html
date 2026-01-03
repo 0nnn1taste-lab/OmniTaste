@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Winter Loading</title>
+
+<style>
+  body {
+    margin: 0;
+    background: transparent;
+  }
+
+  .widget {
+    width: 250px;
+    height: 60px;
+    background: #eef5fb; /* 파스텔톤 겨울 파랑 */
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    box-sizing: border-box;
+    font-family: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+  }
+
+  /* 네모 로딩 */
+  .blocks {
+    display: flex;
+    gap: 6px;
+    margin-right: 10px;
+  }
+
+  .block {
+    width: 10px;
+    height: 10px;
+    background: #b7d6ee;
+    border-radius: 3px;
+    animation: move 1.4s infinite ease-in-out;
+  }
+
+  .block:nth-child(1) { animation-delay: 0s; }
+  .block:nth-child(2) { animation-delay: 0.2s; }
+  .block:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes move {
+    0% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(-6px); opacity: 1; }
+    100% { transform: translateY(0); opacity: 0.4; }
+  }
+
+  /* 텍스트 */
+  .text {
+    font-size: 13px;
+    color: #5f86a6;
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+  }
+
+  .dots::after {
+    content: "";
+    animation: dots 1.5s infinite;
+  }
+
+  @keyframes dots {
+    0% { content: ""; }
+    33% { content: "."; }
+    66% { content: ".."; }
+    100% { content: "..."; }
+  }
+</style>
+</head>
+
+<body>
+  <div class="widget">
+    <div class="blocks">
+      <div class="block"></div>
+      <div class="block"></div>
+      <div class="block"></div>
+    </div>
+    <div class="text">
+      겨울이 로딩 중입니다<span class="dots"></span>
+    </div>
+  </div>
+</body>
+</html>
