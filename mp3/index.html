@@ -19,7 +19,7 @@
     background: transparent;
   }
 
-  /* ✅ 위젯 크기 축소 */
+  /* 위젯 크기 */
   .widget {
     position: relative;
     width: 330px;
@@ -28,22 +28,29 @@
     background-size: contain;
   }
 
-  /* LED 화면 (비율 맞춰 재배치) */
+  /* LED 화면 */
   .led {
     position: absolute;
-    top: 85px;        /* 🔧 필요하면 미세조정 */
+    top: 85px;
     left: 38px;
     width: 254px;
     height: 155px;
 
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: center;       /* ✅ 세로 중앙 */
+    justify-content: center;   /* ✅ 가로 중앙 */
 
     font-family: "NeoDunggeunmo", monospace;
-    font-size: 16px;
-    color: rgba(90, 130, 170, 0.9);
-    text-shadow: 0 0 4px rgba(180, 220, 255, 0.6);
+    font-size: 20px;           /* ✅ 폰트 크기 업 */
+    letter-spacing: 1px;
+
+    color: #ffffff;            /* ✅ 완전 흰색 */
+    text-align: center;
+
+    /* LED 가독성 핵심 */
+    text-shadow:
+      0 0 4px rgba(255,255,255,0.9),
+      0 0 8px rgba(200,230,255,0.8);
 
     overflow: hidden;
     white-space: nowrap;
