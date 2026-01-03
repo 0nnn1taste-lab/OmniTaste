@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Today Widget</title>
+
+  <!-- Cozy serif vibe -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      width: 350px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      /* Winter pastel blue */
+      background: linear-gradient(135deg,
+        rgba(198, 226, 255, 0.85),
+        rgba(215, 238, 255, 0.85)
+      );
+    }
+
+    .card {
+      width: 320px;
+      height: 90px;
+      border-radius: 18px;
+      padding: 14px 16px;
+
+      background: rgba(255, 255, 255, 0.30);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+
+      box-shadow: 0 8px 22px rgba(40, 70, 110, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .label {
+      font-family: "Playfair Display", serif;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      color: rgba(22, 44, 70, 0.75);
+    }
+
+    .date {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: rgba(22, 44, 70, 0.90);
+      text-shadow: 0 0 6px rgba(255,255,255,0.55);
+    }
+
+    .sub {
+      font-size: 11px;
+      color: rgba(22, 44, 70, 0.55);
+      margin-top: -2px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="label">Today is…</div>
+    <div class="date" id="todayDate">—</div>
+    <div class="sub" id="weekdayLine"></div>
+  </div>
+
+  <script>
+    // Format: January 3, 2026
+    const now = new Date();
+
+    const dateStr = now.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+
+    const weekdayStr = now.toLocaleDateString("en-US", {
+      weekday: "long"
+    });
+
+    document.getElementById("todayDate").textContent = dateStr;
+    document.getElementById("weekdayLine").textContent = weekdayStr;
+  </script>
+</body>
+</html>
