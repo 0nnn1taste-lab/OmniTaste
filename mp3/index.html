@@ -7,7 +7,7 @@
 
 <style>
   @font-face {
-    font-family: "Neo둥근모";
+    font-family: "NeoDunggeunmo";
     src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2107@1.1/NeoDunggeunmo.woff2")
       format("woff2");
     font-weight: normal;
@@ -19,33 +19,34 @@
     background: transparent;
   }
 
-  /* 위젯 전체 = 이미지 사이즈 그대로 */
+  /* ✅ 위젯 크기 축소 */
   .widget {
     position: relative;
-    width: 1170px;   /* 이미지 실제 사이즈 */
-    height: 2048px;
+    width: 330px;
+    height: 650px;
     background: url("mp3.png") no-repeat center;
     background-size: contain;
   }
 
-  /* LED 화면 영역 */
+  /* LED 화면 (비율 맞춰 재배치) */
   .led {
     position: absolute;
-    top: 270px;     /* 🔧 화면 위치 미세조정 가능 */
-    left: 150px;
-    width: 870px;
-    height: 520px;
+    top: 85px;        /* 🔧 필요하면 미세조정 */
+    left: 38px;
+    width: 254px;
+    height: 155px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-family: "Neo둥근모", monospace;
-    font-size: 42px;
-    color: rgba(90, 130, 170, 0.85);
-    text-shadow: 0 0 6px rgba(180, 220, 255, 0.6);
+    font-family: "NeoDunggeunmo", monospace;
+    font-size: 16px;
+    color: rgba(90, 130, 170, 0.9);
+    text-shadow: 0 0 4px rgba(180, 220, 255, 0.6);
 
     overflow: hidden;
+    white-space: nowrap;
     pointer-events: none;
   }
 </style>
@@ -68,26 +69,38 @@
   const led = document.getElementById("ledText");
   let msgIndex = 0;
   let charIndex = 0;
-  let deleting = false;
+  let mode = "full";
 
-  function typeLoop() {
+  function showFullText() {
+    led.textContent = messages[msgIndex];
+
+    setTimeout(() => {
+      led.textContent = "";
+      charIndex = 0;
+      mode = "typing";
+    }, 1200);
+  }
+
+  function typeText() {
     const text = messages[msgIndex];
-
-    if (!deleting) {
-      led.textContent = text.slice(0, charIndex++);
-      if (charIndex > text.length) {
-        setTimeout(() => (deleting = true), 1500);
-      }
-    } else {
-      led.textContent = text.slice(0, charIndex--);
-      if (charIndex < 0) {
-        deleting = false;
+    led.textContent = text.slice(0, charIndex++);
+    if (charIndex > text.length) {
+      setTimeout(() => {
         msgIndex = (msgIndex + 1) % messages.length;
-      }
+        mode = "full";
+      }, 2000);
     }
   }
 
-  setInterval(typeLoop, 120);
+  function loop() {
+    if (mode === "full") {
+      showFullText();
+    } else {
+      typeText();
+    }
+  }
+
+  setInterval(loop, 120);
 </script>
 </body>
 </html>
