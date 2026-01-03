@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Winter Silver Loading</title>
+
+<style>
+  body {
+    margin: 0;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .wrap {
+    width: 520px;      /* 가로 길게 */
+    height: 60px;      /* 세로 얇게 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* ▬ 로딩 바 */
+  .bar {
+    font-size: 20px;
+    letter-spacing: 6px;
+    color: #cfd3d8; /* 실버 */
+    text-shadow:
+      0 0 6px rgba(255,255,255,0.6),
+      0 0 12px rgba(200,210,220,0.4);
+  }
+
+  /* 로딩 텍스트 */
+  .text {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: #8a8f95;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+  <div class="bar" id="bar">▬▬▭▭▭</div>
+  <div class="text">
+    겨울 로딩중<span id="dots">.</span>
+  </div>
+</div>
+
+<script>
+  // 로딩 바 단계
+  const bars = ["▬▬▭▭▭", "▬▬▬▭▭", "▬▬▬▬▭"];
+  let barIndex = 0;
+
+  // 점 애니메이션
+  const dots = document.getElementById("dots");
+  let dotCount = 1;
+
+  // 바 애니메이션
+  setInterval(() => {
+    barIndex = (barIndex + 1) % bars.length;
+    document.getElementById("bar").textContent = bars[barIndex];
+  }, 700);
+
+  // 점 애니메이션
+  setInterval(() => {
+    dotCount = (dotCount % 3) + 1;
+    dots.textContent = ".".repeat(dotCount);
+  }, 500);
+</script>
+
+</body>
+</html>
