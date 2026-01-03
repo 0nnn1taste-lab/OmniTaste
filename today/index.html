@@ -1,95 +1,251 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Today Widget</title>
-
-  <!-- Cozy serif vibe -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
-
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      width: 350px;
-      height: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      /* Winter pastel blue */
-      background: linear-gradient(135deg,
-        rgba(198, 226, 255, 0.85),
-        rgba(215, 238, 255, 0.85)
-      );
+    :root{
+      /* 차가운 파스텔 블루(서린 느낌) */
+      --bg1:#dbe8f6;
+      --bg2:#cfdff0;
+      --card:#cfe0f2cc;        /* 반투명 */
+      --card2:#c7d9efcc;
+      --line:#ffffff66;
+      --text:#ffffff;
+      --shadow: 0 18px 40px rgba(35, 70, 110, 0.18);
+      --radius: 18px;
     }
 
-    .card {
+    /* 위젯 자체 크기(원하면 여기만 바꾸면 됨) */
+    .widget {
       width: 320px;
-      height: 90px;
-      border-radius: 18px;
-      padding: 14px 16px;
-
-      background: rgba(255, 255, 255, 0.30);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-
-      box-shadow: 0 8px 22px rgba(40, 70, 110, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 6px;
+      height: 180px;
     }
 
-    .label {
-      font-family: "Playfair Display", serif;
-      font-size: 14px;
-      letter-spacing: 0.2px;
-      color: rgba(22, 44, 70, 0.75);
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: transparent;
     }
 
-    .date {
-      font-family: "Playfair Display", serif;
-      font-size: 20px;
-      font-weight: 600;
-      color: rgba(22, 44, 70, 0.90);
-      text-shadow: 0 0 6px rgba(255,255,255,0.55);
+    /* GitHub Pages에서 단독으로 볼 때도 예쁘게 중앙 정렬 */
+    body{
+      display:grid;
+      place-items:center;
     }
 
-    .sub {
+    .frame{
+      position:relative;
+      width:100%;
+      height:100%;
+      border-radius: 22px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      background:
+        radial-gradient(120% 140% at 10% 10%, #ffffff55 0%, transparent 55%),
+        radial-gradient(120% 140% at 90% 20%, #ffffff33 0%, transparent 60%),
+        linear-gradient(145deg, var(--bg1), var(--bg2));
+    }
+
+    /* 아주 은은한 서리/노이즈 질감 */
+    .frame::after{
+      content:"";
+      position:absolute; inset:0;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.03), rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.00) 2px, rgba(255,255,255,0.00) 6px);
+      mix-blend-mode: soft-light;
+      pointer-events:none;
+      opacity:0.55;
+    }
+
+    canvas#snow{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      pointer-events:none;
+      opacity:0.95;
+    }
+
+    .content{
+      position:absolute; inset:0;
+      display:flex;
+      gap:10px;
+      padding:14px;
+      box-sizing:border-box;
+      align-items:stretch;
+    }
+
+    .card{
+      flex:1;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border: 1px solid rgba(255,255,255,0.35);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* 플립 카드 느낌 가로 접힘 라인 */
+    .card::before{
+      content:"";
+      position:absolute;
+      left:10px; right:10px;
+      top:50%;
+      height:1px;
+      background: var(--line);
+      transform: translateY(-0.5px);
+      opacity:0.9;
+    }
+
+    .big{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      color:var(--text);
+      font-weight: 800;
+      letter-spacing: 1px;
+      font-size: 78px;
+      text-shadow: 0 6px 16px rgba(30, 60, 95, 0.20);
+      user-select:none;
+    }
+
+    .label{
+      position:absolute;
+      left:12px;
+      top:10px;
       font-size: 11px;
-      color: rgba(22, 44, 70, 0.55);
-      margin-top: -2px;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.92);
+      text-transform: uppercase;
+      user-select:none;
+    }
+
+    .weekday{
+      position:absolute;
+      right:12px;
+      bottom:10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.92);
+      text-transform: uppercase;
+      user-select:none;
+    }
+
+    /* 너무 쨍하지 않게 전체 살짝 소프트 */
+    .soft{
+      filter: saturate(0.95) contrast(0.98);
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <div class="label">Today is…</div>
-    <div class="date" id="todayDate">—</div>
-    <div class="sub" id="weekdayLine"></div>
+  <div class="widget">
+    <div class="frame soft" role="img" aria-label="Today date widget with snowfall">
+      <canvas id="snow"></canvas>
+
+      <div class="content">
+        <div class="card">
+          <div class="label">MONTH</div>
+          <div class="big" id="mm">01</div>
+        </div>
+
+        <div class="card">
+          <div class="label">DAY</div>
+          <div class="big" id="dd">03</div>
+          <div class="weekday" id="wk">SATURDAY</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
-    // Format: January 3, 2026
+    // ====== 날짜 표시 ======
+    // 원하는 표기 바꾸고 싶으면 여기만 수정:
+    const locale = "en-US"; // "ko-KR"로 바꾸면 요일이 한국어로 나옴
     const now = new Date();
 
-    const dateStr = now.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    const wk = new Intl.DateTimeFormat(locale, { weekday: "long" }).format(now);
 
-    const weekdayStr = now.toLocaleDateString("en-US", {
-      weekday: "long"
-    });
+    document.getElementById("mm").textContent = mm;
+    document.getElementById("dd").textContent = dd;
+    document.getElementById("wk").textContent = wk.toUpperCase();
 
-    document.getElementById("todayDate").textContent = dateStr;
-    document.getElementById("weekdayLine").textContent = weekdayStr;
+    // ====== 눈 애니메이션 (Canvas) ======
+    const canvas = document.getElementById("snow");
+    const ctx = canvas.getContext("2d");
+
+    function resize(){
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    const W = () => canvas.getBoundingClientRect().width;
+    const H = () => canvas.getBoundingClientRect().height;
+
+    const flakes = [];
+    const FLakeCount = 70; // 눈 양 (원하면 90~120으로)
+
+    function rand(min, max){ return Math.random() * (max - min) + min; }
+
+    function makeFlake(initial=false){
+      const w = W(), h = H();
+      const size = rand(1.2, 3.2); // 작은 눈
+      return {
+        x: rand(0, w),
+        y: initial ? rand(0, h) : rand(-h*0.2, -10),
+        r: size,
+        vx: rand(-0.25, 0.25),
+        vy: rand(0.55, 1.35),
+        drift: rand(0.6, 1.6),
+        a: rand(0.45, 0.9)
+      };
+    }
+
+    for(let i=0;i<FLakeCount;i++) flakes.push(makeFlake(true));
+
+    function draw(){
+      const w = W(), h = H();
+      ctx.clearRect(0,0,w,h);
+
+      // 살짝 안개 낀 느낌
+      const fog = ctx.createRadialGradient(w*0.5,h*0.35,10, w*0.5,h*0.35, Math.max(w,h));
+      fog.addColorStop(0, "rgba(255,255,255,0.12)");
+      fog.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = fog;
+      ctx.fillRect(0,0,w,h);
+
+      for(const f of flakes){
+        // 움직임
+        f.x += f.vx + Math.sin((f.y/40)) * 0.15 * f.drift;
+        f.y += f.vy;
+
+        // 화면 밖이면 재생성
+        if(f.y > h + 10 || f.x < -10 || f.x > w + 10){
+          Object.assign(f, makeFlake(false));
+          f.x = rand(0,w);
+        }
+
+        // 그리기
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255,255,255,${f.a})`;
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+    draw();
   </script>
 </body>
 </html>
