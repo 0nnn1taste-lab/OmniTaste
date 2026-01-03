@@ -3,101 +3,132 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cozy Winter Bar</title>
+<title>Snowflake Playback Bar</title>
 
 <style>
   body {
     margin: 0;
     background: transparent;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
-  .label {
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    color: #7a736b;
-    margin-bottom: 8px;
+  .wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
+  .label {
+    font-size: 11px;
+    color: #7a736b;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  /* ▶ 재생 버튼 */
+  .play-btn {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(200,195,185,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 10px;
+    color: #5f5a54;
+    user-select: none;
+  }
+
+  /* ❄️ 재생바 */
   .bar-wrap {
-    width: 340px;
-    height: 8px;
-    background: rgba(210, 205, 195, 0.45);
+    width: 420px;            /* 👉 더 길게 */
+    height: 6px;             /* 👉 세로 얇게 */
+    background: rgba(210,205,195,0.45);
     border-radius: 20px;
     overflow: hidden;
     position: relative;
   }
 
-  .bar {
-    width: 35%;
+  .snow-track {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    left: -120px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: move 4s linear infinite;
+  }
+
+  .snow {
+    width: 10px;
+    height: 10px;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.6));
+  }
+
+  /* ❄️ 눈 결정 SVG */
+  .snow svg {
+    width: 100%;
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      #ffffff,
-      #e9e2d8,
-      #ffffff
-    );
-    border-radius: 20px;
-    animation: move 3.6s ease-in-out infinite;
   }
 
   @keyframes move {
-    0% { transform: translateX(-120%); }
-    100% { transform: translateX(320%); }
+    0% { transform: translate(-120px, -50%); }
+    100% { transform: translate(520px, -50%); }
   }
 
-  /* ❄️ 눈송이 */
-  .snow {
-    position: absolute;
-    top: -6px;
-    width: 6px;
-    height: 6px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: snow 4.5s linear infinite;
-  }
-
-  .snow:nth-child(2) {
-    left: 20%;
-    animation-delay: 1s;
-    opacity: 0.5;
-  }
-
-  .snow:nth-child(3) {
-    left: 60%;
-    animation-delay: 2.2s;
-    opacity: 0.6;
-  }
-
-  .snow:nth-child(4) {
-    left: 85%;
-    animation-delay: 3.4s;
-    opacity: 0.4;
-  }
-
-  @keyframes snow {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(24px); }
+  .paused .snow-track {
+    animation-play-state: paused;
   }
 </style>
 </head>
 
 <body>
-  <div class="label">WARMING UP · WINTER MODE</div>
 
-  <div class="bar-wrap">
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
-    <div class="snow"></div>
+<div class="wrap">
+  <div class="play-btn" id="playBtn">▶</div>
 
-    <div class="bar"></div>
+  <div class="label">겨울 모드로 진입중 …</div>
+
+  <div class="bar-wrap" id="bar">
+    <div class="snow-track">
+      <!-- 눈 결정 반복 -->
+      <div class="snow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5">
+          <path d="M12 2v20M2 12h20M4 4l16 16M20 4L4 20"/>
+        </svg>
+      </div>
+      <div class="snow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5">
+          <path d="M12 2v20M2 12h20M4 4l16 16M20 4L4 20"/>
+        </svg>
+      </div>
+      <div class="snow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.5">
+          <path d="M12 2v20M2 12h20M4 4l16 16M20 4L4 20"/>
+        </svg>
+      </div>
+    </div>
   </div>
+</div>
+
+<script>
+  const btn = document.getElementById("playBtn");
+  const bar = document.getElementById("bar");
+
+  let playing = true;
+
+  btn.onclick = () => {
+    playing = !playing;
+    bar.classList.toggle("paused");
+    btn.textContent = playing ? "▶" : "⏸";
+  };
+</script>
+
 </body>
 </html>
