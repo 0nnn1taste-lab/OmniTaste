@@ -9,12 +9,18 @@
   body {
     margin: 0;
     background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .widget {
     width: 250px;
     height: 60px;
-    background: #eef5fb; /* 파스텔톤 겨울 파랑 */
+
+    /* ❄️ 얼음 파스텔 배경 */
+    background: #e9f3fa;
+
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -23,7 +29,6 @@
     font-family: "Pretendard", "Apple SD Gothic Neo", sans-serif;
   }
 
-  /* 네모 로딩 */
   .blocks {
     display: flex;
     gap: 6px;
@@ -33,7 +38,10 @@
   .block {
     width: 10px;
     height: 10px;
-    background: #b7d6ee;
+
+    /* ❄️ 얼음 조각 같은 블루 */
+    background: #b9dff2;
+
     border-radius: 3px;
     animation: move 1.4s infinite ease-in-out;
   }
@@ -48,10 +56,12 @@
     100% { transform: translateY(0); opacity: 0.4; }
   }
 
-  /* 텍스트 */
   .text {
     font-size: 13px;
-    color: #5f86a6;
+
+    /* ❄️ 글자색 아주 살짝 진하게 */
+    color: #4f7fa3;
+
     letter-spacing: -0.2px;
     white-space: nowrap;
   }
