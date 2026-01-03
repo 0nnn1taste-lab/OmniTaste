@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cozy Winter Bar</title>
+
+<style>
+  body {
+    margin: 0;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .label {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: #7a736b;
+    margin-bottom: 8px;
+  }
+
+  .bar-wrap {
+    width: 340px;
+    height: 8px;
+    background: rgba(210, 205, 195, 0.45);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bar {
+    width: 35%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      #ffffff,
+      #e9e2d8,
+      #ffffff
+    );
+    border-radius: 20px;
+    animation: move 3.6s ease-in-out infinite;
+  }
+
+  @keyframes move {
+    0% { transform: translateX(-120%); }
+    100% { transform: translateX(320%); }
+  }
+
+  /* ❄️ 눈송이 */
+  .snow {
+    position: absolute;
+    top: -6px;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: snow 4.5s linear infinite;
+  }
+
+  .snow:nth-child(2) {
+    left: 20%;
+    animation-delay: 1s;
+    opacity: 0.5;
+  }
+
+  .snow:nth-child(3) {
+    left: 60%;
+    animation-delay: 2.2s;
+    opacity: 0.6;
+  }
+
+  .snow:nth-child(4) {
+    left: 85%;
+    animation-delay: 3.4s;
+    opacity: 0.4;
+  }
+
+  @keyframes snow {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(24px); }
+  }
+</style>
+</head>
+
+<body>
+  <div class="label">WARMING UP · WINTER MODE</div>
+
+  <div class="bar-wrap">
+    <div class="snow"></div>
+    <div class="snow"></div>
+    <div class="snow"></div>
+    <div class="snow"></div>
+
+    <div class="bar"></div>
+  </div>
+</body>
+</html>
