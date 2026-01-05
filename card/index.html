@@ -24,7 +24,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      min-height: 400px;
+      min-height: 400px; /* 노션 iframe 안정화 */
       box-sizing: border-box;
     }
 
@@ -47,10 +47,10 @@
       display: block;
     }
 
-    /* 상단 */
+    /* 상단 영역 */
     .top {
       display: flex;
-      justify-content: flex-start; /* ← 왼쪽 정렬 */
+      justify-content: flex-start; /* 왼쪽 정렬 */
       margin-bottom: 10px;
     }
 
@@ -59,7 +59,7 @@
       cursor: pointer;
       color: #222;
       user-select: none;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 4px;
     }
@@ -111,10 +111,10 @@
 <body>
   <div class="container">
 
-    <!-- 🎀 리본 헤더 -->
+    <!-- 🎀 리본 -->
     <div class="header">
       <img
-        src="RIBBON_URL"
+        src="https://0nnn1taste-lab.github.io/OmniTaste/card/ribbon.png"
         alt="ribbon"
       />
     </div>
