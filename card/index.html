@@ -13,17 +13,29 @@
   <style>
     body {
       margin: 0;
-      padding: 14px;
+      padding: 16px;
       background: #f2f2f2;
       font-family: 'IBM Plex Sans KR', system-ui, -apple-system;
       display: flex;
       justify-content: center;
     }
 
-    /* 전체 컨테이너 (가로폭 제한) */
     .container {
       width: 100%;
-      max-width: 240px; /* ⭐ 가로 폭 핵심 */
+      max-width: 240px;
+    }
+
+    /* 헤더 */
+    .header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .header img {
+      width: 18px;
+      height: 18px;
+      opacity: 0.85;
     }
 
     /* 상단 */
@@ -50,7 +62,7 @@
       border-radius: 14px;
       padding: 20px 14px;
       margin-bottom: 12px;
-      border: 1px solid #222;
+      border: 1.5px solid #222; /* 🔥 살짝 두꺼워짐 */
       text-align: center;
     }
 
@@ -79,6 +91,13 @@
 
 <body>
   <div class="container">
+
+    <!-- 헤더 -->
+    <div class="header">
+      <img src="./heart.png" alt="heart" />
+    </div>
+
+    <!-- 새로고침 -->
     <div class="top">
       <div class="refresh" onclick="loadEvents()">↻</div>
     </div>
