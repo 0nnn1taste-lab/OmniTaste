@@ -1,93 +1,126 @@
-<style>
-  body {
-    margin: 0;
-    padding: 16px;
-    background: #ffffff;
-    font-family: 'IBM Plex Sans KR', system-ui, -apple-system;
-    display: flex;
-    justify-content: center;
-  }
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Return Reminder TEST</title>
 
-  .container {
-    width: 100%;
-    max-width: 240px;
-  }
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
 
-  .header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 6px;
-  }
+  <style>
+    body {
+      margin: 0;
+      padding: 16px;
+      background: #ffffff;
+      font-family: 'IBM Plex Sans KR', system-ui, -apple-system;
+      display: flex;
+      justify-content: center;
 
-  .header img {
-    width: 18px;
-    height: 18px;
-    opacity: 0.8;
-  }
-
-  .top {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-  }
-
-  .refresh {
-    font-size: 16px;
-    cursor: pointer;
-    color: #222;
-    user-select: none;
-  }
-
-  .refresh:hover {
-    opacity: 0.6;
-  }
-
-  .card {
-    background: #ebe6df; /* 연한 갈색 그레이 */
-    border-radius: 16px;
-    padding: 22px 14px;
-    margin-bottom: 12px;
-    border: 3px solid #1c1a17; /* 진한 브라운 블랙 */
-    text-align: center;
-  }
-
-  /* 디데이 문구 */
-  .dday {
-    font-size: 15px;
-    font-weight: 600;
-    color: #1c1a17;
-    margin-bottom: 6px;
-
-    animation: floatSoft 3.6s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
-  }
-
-  /* 숨 쉬듯이 위아래 */
-  @keyframes floatSoft {
-    0% {
-      transform: translateY(0);
-      opacity: 0.95;
+      /* 🔥 iframe / 노션용 핵심 */
+      min-height: 300px;
+      box-sizing: border-box;
     }
-    50% {
-      transform: translateY(-6px);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 0.95;
-    }
-  }
 
-  .title {
-    font-size: 13px;
-    color: #5a5650;
-    line-height: 1.4;
-    word-break: keep-all;
-  }
+    .container {
+      width: 100%;
+      max-width: 240px;
+      min-height: 200px; /* 🔥 이것도 중요 */
+    }
 
-  .empty {
-    font-size: 13px;
-    color: #888;
-    text-align: center;
-    padding: 24px 0;
-  }
-</style>
+    .header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+
+    .header img {
+      width: 18px;
+      height: 18px;
+      opacity: 0.8;
+    }
+
+    .top {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .refresh {
+      font-size: 16px;
+      cursor: pointer;
+      color: #222;
+      user-select: none;
+    }
+
+    .card {
+      background: #ebe6df; /* 갈색기 도는 연그레이 */
+      border-radius: 16px;
+      padding: 22px 14px;
+      margin-bottom: 12px;
+      border: 3px solid #1c1a17;
+      text-align: center;
+    }
+
+    .dday {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1c1a17;
+      margin-bottom: 6px;
+      animation: floatSoft 3.6s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+    }
+
+    @keyframes floatSoft {
+      0% {
+        transform: translateY(0);
+        opacity: 0.95;
+      }
+      50% {
+        transform: translateY(-6px);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 0.95;
+      }
+    }
+
+    .title {
+      font-size: 13px;
+      color: #5a5650;
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="header">
+      <span style="font-size:14px;">♥</span>
+    </div>
+
+    <div class="top">
+      <div class="refresh">↻</div>
+    </div>
+
+    <div id="app"></div>
+  </div>
+
+  <script>
+    // 🔥 API 무시, 무조건 카드 하나 생성
+    const app = document.getElementById("app");
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="dday">반납 2일 전 (ღ•͈ᴗ•͈ღ)</div>
+      <div class="title">UI 테스트용 책 제목입니다</div>
+    `;
+
+    app.appendChild(card);
+  </script>
+</body>
+</html>
