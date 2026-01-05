@@ -28,8 +28,13 @@ export default async function handler(req, res) {
     const events = data.results.map(page => {
       const props = page.properties || {};
 
-      const title =
-        props["BOOK TITLE"]?.title?.[0]?.plain_text ?? "제목 없음";
+  const titleProperty = Object.values(props).find(
+  (p) => p.type === "title"
+);
+
+const title =
+  titleProperty?.title?.[0]?.plain_text ?? "제목 없음";
+
 
       const date =
         props["Publication Date"]?.date?.start ?? null;
