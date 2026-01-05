@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Return Reminder</title>
 
-  <!-- 감성 폰트 -->
   <link
     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap"
     rel="stylesheet"
@@ -25,11 +24,10 @@
       max-width: 240px;
     }
 
-    /* 헤더 */
     .header {
       display: flex;
       justify-content: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .header img {
@@ -38,7 +36,6 @@
       opacity: 0.85;
     }
 
-    /* 상단 */
     .top {
       display: flex;
       justify-content: flex-end;
@@ -56,21 +53,29 @@
       opacity: 0.6;
     }
 
-    /* 카드 */
     .card {
       background: #ededed;
-      border-radius: 14px;
-      padding: 20px 14px;
+      border-radius: 16px;
+      padding: 22px 14px;
       margin-bottom: 12px;
-      border: 1.5px solid #222; /* 🔥 살짝 두꺼워짐 */
+      border: 2.5px solid #111;
       text-align: center;
     }
 
+    /* 디데이 텍스트 */
     .dday {
-      font-size: 22px;
+      font-size: 15px;
       font-weight: 600;
       color: #111;
       margin-bottom: 6px;
+      animation: floatY 2.5s ease-in-out infinite;
+    }
+
+    /* 둥둥 애니메이션 */
+    @keyframes floatY {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-4px); }
+      100% { transform: translateY(0); }
     }
 
     .title {
@@ -92,12 +97,10 @@
 <body>
   <div class="container">
 
-    <!-- 헤더 -->
     <div class="header">
       <img src="./heart.png" alt="heart" />
     </div>
 
-    <!-- 새로고침 -->
     <div class="top">
       <div class="refresh" onclick="loadEvents()">↻</div>
     </div>
@@ -127,12 +130,15 @@
             (dueDate - today) / (1000 * 60 * 60 * 24)
           );
 
-          const dday =
-            diffDays === 0
-              ? "D-0"
-              : diffDays > 0
-              ? `D-${diffDays}`
-              : `D+${Math.abs(diffDays)}`;
+          let ddayText = "";
+
+          if (diffDays > 0) {
+            ddayText = `반납 ${diffDays}일 전 (ღ•͈ᴗ•͈ღ)`;
+          } else if (diffDays < 0) {
+            ddayText = `반납 기한 ${Math.abs(diffDays)}일 초과  °ࡇ°`;
+          } else {
+            ddayText = `오늘이 반납일이에요 (•̀ᴗ•́)و`;
+          }
 
           hasCard = true;
 
@@ -140,7 +146,7 @@
           card.className = "card";
 
           card.innerHTML = `
-            <div class="dday">${dday}</div>
+            <div class="dday">${ddayText}</div>
             <div class="title">${event.title}</div>
           `;
 
