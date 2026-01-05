@@ -25,7 +25,7 @@
       justify-content: center;
       align-items: flex-start;
 
-      /* 🔥 노션 iframe 필수 */
+      /* 노션 iframe 안정화 */
       min-height: 400px;
       box-sizing: border-box;
     }
@@ -49,12 +49,16 @@
       user-select: none;
     }
 
+    .refresh:hover {
+      opacity: 0.6;
+    }
+
     .card {
-      background: #ebe6df; /* 연한 갈색 그레이 */
+      background: #e3e1dd; /* 갈색기 도는 그레이 */
       border-radius: 16px;
       padding: 22px 14px;
       margin-bottom: 12px;
-      border: 3px solid #1c1a17;
+      border: 2px solid #1c1a17; /* 얇게 조정 */
       text-align: center;
     }
 
@@ -63,7 +67,8 @@
       font-weight: 600;
       color: #1c1a17;
       margin-bottom: 6px;
-      animation: floatSoft 3.6s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+
+      animation: floatSoft 2.4s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
     }
 
     @keyframes floatSoft {
@@ -78,19 +83,80 @@
       line-height: 1.4;
       word-break: keep-all;
     }
+
+    .empty {
+      font-size: 13px;
+      color: #777;
+      text-align: center;
+      padding: 24px 0;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
     <div class="top">
-      <div class="refresh">↻</div>
+      <div class="refresh" onclick="loadEvents()">↻</div>
     </div>
 
-    <div class="card">
-      <div class="dday">반납 2일 전 (ღ•͈ᴗ•͈ღ)</div>
-      <div class="title">노션 embed 테스트용 카드</div>
-    </div>
+    <div id="app"></div>
   </div>
+
+  <script>
+    async function loadEvents() {
+      const app = document.getElementById("app");
+      app.innerHTML = "";
+
+      try {
+        const res = await fetch("https://omni-taste.vercel.app/api/events");
+        const events = await res.json();
+
+        const today = new Date();
+        let hasCard = false;
+
+        events.forEach(event => {
+          if (!event.date) return;
+
+          const dueDate = new Date(event.date);
+          const diffDays = Math.ceil(
+            (dueDate - today) / (1000 * 60 * 60 * 24)
+          );
+
+          let ddayText = "";
+
+          if (diffDays > 0) {
+            ddayText = `반납 ${diffDays}일 전 (ღ•͈ᴗ•͈ღ)`;
+          } else if (diffDays < 0) {
+            ddayText = `반납 기한 ${Math.abs(diffDays)}일 초과  °ࡇ°`;
+          } else {
+            ddayText = `오늘이 반납일이에요 •ܫ•`;
+          }
+
+          hasCard = true;
+
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="dday">${ddayText}</div>
+            <div class="title">${event.title}</div>
+          `;
+
+          app.appendChild(card);
+        });
+
+        if (!hasCard) {
+          app.innerHTML =
+            '<div class="empty">반납 기록이 없습니다.</div>';
+        }
+
+      } catch (err) {
+        console.error(err);
+        app.innerHTML =
+          '<div class="empty">데이터를 불러오지 못했습니다.</div>';
+      }
+    }
+
+    loadEvents();
+  </script>
 </body>
 </html>
