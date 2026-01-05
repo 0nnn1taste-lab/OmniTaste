@@ -1,171 +1,93 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <title>Return Reminder</title>
+<style>
+  body {
+    margin: 0;
+    padding: 16px;
+    background: #ffffff;
+    font-family: 'IBM Plex Sans KR', system-ui, -apple-system;
+    display: flex;
+    justify-content: center;
+  }
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  />
+  .container {
+    width: 100%;
+    max-width: 240px;
+  }
 
-  <style>
-    body {
-      margin: 0;
-      padding: 16px;
-      background: #f2f2f2;
-      font-family: 'IBM Plex Sans KR', system-ui, -apple-system;
-      display: flex;
-      justify-content: center;
+  .header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 6px;
+  }
+
+  .header img {
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+  }
+
+  .top {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+
+  .refresh {
+    font-size: 16px;
+    cursor: pointer;
+    color: #222;
+    user-select: none;
+  }
+
+  .refresh:hover {
+    opacity: 0.6;
+  }
+
+  .card {
+    background: #ebe6df; /* 연한 갈색 그레이 */
+    border-radius: 16px;
+    padding: 22px 14px;
+    margin-bottom: 12px;
+    border: 3px solid #1c1a17; /* 진한 브라운 블랙 */
+    text-align: center;
+  }
+
+  /* 디데이 문구 */
+  .dday {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1c1a17;
+    margin-bottom: 6px;
+
+    animation: floatSoft 3.6s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+  }
+
+  /* 숨 쉬듯이 위아래 */
+  @keyframes floatSoft {
+    0% {
+      transform: translateY(0);
+      opacity: 0.95;
     }
-
-    .container {
-      width: 100%;
-      max-width: 240px;
+    50% {
+      transform: translateY(-6px);
+      opacity: 1;
     }
-
-    .header {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 6px;
+    100% {
+      transform: translateY(0);
+      opacity: 0.95;
     }
+  }
 
-    .header img {
-      width: 18px;
-      height: 18px;
-      opacity: 0.85;
-    }
+  .title {
+    font-size: 13px;
+    color: #5a5650;
+    line-height: 1.4;
+    word-break: keep-all;
+  }
 
-    .top {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 10px;
-    }
-
-    .refresh {
-      font-size: 16px;
-      cursor: pointer;
-      color: #222;
-      user-select: none;
-    }
-
-    .refresh:hover {
-      opacity: 0.6;
-    }
-
-    .card {
-      background: #ededed;
-      border-radius: 16px;
-      padding: 22px 14px;
-      margin-bottom: 12px;
-      border: 2.5px solid #111;
-      text-align: center;
-    }
-
-    /* 디데이 텍스트 */
-    .dday {
-      font-size: 15px;
-      font-weight: 600;
-      color: #111;
-      margin-bottom: 6px;
-      animation: floatY 2.5s ease-in-out infinite;
-    }
-
-    /* 둥둥 애니메이션 */
-    @keyframes floatY {
-      0%   { transform: translateY(0); }
-      50%  { transform: translateY(-4px); }
-      100% { transform: translateY(0); }
-    }
-
-    .title {
-      font-size: 13px;
-      color: #555;
-      line-height: 1.4;
-      word-break: keep-all;
-    }
-
-    .empty {
-      font-size: 13px;
-      color: #888;
-      text-align: center;
-      padding: 24px 0;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="container">
-
-    <div class="header">
-      <img src="./heart.png" alt="heart" />
-    </div>
-
-    <div class="top">
-      <div class="refresh" onclick="loadEvents()">↻</div>
-    </div>
-
-    <div id="app"></div>
-  </div>
-
-  <script>
-    async function loadEvents() {
-      const app = document.getElementById("app");
-      app.innerHTML = "";
-
-      try {
-        const res = await fetch(
-          "https://omni-taste.vercel.app/api/events"
-        );
-        const events = await res.json();
-
-        const today = new Date();
-        let hasCard = false;
-
-        events.forEach(event => {
-          if (!event.date) return;
-
-          const dueDate = new Date(event.date);
-          const diffDays = Math.ceil(
-            (dueDate - today) / (1000 * 60 * 60 * 24)
-          );
-
-          let ddayText = "";
-
-          if (diffDays > 0) {
-            ddayText = `반납 ${diffDays}일 전 (ღ•͈ᴗ•͈ღ)`;
-          } else if (diffDays < 0) {
-            ddayText = `반납 기한 ${Math.abs(diffDays)}일 초과  °ࡇ°`;
-          } else {
-            ddayText = `오늘이 반납일이에요 (•̀ᴗ•́)و`;
-          }
-
-          hasCard = true;
-
-          const card = document.createElement("div");
-          card.className = "card";
-
-          card.innerHTML = `
-            <div class="dday">${ddayText}</div>
-            <div class="title">${event.title}</div>
-          `;
-
-          app.appendChild(card);
-        });
-
-        if (!hasCard) {
-          app.innerHTML =
-            '<div class="empty">반납 기록이 없습니다.</div>';
-        }
-
-      } catch (err) {
-        app.innerHTML =
-          '<div class="empty">데이터를 불러오지 못했습니다.</div>';
-        console.error(err);
-      }
-    }
-
-    loadEvents();
-  </script>
-</body>
-</html>
+  .empty {
+    font-size: 13px;
+    color: #888;
+    text-align: center;
+    padding: 24px 0;
+  }
+</style>
