@@ -5,7 +5,10 @@
   <title>Return Reminder</title>
 
   <!-- 모노톤 감성 폰트 -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
 
   <style>
     body {
@@ -20,7 +23,7 @@
       border-radius: 12px;
       padding: 16px 18px;
       color: #222;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
       margin-bottom: 12px;
     }
 
@@ -35,6 +38,13 @@
       font-size: 12px;
       color: #666;
     }
+
+    .empty {
+      font-size: 13px;
+      color: #888;
+      text-align: center;
+      padding: 20px 0;
+    }
   </style>
 </head>
 
@@ -43,36 +53,52 @@
 
   <script>
     async function loadEvents() {
-      const res = await fetch('https://omni-taste.vercel.app/api/events');
-      const events = await res.json();
-
-      const today = new Date();
-      const app = document.getElementById('app');
-
-      events.forEach(event => {
-        if (!event.date) return;
-
-        const dueDate = new Date(event.date);
-        const diff = Math.ceil(
-          (dueDate - today) / (1000 * 60 * 60 * 24)
+      try {
+        const res = await fetch(
+          "https://omni-taste.vercel.app/api/events"
         );
+        const events = await res.json();
 
-        if (diff < 0) return; // 이미 지난 건 제외
+        const today = new Date();
+        const app = document.getElementById("app");
+        let hasCard = false;
 
-        const card = document.createElement('div');
-        card.className = 'card';
+        events.forEach((event) => {
+          if (!event.date) return;
 
-        card.innerHTML = `
-          <div class="title">
-            ${event.title} 의 반납일이 <strong>${diff}</strong>일 전입니다.
-          </div>
-          <div class="date">
-            반납 예정일 · ${event.date}
-          </div>
-        `;
+          const dueDate = new Date(event.date);
+          const diff = Math.ceil(
+            (dueDate - today) / (1000 * 60 * 60 * 24)
+          );
 
-        app.appendChild(card);
-      });
+          if (diff < 0) return; // 이미 지난 건 제외
+
+          hasCard = true;
+
+          const card = document.createElement("div");
+          card.className = "card";
+
+          card.innerHTML = `
+            <div class="title">
+              ${event.title} 의 반납일이 <strong>${diff}</strong>일 전입니다.
+            </div>
+            <div class="date">
+              반납 예정일 · ${event.date}
+            </div>
+          `;
+
+          app.appendChild(card);
+        });
+
+        if (!hasCard) {
+          app.innerHTML =
+            '<div class="empty">반납 예정인 책이 없습니다.</div>';
+        }
+      } catch (err) {
+        document.getElementById("app").innerHTML =
+          '<div class="empty">데이터를 불러오지 못했습니다.</div>';
+        console.error(err);
+      }
     }
 
     loadEvents();
