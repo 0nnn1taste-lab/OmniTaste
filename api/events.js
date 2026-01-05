@@ -17,8 +17,16 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
+    // 🔍 디버깅용: results 없으면 그대로 보여주기
+    if (!data.results) {
+      return res.status(500).json({
+        error: "No results returned from Notion",
+        notionResponse: data
+      });
+    }
+
     const events = data.results.map(page => {
-      const props = page.properties;
+      const props = page.properties || {};
 
       const title =
         props["BOOK TITLE"]?.title?.[0]?.plain_text ?? "제목 없음";
