@@ -24,8 +24,6 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-
-      /* 노션 iframe 안정화 */
       min-height: 400px;
       box-sizing: border-box;
     }
@@ -33,32 +31,50 @@
     .container {
       width: 100%;
       max-width: 240px;
-      min-height: 200px;
     }
 
+    /* 🎀 리본 헤더 */
+    .header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+
+    .header img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      display: block;
+    }
+
+    /* 상단 */
     .top {
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start; /* ← 왼쪽 정렬 */
       margin-bottom: 10px;
     }
 
     .refresh {
-      font-size: 16px;
+      font-size: 13px;
       cursor: pointer;
       color: #222;
       user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .refresh:hover {
       opacity: 0.6;
     }
 
+    /* 카드 */
     .card {
-      background: #e3e1dd; /* 갈색기 도는 그레이 */
+      background: #EDEDED; /* 연한 회색 */
       border-radius: 16px;
       padding: 22px 14px;
       margin-bottom: 12px;
-      border: 2px solid #1c1a17; /* 얇게 조정 */
+      border: 2px solid #1c1a17;
       text-align: center;
     }
 
@@ -67,7 +83,6 @@
       font-weight: 600;
       color: #1c1a17;
       margin-bottom: 6px;
-
       animation: floatSoft 2.4s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
     }
 
@@ -79,7 +94,7 @@
 
     .title {
       font-size: 13px;
-      color: #5a5650;
+      color: #555;
       line-height: 1.4;
       word-break: keep-all;
     }
@@ -95,8 +110,21 @@
 
 <body>
   <div class="container">
+
+    <!-- 🎀 리본 헤더 -->
+    <div class="header">
+      <img
+        src="RIBBON_URL"
+        alt="ribbon"
+      />
+    </div>
+
+    <!-- 새로고침 -->
     <div class="top">
-      <div class="refresh" onclick="loadEvents()">↻</div>
+      <div class="refresh" onclick="loadEvents()">
+        <span>↻</span>
+        <span>새로고침</span>
+      </div>
     </div>
 
     <div id="app"></div>
