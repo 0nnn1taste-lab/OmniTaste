@@ -50,7 +50,7 @@ export default async function handler(req, res) {
 
       // 📅 반납일 (네 DB 컬럼명 그대로)
       const date =
-        props["Publication Date"]?.date?.start ?? null;
+        props["DUE DATE"]?.date?.start ?? null;
 
       return { title, date };
     });
