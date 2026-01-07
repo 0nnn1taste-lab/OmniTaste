@@ -70,11 +70,11 @@
 
     /* 카드 */
     .card {
-      background: #f3edec;       /* ✅ 카드 배경 */
+      background: #f3edec;
       border-radius: 16px;
       padding: 22px 14px;
       margin-bottom: 12px;
-      border: 2px solid #d5cdcb; /* ✅ 테두리 */
+      border: 2px solid #d5cdcb;
       text-align: center;
     }
 
@@ -131,12 +131,27 @@
   </div>
 
   <script>
+    const params = new URLSearchParams(window.location.search);
+    const key = params.get("key");
+
     async function loadEvents() {
       const app = document.getElementById("app");
       app.innerHTML = "";
 
+      // 🔑 key 없을 때 안내
+      if (!key) {
+        app.innerHTML =
+          '<div class="empty">위젯 연결 버튼을 눌러주세요.</div>';
+        return;
+      }
+
       try {
-        const res = await fetch("https://omni-taste.vercel.app/api/events");
+        const res = await fetch(
+          `https://omni-taste.vercel.app/api/events?key=${key}`
+        );
+
+        if (!res.ok) throw new Error("API error");
+
         const events = await res.json();
 
         const today = new Date();
