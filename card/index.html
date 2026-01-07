@@ -24,7 +24,6 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      min-height: 400px;
       box-sizing: border-box;
     }
 
@@ -33,7 +32,7 @@
       max-width: 240px;
     }
 
-    /* 🎀 리본 헤더 */
+    /* 🎀 리본 */
     .header {
       display: flex;
       justify-content: center;
@@ -43,8 +42,6 @@
     .header img {
       width: 100%;
       max-width: 200px;
-      height: auto;
-      display: block;
     }
 
     /* 상단 */
@@ -58,10 +55,10 @@
       font-size: 13px;
       cursor: pointer;
       color: #222;
-      user-select: none;
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      user-select: none;
     }
 
     .refresh:hover {
@@ -83,13 +80,13 @@
       font-weight: 600;
       color: #1c1a17;
       margin-bottom: 6px;
-      animation: floatSoft 2.4s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+      animation: floatSoft 2s ease-in-out infinite;
     }
 
     @keyframes floatSoft {
-      0%   { transform: translateY(0); opacity: 0.95; }
-      50%  { transform: translateY(-6px); opacity: 1; }
-      100% { transform: translateY(0); opacity: 0.95; }
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
     }
 
     .title {
@@ -130,89 +127,77 @@
     <div id="app"></div>
   </div>
 
-<script>
-  function getKey() {
-    const params = new URLSearchParams(window.location.search);
-    let key = params.get("key");
+  <script>
+    async function loadEvents() {
+      const app = document.getElementById("app");
+      app.innerHTML = "";
 
-    // hash (#key=xxx) 대응
-    if (!key && window.location.hash) {
-      const hashParams = new URLSearchParams(
-        window.location.hash.replace("#", "")
-      );
-      key = hashParams.get("key");
-    }
+      // 🔑 URL에서 key 가져오기 (핵심)
+      const params = new URLSearchParams(window.location.search);
+      const key = params.get("key");
 
-    return key;
-  }
-
-  const key = getKey();
-
-  async function loadEvents() {
-    const app = document.getElementById("app");
-    app.innerHTML = "";
-
-    // 🔑 key 없을 때
-    if (!key) {
-      app.innerHTML =
-        '<div class="empty">위젯 연결 버튼을 눌러주세요.</div>';
-      return;
-    }
-
-    try {
-      const res = await fetch(
-        `https://omni-taste.vercel.app/api/events?key=${key}`
-      );
-
-      if (!res.ok) throw new Error("API error");
-
-      const events = await res.json();
-
-      const today = new Date();
-      let hasCard = false;
-
-      events.forEach(event => {
-        if (!event.date) return;
-
-        const dueDate = new Date(event.date);
-        const diffDays = Math.ceil(
-          (dueDate - today) / (1000 * 60 * 60 * 24)
-        );
-
-        let ddayText = "";
-
-        if (diffDays > 0) {
-          ddayText = `반납 ${diffDays}일 전 (ღ•͈ᴗ•͈ღ)`;
-        } else if (diffDays < 0) {
-          ddayText = `반납 기한 ${Math.abs(diffDays)}일 초과  °ࡇ°`;
-        } else {
-          ddayText = `오늘이 반납일이에요 •ܫ•`;
-        }
-
-        hasCard = true;
-
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <div class="dday">${ddayText}</div>
-          <div class="title">${event.title}</div>
-        `;
-
-        app.appendChild(card);
-      });
-
-      if (!hasCard) {
+      if (!key) {
         app.innerHTML =
-          '<div class="empty">반납 기록이 없습니다.</div>';
+          '<div class="empty">연결 키가 없습니다.</div>';
+        return;
       }
 
-    } catch (err) {
-      console.error(err);
-      app.innerHTML =
-        '<div class="empty">데이터를 불러오지 못했습니다.</div>';
+      try {
+        const res = await fetch(
+          `https://omni-taste.vercel.app/api/events?key=${key}`
+        );
+
+        if (!res.ok) {
+          throw new Error("API error");
+        }
+
+        const events = await res.json();
+        const today = new Date();
+        let hasCard = false;
+
+        events.forEach(event => {
+          if (!event.date) return;
+
+          const dueDate = new Date(event.date);
+          const diffDays = Math.ceil(
+            (dueDate - today) / (1000 * 60 * 60 * 24)
+          );
+
+          let ddayText = "";
+
+          if (diffDays > 0) {
+            ddayText = `반납 ${diffDays}일 전 (ღ•͈ᴗ•͈ღ)`;
+          } else if (diffDays < 0) {
+            ddayText = `반납 기한 ${Math.abs(diffDays)}일 초과  °ࡇ°`;
+          } else {
+            ddayText = `오늘이 반납일이에요 •ܫ•`;
+          }
+
+          hasCard = true;
+
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="dday">${ddayText}</div>
+            <div class="title">${event.title}</div>
+          `;
+
+          app.appendChild(card);
+        });
+
+        if (!hasCard) {
+          app.innerHTML =
+            '<div class="empty">반납 기록이 없습니다.</div>';
+        }
+
+      } catch (err) {
+        console.error(err);
+        app.innerHTML =
+          '<div class="empty">데이터를 불러오지 못했습니다.</div>';
+      }
     }
-  }
 
-  loadEvents();
-</script>
-
+    loadEvents();
+  </script>
+</body>
+</html>
