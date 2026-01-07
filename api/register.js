@@ -1,4 +1,5 @@
 // api/register.js
+import crypto from "crypto";
 
 export default async function handler(req, res) {
   // CORS
@@ -12,11 +13,13 @@ export default async function handler(req, res) {
 
   const userDbId = req.query.db;
 
+  console.log("userDbId:", userDbId);
+  console.log("CONNECTION_DB_ID:", process.env.CONNECTION_DB_ID ? "OK" : "MISSING");
+
   if (!userDbId) {
     return res.status(400).send("Missing db parameter");
   }
 
-  // ✅ node-fetch 쓰지 말고, Vercel 내장 fetch 사용
   const key = crypto.randomUUID();
 
   const response = await fetch("https://api.notion.com/v1/pages", {
@@ -50,7 +53,6 @@ export default async function handler(req, res) {
     return res.status(500).send("Failed to save connection");
   }
 
-  // 위젯으로 이동
   const widgetUrl =
     `https://0nnn1taste-lab.github.io/OmniTaste/card/index.html?key=${key}`;
 
