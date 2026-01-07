@@ -1,17 +1,26 @@
 // api/events.js
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
+  // ✅ CORS 헤더 (이게 핵심)
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // preflight 요청 대응
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   const { key } = req.query;
 
-  // 1️⃣ key 없으면 차단
+  // key 없으면 차단
   if (!key) {
     return res.status(400).json({
       error: "key is required",
     });
   }
 
-  // 2️⃣ (임시) 테스트용 더미 데이터
-  // 다음 단계에서 key별 Notion 데이터로 교체할 거임
+  // 테스트용 더미 데이터
   const events = [
     {
       title: "어린 왕자",
@@ -23,6 +32,6 @@ export default async function handler(req, res) {
     },
   ];
 
-  // 3️⃣ 정상 응답
+  // 정상 응답
   res.status(200).json(events);
 }
