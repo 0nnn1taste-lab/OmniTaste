@@ -1,384 +1,186 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Monotone Calendar Widget</title>
-  <style>
-    :root{
-      --bg: #ededed;          /* 전체 배경 */
-      --card: #f6f6f6;        /* 카드 배경 */
-      --ink: #111;            /* 글자 */
-      --muted: #6b6b6b;       /* 보조 글자 */
-      --line: rgba(0,0,0,.12);/* 라인 */
-      --shadow: 0 10px 28px rgba(0,0,0,.08);
-      --radius: 18px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background: radial-gradient(1200px 600px at 30% 20%, #ffffff 0%, var(--bg) 55%, #e6e6e6 100%);
-      color:var(--ink);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Monotone Calendar</title>
 
-    /* 노션 임베드용: 세로 길게 보기 좋은 비율 */
-    .wrap{
-      width: 280px;           /* 기본 폭 */
-      height: 520px;          /* 기본 높이 */
-      max-width: 92vw;
-      max-height: 92vh;
-      background: linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.42));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
-    }
+<style>
+:root{
+  --bg: #1e1e1e;          /* 전체 배경 (연한 블랙) */
+  --card: #2a2a2a;        /* 카드 */
+  --ink: #eaeaea;         /* 기본 글자 */
+  --muted: #7a7a7a;       /* 흐린 날짜 */
+  --line: rgba(255,255,255,.08);
+  --today: #ffffff;      /* 오늘 날짜 */
+}
 
-    /* 은은한 광택 */
-    .wrap:before{
-      content:"";
-      position:absolute; inset:-40% -20% auto -20%;
-      height:55%;
-      background: linear-gradient(135deg, rgba(255,255,255,.65), rgba(255,255,255,0));
-      transform: rotate(-10deg);
-      pointer-events:none;
-    }
+*{box-sizing:border-box}
 
-    header{
-      position:relative;
-      padding: 14px 14px 10px 14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      border-bottom:1px solid var(--line);
-      background: rgba(255,255,255,.35);
-      backdrop-filter: blur(6px);
-    }
-    .title{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-width: 0;
-    }
-    .month{
-      font-weight:800;
-      letter-spacing:.2px;
-      font-size: 16px;
-      line-height:1.1;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .sub{
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing:.35px;
-    }
+body{
+  margin:0;
+  background:var(--bg);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+}
 
-    .controls{
-      display:flex; gap:8px;
-    }
-    button{
-      all:unset;
-      width:32px;height:32px;
-      display:grid; place-items:center;
-      border-radius: 12px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.55);
-      cursor:pointer;
-      transition: transform .08s ease, background .2s ease;
-      user-select:none;
-    }
-    button:hover{ background: rgba(255,255,255,.78); }
-    button:active{ transform: scale(.98); }
+.calendar{
+  width: 420px;          /* 🔹 가로형 */
+  height: 260px;
+  background: var(--card);
+  border-radius: 18px;
+  border:1px solid var(--line);
+  padding:14px 16px 16px;
+}
 
-    .grid{
-      padding: 12px 14px 14px 14px;
-      height: calc(100% - 64px);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+/* 헤더 */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
 
-    .dow{
-      display:grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap:6px;
-      padding: 6px 2px 2px;
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing:.2px;
-      text-align:center;
-    }
+.month{
+  color:var(--ink);
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:.3px;
+}
 
-    .days{
-      flex:1;
-      display:grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap:6px;
-      align-content:start;
-      padding-top: 2px;
-    }
+.nav{
+  display:flex;
+  gap:10px;
+}
 
-    .cell{
-      height: 46px;
-      border-radius: 14px;
-      border: 1px solid transparent;
-      display:flex;
-      align-items:flex-start;
-      justify-content:flex-start;
-      padding: 10px 10px 8px;
-      background: rgba(255,255,255,.34);
-      color: var(--ink);
-      position:relative;
-      transition: background .2s ease, border-color .2s ease, transform .08s ease;
-    }
-    .cell:hover{
-      background: rgba(255,255,255,.62);
-      border-color: var(--line);
-    }
+.nav button{
+  all:unset;
+  cursor:pointer;
+  color:var(--muted);
+  font-size:18px;
+  padding:4px 8px;
+  border-radius:8px;
+}
+.nav button:hover{
+  color:var(--ink);
+}
 
-    .num{
-      font-size: 13px;
-      font-weight: 650;
-      line-height:1;
-    }
+/* 날짜 그리드 */
+.days{
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap:8px;
+}
 
-    .muted{
-      color: rgba(0,0,0,.35);
-      background: rgba(255,255,255,.22);
-    }
+.day{
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  color:var(--ink);
+  border-radius:10px;
+}
 
-    /* 오늘 강조: 블랙 링 + 살짝 글로시 */
-    .today{
-      background: rgba(255,255,255,.78);
-      border-color: rgba(0,0,0,.65);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
-    }
-    .today:after{
-      content:"";
-      position:absolute;
-      inset: 0;
-      border-radius: 14px;
-      background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0));
-      pointer-events:none;
-    }
+.muted{
+  color:var(--muted);
+}
 
-    /* 선택(클릭) */
-    .selected{
-      transform: translateY(-1px);
-      border-color: rgba(0,0,0,.35);
-      background: rgba(255,255,255,.88);
-    }
-
-    /* 하단 작은 메모 라인(선택한 날짜 표시) */
-    .footer{
-      margin-top:auto;
-      border-top:1px solid var(--line);
-      padding: 10px 12px;
-      background: rgba(255,255,255,.30);
-      border-radius: 14px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      font-size: 11px;
-      color: var(--muted);
-    }
-    .footer strong{ color: var(--ink); font-weight: 800; }
-    .pill{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.55);
-      padding: 6px 10px;
-      border-radius: 999px;
-      color: var(--ink);
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing:.2px;
-      cursor:pointer;
-      user-select:none;
-    }
-  </style>
+.today{
+  color: var(--today);
+  font-weight:800;
+  background: rgba(255,255,255,.08);
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap" role="application" aria-label="Calendar Widget">
-    <header>
-      <div class="title">
-        <div class="month" id="monthLabel">—</div>
-        <div class="sub" id="subLabel">S M T W T F S</div>
-      </div>
-      <div class="controls">
-        <button id="prevBtn" aria-label="Previous month">‹</button>
-        <button id="todayBtn" aria-label="Go to today">●</button>
-        <button id="nextBtn" aria-label="Next month">›</button>
-      </div>
-    </header>
-
-    <div class="grid">
-      <div class="dow" aria-hidden="true">
-        <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
-      </div>
-
-      <div class="days" id="days"></div>
-
-      <div class="footer">
-        <div>Selected: <strong id="selectedText">—</strong></div>
-        <div class="pill" id="copyBtn" title="Copy selected date">Copy</div>
-      </div>
+<div class="calendar">
+  <div class="header">
+    <div class="month" id="monthLabel"></div>
+    <div class="nav">
+      <button id="prev">‹</button>
+      <button id="next">›</button>
     </div>
   </div>
 
-  <script>
-    const daysEl = document.getElementById("days");
-    const monthLabel = document.getElementById("monthLabel");
-    const selectedText = document.getElementById("selectedText");
+  <div class="days" id="days"></div>
+</div>
 
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const todayBtn = document.getElementById("todayBtn");
-    const copyBtn = document.getElementById("copyBtn");
+<script>
+const daysEl = document.getElementById("days");
+const monthLabel = document.getElementById("monthLabel");
 
-    const now = new Date();
-    let view = new Date(now.getFullYear(), now.getMonth(), 1);
-    let selected = null;
+const now = new Date();
+let view = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const fmtMonth = new Intl.DateTimeFormat("en-US", { month:"long", year:"numeric" });
-    const fmtDate  = new Intl.DateTimeFormat("en-CA", { year:"numeric", month:"2-digit", day:"2-digit" }); // YYYY-MM-DD
+const fmtMonth = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long"
+});
 
-    function isSameDay(a,b){
-      return a && b &&
-        a.getFullYear()===b.getFullYear() &&
-        a.getMonth()===b.getMonth() &&
-        a.getDate()===b.getDate();
+function sameDay(a,b){
+  return a.getFullYear()===b.getFullYear() &&
+         a.getMonth()===b.getMonth() &&
+         a.getDate()===b.getDate();
+}
+
+function render(){
+  daysEl.innerHTML = "";
+  monthLabel.textContent = fmtMonth.format(view);
+
+  const y = view.getFullYear();
+  const m = view.getMonth();
+
+  const first = new Date(y,m,1);
+  const start = first.getDay();
+  const last = new Date(y,m+1,0).getDate();
+
+  const prevLast = new Date(y,m,0).getDate();
+
+  for(let i=0;i<42;i++){
+    const cell = document.createElement("div");
+    cell.className="day";
+
+    let d;
+    let date;
+
+    if(i < start){
+      d = prevLast - start + i + 1;
+      date = new Date(y,m-1,d);
+      cell.classList.add("muted");
+    }else if(i >= start + last){
+      d = i - (start + last) + 1;
+      date = new Date(y,m+1,d);
+      cell.classList.add("muted");
+    }else{
+      d = i - start + 1;
+      date = new Date(y,m,d);
     }
 
-    function render(){
-      daysEl.innerHTML = "";
-      monthLabel.textContent = fmtMonth.format(view);
+    cell.textContent = d;
 
-      const y = view.getFullYear();
-      const m = view.getMonth();
-
-      const first = new Date(y, m, 1);
-      const startDay = first.getDay(); // 0=Sun
-      const last = new Date(y, m + 1, 0);
-      const daysInMonth = last.getDate();
-
-      // 이전달 채우기
-      const prevLast = new Date(y, m, 0);
-      const prevDays = prevLast.getDate();
-
-      // 총 6주(42칸)로 고정하면 임베드에서 항상 안정적으로 예쁨
-      const totalCells = 42;
-
-      for(let i=0; i<totalCells; i++){
-        const cell = document.createElement("div");
-        cell.className = "cell";
-
-        let dateObj;
-        let inMonth = true;
-
-        if(i < startDay){
-          // prev month
-          const d = prevDays - (startDay - 1 - i);
-          dateObj = new Date(y, m - 1, d);
-          inMonth = false;
-          cell.classList.add("muted");
-        } else if(i >= startDay + daysInMonth){
-          // next month
-          const d = i - (startDay + daysInMonth) + 1;
-          dateObj = new Date(y, m + 1, d);
-          inMonth = false;
-          cell.classList.add("muted");
-        } else {
-          // current
-          const d = i - startDay + 1;
-          dateObj = new Date(y, m, d);
-        }
-
-        // 숫자
-        const num = document.createElement("div");
-        num.className = "num";
-        num.textContent = String(dateObj.getDate());
-        cell.appendChild(num);
-
-        // 오늘 표시(보이는 달이든 아니든 "진짜 오늘"만)
-        if(isSameDay(dateObj, now)){
-          cell.classList.add("today");
-        }
-
-        // 선택 표시
-        if(selected && isSameDay(dateObj, selected)){
-          cell.classList.add("selected");
-        }
-
-        cell.addEventListener("click", () => {
-          selected = dateObj;
-          selectedText.textContent = fmtDate.format(selected);
-
-          // 선택한 날짜가 현재 달이 아니면 그 달로 이동해주는 게 UX 좋음
-          if(dateObj.getMonth() !== view.getMonth() || dateObj.getFullYear() !== view.getFullYear()){
-            view = new Date(dateObj.getFullYear(), dateObj.getMonth(), 1);
-          }
-          render();
-        });
-
-        // 접근성: 달력에 현재 달인지 힌트
-        if(inMonth){
-          cell.setAttribute("aria-label", fmtDate.format(dateObj));
-        } else {
-          cell.setAttribute("aria-label", fmtDate.format(dateObj) + " (other month)");
-        }
-
-        daysEl.appendChild(cell);
-      }
-
-      if(!selected){
-        selectedText.textContent = fmtDate.format(now);
-      }
+    if(sameDay(date, now)){
+      cell.classList.add("today");
     }
 
-    prevBtn.addEventListener("click", () => {
-      view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
-      render();
-    });
+    daysEl.appendChild(cell);
+  }
+}
 
-    nextBtn.addEventListener("click", () => {
-      view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
-      render();
-    });
+document.getElementById("prev").onclick = ()=>{
+  view = new Date(view.getFullYear(), view.getMonth()-1, 1);
+  render();
+};
+document.getElementById("next").onclick = ()=>{
+  view = new Date(view.getFullYear(), view.getMonth()+1, 1);
+  render();
+};
 
-    todayBtn.addEventListener("click", () => {
-      view = new Date(now.getFullYear(), now.getMonth(), 1);
-      selected = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      selectedText.textContent = fmtDate.format(selected);
-      render();
-    });
-
-    copyBtn.addEventListener("click", async () => {
-      const text = selected ? fmtDate.format(selected) : fmtDate.format(now);
-      try{
-        await navigator.clipboard.writeText(text);
-        copyBtn.textContent = "Copied";
-        setTimeout(()=> copyBtn.textContent = "Copy", 800);
-      }catch(e){
-        // 클립보드 권한 막히면 그냥 표시만
-        copyBtn.textContent = text;
-        setTimeout(()=> copyBtn.textContent = "Copy", 1200);
-      }
-    });
-
-    // init
-    selected = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    render();
-  </script>
+render();
+</script>
 </body>
 </html>
