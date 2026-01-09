@@ -7,12 +7,12 @@
 
 <style>
 :root{
-  --bg: #ededed;        /* 전체 배경 */
-  --card: #f5f5f5;      /* 캘린더 배경 */
-  --ink: #111111;       /* 기본 글자 */
-  --muted: #9a9a9a;     /* 흐린 날짜 */
-  --line: #d8d8d8;
-  --today-bg: #111111; /* 오늘 배경 */
+  --page-bg: #ededed;      /* 바깥 배경 */
+  --cal-bg: #f6f6f6;       /* 캘린더 배경 */
+  --ink: #111111;          /* 기본 글자 */
+  --muted: #9a9a9a;        /* 이전/다음 달 */
+  --line: #dddddd;
+  --today-bg: #111111;     /* 오늘 배경 */
   --today-ink: #ffffff;
 }
 
@@ -20,21 +20,21 @@
 
 body{
   margin:0;
-  background:var(--bg);
+  background:var(--page-bg);
   font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", sans-serif;
   display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:flex-start;
   padding:16px;
 }
 
+/* 캘린더 컨테이너 */
 .calendar{
-  width: 460px;
-  height: 300px;
-  background: var(--card);
-  border-radius: 18px;
+  width: 480px;
+  background: var(--cal-bg);
+  border-radius: 20px;
   border:1px solid var(--line);
-  padding:16px 18px 18px;
+  padding:18px 20px 22px;
 }
 
 /* 헤더 */
@@ -46,12 +46,15 @@ body{
 }
 
 .month{
-  font-size:16px;
+  font-size:18px;
   font-weight:700;
   color:var(--ink);
-  letter-spacing:.3px;
 }
 
+.nav{
+  display:flex;
+  gap:10px;
+}
 .nav button{
   all:unset;
   cursor:pointer;
@@ -73,27 +76,30 @@ body{
   text-align:center;
 }
 
-/* 날짜 */
+/* 날짜 영역 */
 .days{
   display:grid;
   grid-template-columns: repeat(7, 1fr);
-  gap:8px;
+  gap:10px;
 }
 
+/* 날짜 셀 */
 .day{
-  height:40px;
+  height:44px;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:10px;
-  font-size:13px;
+  border-radius:12px;
+  font-size:14px;
   color:var(--ink);
 }
 
+/* 이전/다음 달 */
 .muted{
   color:var(--muted);
 }
 
+/* 오늘 */
 .today{
   background: var(--today-bg);
   color: var(--today-ink);
@@ -124,15 +130,15 @@ body{
 const daysEl = document.getElementById("days");
 const monthLabel = document.getElementById("monthLabel");
 
-const now = new Date();
-let view = new Date(now.getFullYear(), now.getMonth(), 1);
+const today = new Date();
+let view = new Date(today.getFullYear(), today.getMonth(), 1);
 
 const fmtMonth = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "long"
 });
 
-function sameDay(a,b){
+function isSameDay(a,b){
   return a.getFullYear()===b.getFullYear() &&
          a.getMonth()===b.getMonth() &&
          a.getDate()===b.getDate();
@@ -145,33 +151,37 @@ function render(){
   const y = view.getFullYear();
   const m = view.getMonth();
 
-  const first = new Date(y,m,1);
-  const start = first.getDay();
-  const last = new Date(y,m+1,0).getDate();
-  const prevLast = new Date(y,m,0).getDate();
+  const first = new Date(y, m, 1);
+  const startDay = first.getDay();          // 0 = Sun
+  const lastDate = new Date(y, m + 1, 0).getDate();
+  const prevLast = new Date(y, m, 0).getDate();
 
-  for(let i=0;i<42;i++){
+  // 🔥 항상 42칸 (6주)
+  for(let i = 0; i < 42; i++){
     const cell = document.createElement("div");
     cell.className = "day";
 
-    let d, date;
+    let date;
+    let num;
 
-    if(i < start){
-      d = prevLast - start + i + 1;
-      date = new Date(y,m-1,d);
+    if(i < startDay){
+      num = prevLast - startDay + i + 1;
+      date = new Date(y, m - 1, num);
       cell.classList.add("muted");
-    }else if(i >= start + last){
-      d = i - (start + last) + 1;
-      date = new Date(y,m+1,d);
+    }
+    else if(i >= startDay + lastDate){
+      num = i - (startDay + lastDate) + 1;
+      date = new Date(y, m + 1, num);
       cell.classList.add("muted");
-    }else{
-      d = i - start + 1;
-      date = new Date(y,m,d);
+    }
+    else{
+      num = i - startDay + 1;
+      date = new Date(y, m, num);
     }
 
-    cell.textContent = d;
+    cell.textContent = num;
 
-    if(sameDay(date, now)){
+    if(isSameDay(date, today)){
       cell.classList.add("today");
     }
 
@@ -179,12 +189,13 @@ function render(){
   }
 }
 
-document.getElementById("prev").onclick = ()=>{
-  view = new Date(view.getFullYear(), view.getMonth()-1, 1);
+document.getElementById("prev").onclick = () => {
+  view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
   render();
 };
-document.getElementById("next").onclick = ()=>{
-  view = new Date(view.getFullYear(), view.getMonth()+1, 1);
+
+document.getElementById("next").onclick = () => {
+  view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
   render();
 };
 
