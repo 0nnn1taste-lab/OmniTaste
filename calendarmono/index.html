@@ -1,21 +1,22 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Monotone Calendar</title>
+<title>Minimal Calendar</title>
 
 <style>
 :root{
-  --bg: #1e1e1e;          /* 전체 배경 (연한 블랙) */
-  --card: #2a2a2a;        /* 카드 */
-  --ink: #eaeaea;         /* 기본 글자 */
-  --muted: #7a7a7a;       /* 흐린 날짜 */
-  --line: rgba(255,255,255,.08);
-  --today: #ffffff;      /* 오늘 날짜 */
+  --bg: #ededed;        /* 전체 배경 */
+  --card: #f5f5f5;      /* 캘린더 배경 */
+  --ink: #111111;       /* 기본 글자 */
+  --muted: #9a9a9a;     /* 흐린 날짜 */
+  --line: #d8d8d8;
+  --today-bg: #111111; /* 오늘 배경 */
+  --today-ink: #ffffff;
 }
 
-*{box-sizing:border-box}
+*{ box-sizing:border-box }
 
 body{
   margin:0;
@@ -28,12 +29,12 @@ body{
 }
 
 .calendar{
-  width: 420px;          /* 🔹 가로형 */
-  height: 260px;
+  width: 460px;
+  height: 300px;
   background: var(--card);
   border-radius: 18px;
   border:1px solid var(--line);
-  padding:14px 16px 16px;
+  padding:16px 18px 18px;
 }
 
 /* 헤더 */
@@ -41,34 +42,38 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 
 .month{
-  color:var(--ink);
   font-size:16px;
   font-weight:700;
+  color:var(--ink);
   letter-spacing:.3px;
-}
-
-.nav{
-  display:flex;
-  gap:10px;
 }
 
 .nav button{
   all:unset;
   cursor:pointer;
-  color:var(--muted);
   font-size:18px;
+  color:#666;
   padding:4px 8px;
-  border-radius:8px;
 }
 .nav button:hover{
-  color:var(--ink);
+  color:#000;
 }
 
-/* 날짜 그리드 */
+/* 요일 */
+.weekdays{
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom:10px;
+  font-size:12px;
+  color:#555;
+  text-align:center;
+}
+
+/* 날짜 */
 .days{
   display:grid;
   grid-template-columns: repeat(7, 1fr);
@@ -76,13 +81,13 @@ body{
 }
 
 .day{
-  height:38px;
+  height:40px;
   display:flex;
   align-items:center;
   justify-content:center;
+  border-radius:10px;
   font-size:13px;
   color:var(--ink);
-  border-radius:10px;
 }
 
 .muted{
@@ -90,9 +95,9 @@ body{
 }
 
 .today{
-  color: var(--today);
-  font-weight:800;
-  background: rgba(255,255,255,.08);
+  background: var(--today-bg);
+  color: var(--today-ink);
+  font-weight:700;
 }
 </style>
 </head>
@@ -105,6 +110,11 @@ body{
       <button id="prev">‹</button>
       <button id="next">›</button>
     </div>
+  </div>
+
+  <div class="weekdays">
+    <div>Sun</div><div>Mon</div><div>Tue</div>
+    <div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
   </div>
 
   <div class="days" id="days"></div>
@@ -138,15 +148,13 @@ function render(){
   const first = new Date(y,m,1);
   const start = first.getDay();
   const last = new Date(y,m+1,0).getDate();
-
   const prevLast = new Date(y,m,0).getDate();
 
   for(let i=0;i<42;i++){
     const cell = document.createElement("div");
-    cell.className="day";
+    cell.className = "day";
 
-    let d;
-    let date;
+    let d, date;
 
     if(i < start){
       d = prevLast - start + i + 1;
