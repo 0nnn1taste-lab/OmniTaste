@@ -7,12 +7,12 @@
 
 <style>
 :root{
-  --page-bg: #ededed;      /* 바깥 배경 */
-  --cal-bg: #f6f6f6;       /* 캘린더 배경 */
-  --ink: #111111;          /* 기본 글자 */
-  --muted: #9a9a9a;        /* 이전/다음 달 */
+  --page-bg: #ededed;
+  --cal-bg: #f6f6f6;
+  --ink: #111111;
+  --muted: #9a9a9a;
   --line: #dddddd;
-  --today-bg: #111111;     /* 오늘 배경 */
+  --today-bg: #111111;
   --today-ink: #ffffff;
 }
 
@@ -25,16 +25,16 @@ body{
   display:flex;
   justify-content:center;
   align-items:flex-start;
-  padding:16px;
+  padding:12px;
 }
 
-/* 캘린더 컨테이너 */
+/* 캘린더 */
 .calendar{
-  width: 480px;
+  width: 250px;                 /* 🔥 가로 250 */
   background: var(--cal-bg);
-  border-radius: 20px;
+  border-radius: 18px;
   border:1px solid var(--line);
-  padding:18px 20px 22px;
+  padding:14px 14px 16px;
 }
 
 /* 헤더 */
@@ -42,25 +42,26 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:14px;
+  margin-bottom:10px;
 }
 
 .month{
-  font-size:18px;
-  font-weight:700;
+  font-size:14px;
+  font-weight:800;              /* 🔥 더 두껍게 */
   color:var(--ink);
 }
 
 .nav{
   display:flex;
-  gap:10px;
+  gap:6px;
 }
 .nav button{
   all:unset;
   cursor:pointer;
-  font-size:18px;
-  color:#666;
-  padding:4px 8px;
+  font-size:16px;
+  font-weight:700;
+  color:#555;
+  padding:2px 6px;
 }
 .nav button:hover{
   color:#000;
@@ -70,40 +71,40 @@ body{
 .weekdays{
   display:grid;
   grid-template-columns: repeat(7, 1fr);
-  margin-bottom:10px;
-  font-size:12px;
+  margin-bottom:6px;
+  font-size:10px;
+  font-weight:700;              /* 🔥 */
   color:#555;
   text-align:center;
 }
 
-/* 날짜 영역 */
+/* 날짜 */
 .days{
   display:grid;
   grid-template-columns: repeat(7, 1fr);
-  gap:10px;
+  gap:6px;
 }
 
-/* 날짜 셀 */
 .day{
-  height:44px;
+  height:30px;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:12px;
-  font-size:14px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:700;              /* 🔥 */
   color:var(--ink);
 }
 
-/* 이전/다음 달 */
 .muted{
   color:var(--muted);
+  font-weight:600;
 }
 
-/* 오늘 */
 .today{
   background: var(--today-bg);
   color: var(--today-ink);
-  font-weight:700;
+  font-weight:800;              /* 🔥 */
 }
 </style>
 </head>
@@ -152,29 +153,25 @@ function render(){
   const m = view.getMonth();
 
   const first = new Date(y, m, 1);
-  const startDay = first.getDay();          // 0 = Sun
+  const startDay = first.getDay();
   const lastDate = new Date(y, m + 1, 0).getDate();
   const prevLast = new Date(y, m, 0).getDate();
 
-  // 🔥 항상 42칸 (6주)
   for(let i = 0; i < 42; i++){
     const cell = document.createElement("div");
     cell.className = "day";
 
-    let date;
-    let num;
+    let date, num;
 
     if(i < startDay){
       num = prevLast - startDay + i + 1;
       date = new Date(y, m - 1, num);
       cell.classList.add("muted");
-    }
-    else if(i >= startDay + lastDate){
+    }else if(i >= startDay + lastDate){
       num = i - (startDay + lastDate) + 1;
       date = new Date(y, m + 1, num);
       cell.classList.add("muted");
-    }
-    else{
+    }else{
       num = i - startDay + 1;
       date = new Date(y, m, num);
     }
@@ -193,7 +190,6 @@ document.getElementById("prev").onclick = () => {
   view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
   render();
 };
-
 document.getElementById("next").onclick = () => {
   view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
   render();
