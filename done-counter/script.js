@@ -1,17 +1,26 @@
 const messages = [
-  "TODAY IS ENOUGH 🌱",
-  "YOU ARE DOING GREAT 💗",
-  "ONE STEP IS STILL PROGRESS",
-  "SAVE YOUR ENERGY ✨",
-  "NO RUSH. JUST KEEP GOING",
-  "SMALL WINS MATTER 🎮",
-  "YOU SHOWED UP TODAY",
-  "PAUSE IS NOT FAILURE",
-  "TRY AGAIN TOMORROW 🌸",
-  "STILL PROUD OF YOU"
+  "YOU ARE DOING ENOUGH",
+  "SMALL WINS COUNT",
+  "NO RUSH TODAY",
+  "JUST KEEP GOING",
+  "PROUD OF YOU",
+  "PAUSE IS OK",
+  "ONE STEP IS STILL A STEP",
+  "YOU SHOWED UP"
 ];
 
-const messageEl = document.getElementById("message");
+const textEl = document.getElementById("text");
+let index = 0;
 
-const randomIndex = Math.floor(Math.random() * messages.length);
-messageEl.textContent = messages[randomIndex];
+function showMessage() {
+  textEl.classList.remove("show");
+
+  setTimeout(() => {
+    textEl.textContent = messages[index];
+    textEl.classList.add("show");
+    index = (index + 1) % messages.length;
+  }, 400);
+}
+
+showMessage();
+setInterval(showMessage, 2800);
