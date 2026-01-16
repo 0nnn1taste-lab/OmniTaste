@@ -1,65 +1,45 @@
 :root {
-  --pink-bg: #fff1f4;
-  --pink-main: #ff8fb1;
-  --pink-strong: #ff5f93;
-  --pink-soft: #ffd6e3;
-  --text-main: #3d1f2b;
+  --pink-bg: #ffd1de;
+  --pink-screen: #ff7fa6;
+  --pink-border: #ff4f8b;
+  --text-dark: #3a0f1f;
 }
 
 * {
   box-sizing: border-box;
-  font-family: "Pretendard", "Apple SD Gothic Neo", sans-serif;
 }
 
 body {
+  margin: 0;
   background: transparent;
   display: flex;
   justify-content: center;
-  padding: 10px;
+  padding: 12px;
 }
 
-.widget {
-  width: 260px;
-  background: var(--pink-bg);
-  border-radius: 22px;
-  padding: 16px 18px;
+.screen {
+  width: 300px;
+  min-height: 90px;
+  background: linear-gradient(
+    180deg,
+    var(--pink-screen),
+    var(--pink-bg)
+  );
+  border: 4px solid var(--pink-border);
+  border-radius: 14px;
+  padding: 14px 16px;
+
   box-shadow:
-    0 6px 16px rgba(255, 95, 147, 0.25),
-    inset 0 0 10px rgba(255,255,255,0.8);
-}
-
-.count {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--pink-strong);
-  text-align: center;
-  margin-bottom: 6px;
+    inset 0 0 0 2px rgba(255,255,255,0.6),
+    0 6px 16px rgba(255,79,139,0.35);
 }
 
 .message {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-main);
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.bar {
-  width: 100%;
-  height: 14px;
-  background: var(--pink-soft);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(
-    90deg,
-    var(--pink-main),
-    var(--pink-strong)
-  );
-  border-radius: 999px;
-  transition: width 0.4s ease;
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #ffffff;
+  text-shadow:
+    1px 1px 0 var(--text-dark),
+    2px 2px 0 var(--text-dark);
 }
