@@ -1,0 +1,97 @@
+:root {
+  --pink-bg: #fdecef;
+  --pink-card: #fff6f8;
+  --pink-accent: #f5a6b8;
+  --pink-strong: #f08ca4;
+  --text-main: #5a3a3a;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+}
+
+body {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+}
+
+.calendar-widget {
+  width: 320px;
+  background: var(--pink-bg);
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow:
+    inset 0 0 10px rgba(255,255,255,0.8),
+    0 6px 18px rgba(240,140,164,0.25);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.calendar-header h2 {
+  font-size: 18px;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.calendar-header button {
+  background: var(--pink-card);
+  border: none;
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 18px;
+  color: var(--pink-strong);
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.day-label {
+  text-align: center;
+  font-size: 11px;
+  color: #b78b8b;
+  margin-bottom: 4px;
+}
+
+.date {
+  height: 36px;
+  border-radius: 12px;
+  background: var(--pink-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--text-main);
+  cursor: pointer;
+  box-shadow:
+    inset 0 0 6px rgba(255,255,255,0.9),
+    0 2px 6px rgba(0,0,0,0.04);
+}
+
+.date.today {
+  background: linear-gradient(
+    145deg,
+    #ffd6e0,
+    #ffb3c5
+  );
+  color: white;
+  font-weight: 700;
+}
+
+.date.empty {
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
+}
