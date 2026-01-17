@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>Scrap Widget</title>
+  <title>Scrap Archive Widget</title>
   <style>
     body {
       margin: 0;
@@ -11,37 +11,75 @@
     }
 
     .widget {
-      padding: 16px;
-      width: 220px;
+      width: 320px;               /* ✅ 가로 확장 */
+      padding: 18px 20px 16px;
       background: #e7f2ee;
-      border-radius: 14px;
+      border-radius: 16px;
+      box-sizing: border-box;
     }
 
+    /* 상단 라벨 */
     .label {
-      font-size: 12px;
-      letter-spacing: 0.08em;
+      font-size: 11px;
+      letter-spacing: 0.12em;
       color: #4b6f6a;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
+    /* 숫자 */
     .count {
-      font-size: 28px;
+      font-size: 34px;
       font-weight: 600;
       color: #1f3f3a;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    /* 카테고리 힌트 */
+    .hint {
+      font-size: 11px;
+      color: #6f8f88;
+      letter-spacing: 0.04em;
     }
   </style>
 </head>
 <body>
   <div class="widget">
+    <!-- 감성 문구 -->
     <div class="label">SCRAP ARCHIVE</div>
-    <div class="count" id="count">…</div>
+
+    <!-- 숫자 -->
+    <div class="count" id="count">0</div>
+
+    <!-- 카테고리 힌트 -->
+    <div class="hint">
+      Health · Finance · Study · Travel · …
+    </div>
   </div>
 
   <script>
+    const duration = 600; // 애니메이션 시간(ms)
+
     fetch("/api/scrap-count")
       .then(res => res.json())
       .then(data => {
-        document.getElementById("count").textContent = data.total;
+        const target = data.total;
+        const el = document.getElementById("count");
+        const startTime = performance.now();
+
+        function animate(time) {
+          const progress = Math.min((time - startTime) / duration, 1);
+          const value = Math.floor(progress * target);
+          el.textContent = value;
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            el.textContent = target; // 마지막 정확한 값
+          }
+        }
+
+        requestAnimationFrame(animate);
       });
   </script>
 </body>
