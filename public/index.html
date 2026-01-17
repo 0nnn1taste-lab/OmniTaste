@@ -11,76 +11,50 @@
     }
 
     .widget {
-      width: 320px;               /* ✅ 가로 확장 */
-      padding: 18px 20px 16px;
+      width: 320px;
+      padding: 18px 20px;
       background: #e7f2ee;
       border-radius: 16px;
       box-sizing: border-box;
     }
 
-    /* 상단 라벨 */
-    .label {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      color: #4b6f6a;
-      margin-bottom: 8px;
-    }
-
-    /* 숫자 */
-    .count {
-      font-size: 34px;
-      font-weight: 600;
+    .text {
+      font-size: 15px;
       color: #1f3f3a;
-      line-height: 1;
-      margin-bottom: 10px;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
     }
 
-    /* 카테고리 힌트 */
-    .hint {
-      font-size: 11px;
-      color: #6f8f88;
-      letter-spacing: 0.04em;
+    .count {
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
   <div class="widget">
-    <!-- 감성 문구 -->
-    <div class="label">SCRAP ARCHIVE</div>
-
-    <!-- 숫자 -->
-    <div class="count" id="count">0</div>
-
-    <!-- 카테고리 힌트 -->
-    <div class="hint">
-      Health · Finance · Study · Travel · …
+    <div class="text" id="text">
+      불러오는 중…
     </div>
   </div>
 
   <script>
-    const duration = 600; // 애니메이션 시간(ms)
+    const REFRESH_INTERVAL = 30000; // 30초 자동 갱신
 
-    fetch("/api/scrap-count")
-      .then(res => res.json())
-      .then(data => {
-        const target = data.total;
-        const el = document.getElementById("count");
-        const startTime = performance.now();
+    function updateText() {
+      fetch("/api/scrap-count")
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("text").innerHTML =
+            `총 <span class="count">${data.total}개</span>가 스크랩 되었습니다.`;
+        })
+        .catch(() => {
+          document.getElementById("text").textContent =
+            "스크랩 정보를 불러올 수 없습니다.";
+        });
+    }
 
-        function animate(time) {
-          const progress = Math.min((time - startTime) / duration, 1);
-          const value = Math.floor(progress * target);
-          el.textContent = value;
-
-          if (progress < 1) {
-            requestAnimationFrame(animate);
-          } else {
-            el.textContent = target; // 마지막 정확한 값
-          }
-        }
-
-        requestAnimationFrame(animate);
-      });
+    updateText(); // 최초 로드
+    setInterval(updateText, REFRESH_INTERVAL); // 자동 반영
   </script>
 </body>
 </html>
