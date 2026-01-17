@@ -14,26 +14,25 @@
     .widget {
       width: 320px;
       height: 180px;
-      background: #dcebe4; /* 민트 배경 */
+      background: #dcebe4;
       border-radius: 22px;
       padding: 18px;
       box-sizing: border-box;
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 14px;
-      align-items: center;
-      justify-content: center;
     }
 
-    /* 내부 카드 */
+    /* 카드 공통 */
     .card {
-      flex: 1;
-      height: 100%;
-      background: #eaf4ef; /* 살짝 밝은 카드 */
+      background: #eef6f2;
       border-radius: 16px;
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
       align-items: center;
-      justify-content: center;
+      justify-items: center;
+      padding: 14px 0;
+      box-sizing: border-box;
       color: #1f3f3a;
     }
 
@@ -41,32 +40,32 @@
       font-size: 11px;
       letter-spacing: 0.16em;
       color: #5b7f77;
-      margin-bottom: 10px;
     }
 
     .value {
-      font-size: 44px;
+      font-size: 56px;      /* ⬅️ 숫자 크게 */
       font-weight: 600;
       line-height: 1;
     }
 
     .weekday {
-      margin-top: 8px;
       font-size: 11px;
       letter-spacing: 0.12em;
       color: #5b7f77;
+      min-height: 14px; /* ⬅️ MONTH 카드랑 높이 맞추기 */
     }
   </style>
 </head>
 <body>
   <div class="widget">
-    <!-- MONTH 카드 -->
+    <!-- MONTH -->
     <div class="card">
       <div class="label">MONTH</div>
       <div class="value" id="month">—</div>
+      <div class="weekday"></div>
     </div>
 
-    <!-- DAY 카드 -->
+    <!-- DAY -->
     <div class="card">
       <div class="label">DAY</div>
       <div class="value" id="day">—</div>
