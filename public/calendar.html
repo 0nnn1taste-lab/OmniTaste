@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Date Card</title>
+  <title>Today</title>
   <style>
     body {
       margin: 0;
@@ -10,102 +10,67 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* 전체 카드 */
-    .calendar-wrap {
-      width: 320px;
-      height: 180px; /* 세로 1.5배 느낌 */
-      padding: 18px;
-      box-sizing: border-box;
-      border-radius: 22px;
-      background: linear-gradient(
-        180deg,
-        #eaf2fa 0%,
-        #dde9f5 100%
-      );
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* 살짝 글래스 느낌 */
-    .calendar-wrap::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(
-        circle at top left,
-        rgba(255,255,255,0.5),
-        transparent 60%
-      );
-      pointer-events: none;
-    }
-
-    /* 개별 카드 */
     .card {
-      flex: 1;
-      height: 100%;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.45);
-      backdrop-filter: blur(6px);
+      width: 320px;
+      height: 180px;
+      background: #dcebe4; /* ⬅️ 민트 단색 */
+      border-radius: 22px;
+      padding: 22px 24px;
+      box-sizing: border-box;
+      color: #1f3f3a;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      color: #ffffff;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
     }
 
     .label {
       font-size: 11px;
-      letter-spacing: 0.16em;
-      opacity: 0.9;
-      margin-bottom: 10px;
+      letter-spacing: 0.18em;
+      color: #4b6f6a;
+      margin-bottom: 12px;
     }
 
-    .value {
-      font-size: 48px;
+    .day {
+      font-size: 52px;
       font-weight: 600;
       line-height: 1;
+      margin-bottom: 12px;
     }
 
-    .weekday {
-      margin-top: 8px;
-      font-size: 11px;
+    .meta {
+      font-size: 12px;
       letter-spacing: 0.12em;
-      opacity: 0.9;
+      color: #4b6f6a;
+    }
+
+    .meta + .meta {
+      margin-top: 4px;
     }
   </style>
 </head>
 <body>
-  <div class="calendar-wrap">
-    <!-- MONTH 카드 -->
-    <div class="card">
-      <div class="label">MONTH</div>
-      <div class="value" id="month">—</div>
-    </div>
-
-    <!-- DAY 카드 -->
-    <div class="card">
-      <div class="label">DAY</div>
-      <div class="value" id="day">—</div>
-      <div class="weekday" id="weekday">—</div>
-    </div>
+  <div class="card">
+    <div class="label">TODAY</div>
+    <div class="day" id="day">—</div>
+    <div class="meta" id="monthYear">—</div>
+    <div class="meta" id="weekday">—</div>
   </div>
 
   <script>
     const now = new Date();
 
-    document.getElementById("month").textContent =
-      String(now.getMonth() + 1).padStart(2, "0");
+    document.getElementById("day").textContent = now.getDate();
 
-    document.getElementById("day").textContent =
-      String(now.getDate()).padStart(2, "0");
+    document.getElementById("monthYear").textContent =
+      now.toLocaleDateString("en-US", {
+        month: "short",
+        year: "numeric",
+      }).toUpperCase();
 
     document.getElementById("weekday").textContent =
-      now.toLocaleDateString("en-US", { weekday: "long" }).toUpperCase();
+      now.toLocaleDateString("en-US", {
+        weekday: "long",
+      }).toUpperCase();
   </script>
 </body>
 </html>
