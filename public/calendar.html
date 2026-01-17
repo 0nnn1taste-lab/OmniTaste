@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Today Calendar</title>
+  <style>
+    body {
+      margin: 0;
+      background: transparent;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .calendar-widget {
+      width: 320px;
+      height: 190px; /* ⬅️ 기존보다 세로 1.5배 */
+      background: #d6e7e0; /* ⬅️ 살짝 더 진한 민트 */
+      border-radius: 18px;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: #3f6b63;
+      margin-bottom: 10px;
+    }
+
+    .day {
+      font-size: 56px;
+      font-weight: 600;
+      color: #1f3f3a;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .month {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      color: #3f6b63;
+      margin-bottom: 4px;
+    }
+
+    .weekday {
+      font-size: 12px;
+      color: #5f7f78;
+    }
+  </style>
+</head>
+<body>
+  <div class="calendar-widget">
+    <div class="label">TODAY</div>
+    <div class="day" id="day">—</div>
+    <div class="month" id="month">—</div>
+    <div class="weekday" id="weekday">—</div>
+  </div>
+
+  <script>
+    const now = new Date();
+
+    document.getElementById("day").textContent = now.getDate();
+
+    document.getElementById("month").textContent =
+      now.toLocaleDateString("en-US", {
+        month: "short",
+        year: "numeric"
+      }).toUpperCase();
+
+    document.getElementById("weekday").textContent =
+      now.toLocaleDateString("en-US", {
+        weekday: "long"
+      }).toUpperCase();
+  </script>
+</body>
+</html>
