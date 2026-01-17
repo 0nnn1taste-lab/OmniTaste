@@ -5,14 +5,14 @@ const notion = new Client({
 });
 
 const DATABASE_IDS = [
-  process.env.DB_1,
-  process.env.DB_2,
-  process.env.DB_3,
-  process.env.DB_4,
-  process.env.DB_5,
-  process.env.DB_6,
-  process.env.DB_7,
-  process.env.DB_8,
+  process.env.DB1,
+  process.env.DB2,
+  process.env.DB3,
+  process.env.DB4,
+  process.env.DB5,
+  process.env.DB6,
+  process.env.DB7,
+  process.env.DB8,
 ];
 
 export default async function handler(req, res) {
