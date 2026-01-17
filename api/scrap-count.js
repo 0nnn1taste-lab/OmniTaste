@@ -16,25 +16,30 @@ const DATABASE_IDS = [
 ];
 
 export default async function handler(req, res) {
-  try {
-    let total = 0;
+  const result = [];
 
-    for (const dbId of DATABASE_IDS) {
-      if (!dbId) continue;
+  for (let i = 0; i < DATABASE_IDS.length; i++) {
+    const dbId = DATABASE_IDS[i];
 
+    try {
       const response = await notion.databases.query({
         database_id: dbId,
-        page_size: 1,
       });
 
-      total += response.results.length;
+      result.push({
+        db: i + 1,
+        id: dbId,
+        count: response.results.length,
+        hasMore: response.has_more,
+      });
+    } catch (e) {
+      result.push({
+        db: i + 1,
+        id: dbId,
+        error: e.message,
+      });
     }
-
-    res.status(200).json({
-      total,
-      updatedAt: new Date().toISOString(),
-    });
-  } catch (e) {
-    res.status(500).json({ error: "notion fetch failed" });
   }
+
+  res.status(200).json(result);
 }
