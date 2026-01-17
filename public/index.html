@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Scrap Widget</title>
+  <style>
+    body {
+      margin: 0;
+      background: transparent;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .widget {
+      padding: 16px;
+      width: 220px;
+      background: #e7f2ee;
+      border-radius: 14px;
+    }
+
+    .label {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: #4b6f6a;
+      margin-bottom: 6px;
+    }
+
+    .count {
+      font-size: 28px;
+      font-weight: 600;
+      color: #1f3f3a;
+    }
+  </style>
+</head>
+<body>
+  <div class="widget">
+    <div class="label">SCRAP ARCHIVE</div>
+    <div class="count" id="count">…</div>
+  </div>
+
+  <script>
+    fetch("/api/scrap-count")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("count").textContent = data.total;
+      });
+  </script>
+</body>
+</html>
