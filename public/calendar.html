@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Today</title>
+  <title>Date Widget</title>
   <style>
     body {
       margin: 0;
@@ -10,67 +10,81 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    .card {
+    /* 전체 위젯 */
+    .widget {
       width: 320px;
       height: 180px;
-      background: #dcebe4; /* ⬅️ 민트 단색 */
+      background: #dcebe4; /* 민트 배경 */
       border-radius: 22px;
-      padding: 22px 24px;
+      padding: 18px;
       box-sizing: border-box;
-      color: #1f3f3a;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 내부 카드 */
+    .card {
+      flex: 1;
+      height: 100%;
+      background: #eaf4ef; /* 살짝 밝은 카드 */
+      border-radius: 16px;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: center;
+      color: #1f3f3a;
     }
 
     .label {
       font-size: 11px;
-      letter-spacing: 0.18em;
-      color: #4b6f6a;
-      margin-bottom: 12px;
+      letter-spacing: 0.16em;
+      color: #5b7f77;
+      margin-bottom: 10px;
     }
 
-    .day {
-      font-size: 52px;
+    .value {
+      font-size: 44px;
       font-weight: 600;
       line-height: 1;
-      margin-bottom: 12px;
     }
 
-    .meta {
-      font-size: 12px;
+    .weekday {
+      margin-top: 8px;
+      font-size: 11px;
       letter-spacing: 0.12em;
-      color: #4b6f6a;
-    }
-
-    .meta + .meta {
-      margin-top: 4px;
+      color: #5b7f77;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="label">TODAY</div>
-    <div class="day" id="day">—</div>
-    <div class="meta" id="monthYear">—</div>
-    <div class="meta" id="weekday">—</div>
+  <div class="widget">
+    <!-- MONTH 카드 -->
+    <div class="card">
+      <div class="label">MONTH</div>
+      <div class="value" id="month">—</div>
+    </div>
+
+    <!-- DAY 카드 -->
+    <div class="card">
+      <div class="label">DAY</div>
+      <div class="value" id="day">—</div>
+      <div class="weekday" id="weekday">—</div>
+    </div>
   </div>
 
   <script>
     const now = new Date();
 
-    document.getElementById("day").textContent = now.getDate();
+    document.getElementById("month").textContent =
+      String(now.getMonth() + 1).padStart(2, "0");
 
-    document.getElementById("monthYear").textContent =
-      now.toLocaleDateString("en-US", {
-        month: "short",
-        year: "numeric",
-      }).toUpperCase();
+    document.getElementById("day").textContent =
+      String(now.getDate()).padStart(2, "0");
 
     document.getElementById("weekday").textContent =
-      now.toLocaleDateString("en-US", {
-        weekday: "long",
-      }).toUpperCase();
+      now.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
   </script>
 </body>
 </html>
