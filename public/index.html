@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Scrap Archive Widget</title>
+  <title>Scrap Archive</title>
   <style>
     body {
       margin: 0;
@@ -12,49 +12,67 @@
 
     .widget {
       width: 320px;
-      padding: 18px 20px;
+      padding: 18px 20px 16px;
       background: #e7f2ee;
       border-radius: 16px;
       box-sizing: border-box;
     }
 
-    .text {
-      font-size: 15px;
-      color: #1f3f3a;
-      line-height: 1.5;
-      letter-spacing: -0.01em;
+    .label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: #4b6f6a;
+      margin-bottom: 10px;
     }
 
     .count {
+      font-size: 28px;
       font-weight: 600;
+      color: #1f3f3a;
+      margin-bottom: 8px;
+    }
+
+    .meta {
+      font-size: 11px;
+      color: #6f8f88;
     }
   </style>
 </head>
 <body>
   <div class="widget">
-    <div class="text" id="text">
-      불러오는 중…
-    </div>
+    <div class="label">SCRAP ARCHIVE</div>
+    <div class="count" id="count">—</div>
+    <div class="meta" id="meta"></div>
   </div>
 
   <script>
-    const REFRESH_INTERVAL = 30000; // 30초 자동 갱신
+    const REFRESH_INTERVAL = 30000;
 
-    function updateText() {
+    function formatDate(iso) {
+      if (!iso) return "";
+      const d = new Date(iso);
+      return d.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
+    }
+
+    function updateWidget() {
       fetch("/api/scrap-count")
         .then(res => res.json())
         .then(data => {
-          document.getElementById("text").innerHTML =
-            `총 <span class="count">${data.total}개</span>가 스크랩 되었습니다.`;
-        })
-        .catch(() => {
-          document.getElementById("text").textContent =
-            "스크랩 정보를 불러올 수 없습니다.";
+          document.getElementById("count").textContent =
+            `${data.total} Items`;
+
+          document.getElementById("meta").textContent =
+            data.lastUpdated
+              ? `Last updated · ${formatDate(data.lastUpdated)}`
+              : "";
         });
     }
 
-    updateText(); // 최초 로드
-    setInterval(updateText, REFRESH_INTERVAL); // 자동 반영
+    updateWidget();
+    setInterval(updateWidget, REFRESH_INTERVAL);
   </script>
 </body>
 </html>
