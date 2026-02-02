@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kyobo Search Widget</title>
+
+    <link rel="stylesheet" href="./style.css" />
+
+    <!-- 프리미엄 감성용 폰트 (Notion 톤에 자연스럽게 섞임) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Noto+Serif+KR:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <main class="wrap">
+      <form class="widget" id="searchForm" autocomplete="off">
+        <div class="icon" aria-hidden="true">⌕</div>
+
+        <label class="sr-only" for="keyword">검색어</label>
+        <input
+          id="keyword"
+          class="input"
+          type="text"
+          placeholder="Search title / author…"
+          maxlength="60"
+        />
+
+        <button class="btn" type="submit" aria-label="교보문고로 검색">
+          KYBO →
+        </button>
+      </form>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
